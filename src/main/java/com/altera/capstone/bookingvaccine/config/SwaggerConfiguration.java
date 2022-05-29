@@ -32,7 +32,7 @@ public class SwaggerConfiguration {
                 "API for Booking Vaccine System.",
                 "V1",
                 "Terms of service",
-                new Contact("powered by of backend team kelompok 6", "https://github.com/CapstoneProject-BookingVaccineSystem/bookingvaccine-backend.git", "aryandh.a.w@gmail.com"),
+                new Contact("powered by of backend team kelompok 6", "https://github.com/Aryandhi", "aryandh.a.w@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }
