@@ -45,8 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers("/v1/auth/**").permitAll()
-                .antMatchers("http://34.142.219.145/api/swagger-ui/index.html").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
         // remove session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // filter jwt

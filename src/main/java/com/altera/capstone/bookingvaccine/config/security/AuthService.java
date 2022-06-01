@@ -34,9 +34,15 @@ public class AuthService {
 
     public UserDao register(UsernamePassword req){
         UserDao user = new UserDao();
-        user.setUsername(req.getUsername());
+        user.setUsername(req.getUsername()); //nik_as_username
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-//        user.setRole();
+        user.setFirstName(req.getFirstName());
+        user.setLastName(req.getLastName());
+        user.setBirthDate(req.getBirthDate());
+        user.setGender(req.getGender());
+        user.setEmail(req.getEmail());
+        user.setNoHandphone(req.getNoHandphone());
+        user.setRoles(req.getRoles());
         return userRepository.save(user);
     }
 
