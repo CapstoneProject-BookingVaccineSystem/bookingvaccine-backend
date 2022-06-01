@@ -1,6 +1,6 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
-import com.altera.capstone.bookingvaccine.util.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +9,16 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,20 +35,34 @@ public class UserDao implements UserDetails {
     private Long id;
 
     @Column(name = "nik_as_username", nullable = false, unique = true)
-    private String username; // nik_as_username as username
-
+    private String username;
+    @Column(name = "password", nullable = false, unique = true)
     private String password;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "birth_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "no_handphone")
+    private String noHandphone;
+    @Column(name = "roles")
+    private String roles;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "role")
-//    private Role role;
 
     @Column(columnDefinition = "boolean default true")
     private boolean active = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority(roles));
+        return list;
     }
 
     @Override
