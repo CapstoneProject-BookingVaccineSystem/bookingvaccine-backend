@@ -10,12 +10,12 @@ import java.util.Date;
 public class UsernamePassword {
     private String username;    // nik_as_username as username
     private String password;
-    private String firstName;
-    private String lastName;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
-    private String gender;
-    private String email;
-    private String noHandphone;
-    private String roles;
+//    private String firstName;
+//    private String lastName;
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate birthDate;
+//    private String gender;
+//    private String email;
+//    private String noHandphone;
+//    private String roles;
 }
