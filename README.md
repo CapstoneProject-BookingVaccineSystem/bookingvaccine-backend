@@ -1,5 +1,5 @@
 # API Spec
-## Authentication Login
+## 1. Authentication Login
 Request
 - Method: POST
 - Endpoint : `/api/v1/auth/login`
@@ -23,7 +23,7 @@ Response
     }
 }
 ```
-## Authentication Register
+## 1.1 Authentication Register
 Request
 - Method: POST
 - Endpoint : `/api/v1/auth/register`
@@ -59,6 +59,122 @@ Response
         "email": "test@test.com",
         "noHandphone": "0721548484",
         "roles": "USER"
+    }
+}
+```
+## 2. Dashboard
+### Total Data Admin
+Request
+- Method: GET
+- Endpoint : `/api/v1/dashboard/admin`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "id_admin": "200"
+    }
+}
+```
+### Total Data User
+Request
+- Method: GET
+- Endpoint : `/api/v1/dashboard/user`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "id_user": "200"
+    }
+}
+```
+### Total Data Area (Kelurahan)
+Request
+- Method: GET
+- Endpoint : `/api/v1/dashboard/area`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "id_area": "4"
+    }
+}
+```
+### Total Data RSUD
+Request
+- Method: GET
+- Endpoint : `/api/v1/dashboard/category/rsud`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "id_category_facilities": "4"
+    }
+}
+```
+### Total Data Puskesmas
+Request
+- Method: GET
+- Endpoint : `/api/v1/dashboard/category/puskesmas`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "id_category_facilities": "16"
     }
 }
 ```
