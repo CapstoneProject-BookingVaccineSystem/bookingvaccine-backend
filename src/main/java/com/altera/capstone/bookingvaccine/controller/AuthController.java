@@ -2,6 +2,7 @@ package com.altera.capstone.bookingvaccine.controller;
 
 import com.altera.capstone.bookingvaccine.config.security.AuthService;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
+import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.altera.capstone.bookingvaccine.domain.payload.Login;
 import com.altera.capstone.bookingvaccine.domain.payload.TokenResponse;
 import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
@@ -30,12 +31,12 @@ public class AuthController {
 
     })
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UsernamePassword req) {
+    public ResponseEntity<?> register(@RequestBody UserDao req, UsernamePassword dto) {
 //        validasi length nik
         authService.validateUsernameAsNIK(req);
 //        save
         authService.register(req);
-        return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
+        return ResponseUtil.build(AppConstant.Message.SUCCESS, dto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Login user",  response = Login.class)
