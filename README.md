@@ -2,6 +2,7 @@
 ## 1. Authentication Login
 Request
 - Method: POST
+- Validation di MobileApp -> panjang string = 13 dan input = [0-9]
 - Endpoint : `/api/v1/auth/login`
 - Header : 
   - Content-Type: application/json
