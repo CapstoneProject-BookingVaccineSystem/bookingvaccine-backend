@@ -186,7 +186,7 @@ Response
 ### GET Data before edit
 Request
 - Method: GET
-- Endpoint : `/api/v1/auth/users/edit/id`
+- Endpoint : `/api/v1/users/edit/id`
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
@@ -214,17 +214,41 @@ Response
     }
 }
 ```
-### Update Data
+### Edit photo profile
 Request
-- Method: PUT
-- Endpoint : `/api/v1/auth/users/edit/id`
+- Method: POST
+- Endpoint : `/api/v1/users/upload`
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
 - body
 ```
 {
-    "photo_profile":"filedata",
+  // filedata
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        "img_profile": "filedata",
+        "name_photo":"filename",
+        "type_photo":"images/png"
+    }
+}
+```
+### Update Data
+Request
+- Method: PUT
+- Endpoint : `/api/v1/users/edit/id`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
     "firstName":"Jose",
     "lastName":"Mourinho",
     "birthDate": "1980-12-10",
@@ -241,7 +265,6 @@ Response
     "timestamp": "01-06-2022 23:13:45",
     "message": "Success!",
     "data": {
-        "photo_profile":"filedata",
         "firstName":"Jose",
         "lastName":"Mourinho",
         "birthDate": "1980-12-10",
@@ -257,7 +280,7 @@ Response
 ### Create Data
 Request
 - Method: POST
-- Endpoint : `/api/v1/auth/users/edit/id`
+- Endpoint : `/api/v1/family`
 - Validation : string length = 13 & string = [0-9]
 - Header : 
   - Content-Type: application/json
@@ -284,7 +307,7 @@ Response
 ### GET ALL Data Area
 Request
 - Method: GET
-- Endpoint : `/api/v1/auth/area`
+- Endpoint : `/api/v1/area`
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
@@ -330,6 +353,101 @@ Response
        "stock": 100
        "start_time": "08.00",
        "end_time": "10.00",
+    }
+}
+```
+## 4. Booking page (3)
+### GET Detail Data Session Vaccine
+Request
+- Method: GET
+- Endpoint : `/api/v1/facility/area?id_area=1`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+  
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+       "img_facility":"filedata",
+       "name_health_facilities":"Puskemas Manjur",
+       "address_health_facilities":"Jl Bungur",
+       "telp_facilites":"021-454 454",
+       "name_vaccine":"Sinovac",
+       "stock": 100,
+       "start_time": "08.00",
+       "end_time": "10.00",
+       "data":[null]
+    }
+}
+```
+### Create Booking Session Vaccine
+Request
+- Method: POST
+- Endpoint : `/api/v1/booking`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+  
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+       "img_facility":"filedata",
+       "name_health_facilities":"Puskemas Manjur",
+       "address_health_facilities":"Jl Bungur",
+       "telp_facilites":"021-454 454",
+       "name_vaccine":"Sinovac",
+       "stock": 100,
+       "start_time": "08.00",
+       "end_time": "10.00",
+       "data":[null]
+    }
+}
+```
+## 5. Invoice
+### GET Invoice data
+Request
+- Method: GET
+- Endpoint : `/api/v1/invoice`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+  
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+       "no_queue":"12001",
+       "start_time": "08.00",
+       "end_time": "10.00",
+       "name_vaccine":"Sinovac",
+       "name_health_facilities":"Puskemas Manjur",
+       "address_health_facilities":"Jl Bungur",
+       "firstName":"John Doe",
+       "birth_date":"1990-10-05",
+       "nik":"1871111"
     }
 }
 ```
