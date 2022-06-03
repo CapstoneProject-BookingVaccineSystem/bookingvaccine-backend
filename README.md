@@ -1,5 +1,5 @@
 # API Spec (Mobile App)
-## Authentication Login Page
+## Authentication Login Page (Disabled)
 Request
 - Method: POST
 - Validation di MobileApp -> panjang string = 16 dan input = [0-9]
@@ -37,6 +37,7 @@ Response
 Request
 - Method: POST
 - Endpoint : `/api/v1/auth/register`
+- Endpoint sementara : http://34.142.219.145/api/v1/users/create
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
