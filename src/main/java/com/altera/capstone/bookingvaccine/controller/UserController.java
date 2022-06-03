@@ -36,10 +36,10 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/login")
-    public ResponseEntity<?> getLogin(Principal principal){
-        return ResponseEntity.ok(principal.getName()+" Berhasil Login");
-    }
+//    @GetMapping("/login")
+//    public ResponseEntity<?> getLogin(Principal principal){
+//        return ResponseEntity.ok(principal.getName()+" Berhasil Login");
+//    }
 
         @ApiOperation(value = "Register user",  response = UsernamePassword.class)
     @ApiResponses(value = {
@@ -57,38 +57,38 @@ public class UserController {
         return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
     }
 
-    @PostMapping("/upload/image")
-    public ResponseEntity<ImageUploadResponse> uplaodImage(@RequestParam("image") MultipartFile file)
-            throws IOException {
+//    @PostMapping("/upload/image")
+//    public ResponseEntity<ImageUploadResponse> uplaodImage(@RequestParam("image") MultipartFile file)
+//            throws IOException {
+//
+//        userRepository.save(UserDao.builder()
+//                .name(file.getOriginalFilename())
+//                .typeImg(file.getContentType())
+//                .imageProfile(ImageUtility.compressImage(file.getBytes())).build());
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(new ImageUploadResponse("Image uploaded successfully: " +
+//                        file.getOriginalFilename()));
+//    }
 
-        userRepository.save(UserDao.builder()
-                .name(file.getOriginalFilename())
-                .typeImg(file.getContentType())
-                .imageProfile(ImageUtility.compressImage(file.getBytes())).build());
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ImageUploadResponse("Image uploaded successfully: " +
-                        file.getOriginalFilename()));
-    }
+//    @GetMapping(path = {"/get/image/info/{name}"})
+//    public UserDao getImageDetails(@PathVariable("name") String namePhoto) throws IOException {
+//
+//        final Optional<UserDao> dbImage = userRepository.findByName(namePhoto);
+//
+//        return UserDao.builder()
+//                .name(dbImage.get().getName())
+//                .typeImg(dbImage.get().getTypeImg())
+//                .imageProfile(ImageUtility.decompressImage(dbImage.get().getImageProfile())).build();
+//    }
 
-    @GetMapping(path = {"/get/image/info/{name}"})
-    public UserDao getImageDetails(@PathVariable("name") String namePhoto) throws IOException {
-
-        final Optional<UserDao> dbImage = userRepository.findByName(namePhoto);
-
-        return UserDao.builder()
-                .name(dbImage.get().getName())
-                .typeImg(dbImage.get().getTypeImg())
-                .imageProfile(ImageUtility.decompressImage(dbImage.get().getImageProfile())).build();
-    }
-
-    @GetMapping(path = {"/get/image/{name}"})
-    public ResponseEntity<byte[]> getImage(@PathVariable("name") String namePhoto) throws IOException {
-
-        final Optional<UserDao> dbImage = userRepository.findByName(namePhoto);
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.valueOf(dbImage.get().getTypeImg()))
-                .body(ImageUtility.decompressImage(dbImage.get().getImageProfile()));
-    }
+//    @GetMapping(path = {"/get/image/{name}"})
+//    public ResponseEntity<byte[]> getImage(@PathVariable("name") String namePhoto) throws IOException {
+//
+//        final Optional<UserDao> dbImage = userRepository.findByName(namePhoto);
+//
+//        return ResponseEntity
+//                .ok()
+//                .contentType(MediaType.valueOf(dbImage.get().getTypeImg()))
+//                .body(ImageUtility.decompressImage(dbImage.get().getImageProfile()));
+//    }
 }
