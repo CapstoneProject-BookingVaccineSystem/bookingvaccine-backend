@@ -1,4 +1,4 @@
-package com.techgeeknext.util;
+package com.altera.capstone.bookingvaccine.util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;

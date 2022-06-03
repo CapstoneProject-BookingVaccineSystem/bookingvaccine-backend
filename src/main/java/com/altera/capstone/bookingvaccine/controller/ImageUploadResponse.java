@@ -1,4 +1,4 @@
-package com.techgeeknext.controller;
+package com.altera.capstone.bookingvaccine.controller;
 
 public class ImageUploadResponse {
     private String message;
