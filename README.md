@@ -20,7 +20,15 @@ Response
     "timestamp": "01-06-2022 21:26:33",
     "message": "Success!",
     "data": {
-        "token": "eyJhbGciOiJIUzI1NiJ9.eyJwY_Zs"
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJwY_Zs",
+        "username":"1871654852548",
+        "password":"passwordAdmin",
+        "firstName":"Jose",
+        "lastName":"Mourinho",
+        "birthDate": "1980-12-10",
+        "gender":"Laki-laki",
+        "email":"test@test.com",
+        "noHandphone":"0721548484",
     }
 }
 ```
