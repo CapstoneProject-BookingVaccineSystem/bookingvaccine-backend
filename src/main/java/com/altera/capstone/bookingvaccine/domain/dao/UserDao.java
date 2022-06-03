@@ -6,18 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,7 +26,8 @@ import java.util.List;
 @SuperBuilder
 @Entity
 @Table(name = "users")
-public class UserDao implements UserDetails {
+// implements UserDetails
+public class UserDao {
 
 //    private static final long serialVersionUID = 7623636514318420512L;
 
@@ -34,7 +35,7 @@ public class UserDao implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nik_as_username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
     @Column(name = "password", nullable = false, unique = true)
     private String password;
@@ -54,36 +55,42 @@ public class UserDao implements UserDetails {
     @Column(name = "roles")
     private String roles;
 
+    @Column(name = "name_photo")
+    private String name;
+    @Column(name = "type_photo")
+    private String typeImg;
+    @Column(name = "img_profile", unique = false, nullable = true, length = 100000)
+    private byte[] imageProfile;
 
     @Column(columnDefinition = "boolean default true")
     private boolean active = true;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        list.add(new SimpleGrantedAuthority(roles));
-        return list;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+//        list.add(new SimpleGrantedAuthority(roles));
+//        return list;
+//    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.active;
-    }
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return this.active;
+//    }
 
     @CreationTimestamp
     @Column(name = "created_at")
