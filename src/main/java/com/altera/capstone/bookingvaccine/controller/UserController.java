@@ -13,6 +13,9 @@ import java.security.Principal;
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/login")
     public ResponseEntity<?> getLogin(Principal principal){
         return ResponseEntity.ok(principal.getName()+" Berhasil Login");

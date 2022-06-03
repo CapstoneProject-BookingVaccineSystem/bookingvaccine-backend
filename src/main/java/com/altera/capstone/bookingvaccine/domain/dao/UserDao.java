@@ -26,7 +26,8 @@ import java.util.List;
 @SuperBuilder
 @Entity
 @Table(name = "users")
-public class UserDao implements UserDetails {
+// implements UserDetails
+public class UserDao {
 
 //    private static final long serialVersionUID = 7623636514318420512L;
 
@@ -55,35 +56,35 @@ public class UserDao implements UserDetails {
     private String roles;
 
 
-    @Column(columnDefinition = "boolean default true")
-    private boolean active = true;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        list.add(new SimpleGrantedAuthority(roles));
-        return list;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.active;
-    }
+//    @Column(columnDefinition = "boolean default true")
+//    private boolean active = true;
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+//        list.add(new SimpleGrantedAuthority(roles));
+//        return list;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return this.active;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return this.active;
+//    }
 
     @CreationTimestamp
     @Column(name = "created_at")

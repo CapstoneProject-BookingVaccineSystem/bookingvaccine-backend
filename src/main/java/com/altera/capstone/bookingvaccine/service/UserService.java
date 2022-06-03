@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+// implements UserDetailsService
+public class UserService  {
     private final UserRepository userRepository;
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDao user = userRepository.getDistinctTopByUsername(username);
-        if(user == null)
-            throw new UsernameNotFoundException("Username not found");
-
-        return user;
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        UserDao user = userRepository.getDistinctTopByUsername(username);
+//        if(user == null)
+//            throw new UsernameNotFoundException("Username not found");
+//
+//        return user;
+//    }
 }
