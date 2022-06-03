@@ -32,9 +32,12 @@
 //        if(!req.getUsername().matches("[0-9]*")) throw new BadRequestException("NIK harus berupa angka");
 //    }
 //
-//    public UserDao register(UserDao req){
+//    public UserDao register(UsernamePassword req){
 //        UserDao user = new UserDao();
-//        user.setUsername(req.getUsername()); //nik_as_username
+//        if(req.getRoles() == null){
+//            req.setRoles("USER");
+//        }
+//        user.setUsername(req.getUsername());
 //        user.setPassword(passwordEncoder.encode(req.getPassword()));
 //        user.setFirstName(req.getFirstName());
 //        user.setLastName(req.getLastName());

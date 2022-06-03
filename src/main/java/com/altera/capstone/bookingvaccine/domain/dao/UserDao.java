@@ -6,18 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -35,9 +35,9 @@ public class UserDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nik_as_username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "first_name")
     private String firstName;
@@ -55,17 +55,20 @@ public class UserDao {
     @Column(name = "roles")
     private String roles;
 
+    @Column(name = "name_photo")
+    private String name;
+    @Column(name = "type_photo")
+    private String typeImg;
+    @Column(name = "img_profile", unique = false, nullable = true, length = 100000)
+    private byte[] imageProfile;
 
-//    @Column(columnDefinition = "boolean default true")
-//    private boolean active = true;
-//
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 //        list.add(new SimpleGrantedAuthority(roles));
 //        return list;
 //    }
-//
+
 //    @Override
 //    public boolean isAccountNonExpired() {
 //        return this.active;
