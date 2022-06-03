@@ -29,6 +29,7 @@ Response
         "gender":"Laki-laki",
         "email":"test@test.com",
         "noHandphone":"0721548484",
+        "photo_profie":"fildata"
     }
 }
 ```
@@ -72,31 +73,6 @@ Response
 }
 ```
 ## 1.Home Page
-### GET data profile
-Request
-- Method: GET
-- Endpoint : `/api/v1/home`
-- Header : 
-  - Content-Type: application/json
-  - Accept: application/json
-- body
-```
-{
-    "photo_profile":"filedata",
-    "firstName":"Jose"
-}
-```
-Response
-```
-{
-    "timestamp": "01-06-2022 23:13:45",
-    "message": "Success!",
-    "data": {
-        "photo_profile":"filedata",
-        "firstName":"Jose"
-    }
-}
-```
 ### GET data card vaccine
 Request
 - Method: GET
