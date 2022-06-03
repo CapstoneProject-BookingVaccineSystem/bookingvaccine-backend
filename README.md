@@ -2,7 +2,7 @@
 ## Authentication Login Page
 Request
 - Method: POST
-- Validation di MobileApp -> panjang string = 13 dan input = [0-9]
+- Validation di MobileApp -> panjang string = 16 dan input = [0-9]
 - Endpoint : `/api/v1/auth/login`
 - Header : 
   - Content-Type: application/json
@@ -281,7 +281,7 @@ Response
 Request
 - Method: POST
 - Endpoint : `/api/v1/family`
-- Validation : string length = 13 & string = [0-9]
+- Validation : string length = 16 & string = [0-9]
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
