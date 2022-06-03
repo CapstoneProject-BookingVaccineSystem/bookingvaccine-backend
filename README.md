@@ -1,5 +1,5 @@
 # API Spec
-## 1. Authentication Login
+## 1. Authentication Login Page
 Request
 - Method: POST
 - Validation di MobileApp -> panjang string = 13 dan input = [0-9]
@@ -63,7 +63,7 @@ Response
     }
 }
 ```
-## 2. Dashboard
+## 2. Dashboard Page
 ### Total Data Admin
 Request
 - Method: GET
@@ -177,5 +177,306 @@ Response
     "data": {
         "id_category_facilities": "16"
     }
+}
+```
+## 3. Data Booking
+### Get All data booking and set value 15 data
+Request
+- Method: GET
+- Endpoint : `/api/v1/bookingpage?pageSize=15`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show all data in table
+    }
+}
+```
+### Get data base on pagination and sorting
+Request
+- Method: GET
+- Endpoint : `/api/v1/bookingpage?pageSize=15&pageNo=1&sortBy=name`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show data defined
+    }
+}
+```
+## 4. Schedule Vaccine Page (1)
+### Get All data booking and set value 15 data
+Request
+- Method: GET
+- Endpoint : `/api/v1/schedulevaccine?pageSize=15`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show all data in table
+    }
+}
+```
+### Get data base on pagination and sorting
+Request
+- Method: GET
+- Endpoint : `/api/v1/bookingpage?pageSize=15&pageNo=1&sortBy=name`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show data defined
+    }
+}
+```
+### Delete schedule / data sesion vaccine by Id
+Request
+- Method: DELETE
+- Endpoint : `/api/v1/schedulevaccine/id`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+
+}
+```
+## 5. Schedule Vaccine Page detail (2)
+### Create New Data Schedule Vaccine
+Request
+- Method: POST
+- Endpoint : `/api/v1/schedulevaccine
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    "name_health_facilities":"Puskesmas Gading",
+    "category_facilities":"Puskesmas",
+    "name_vaccine":"Sinovac",
+    "stock":100,
+    "start_time": "08.00",
+    "end_time":"12.00",
+    "address_health_facilities":"JL Jakabaring",
+    "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
+    "img_facilities": "data"
+}
+```
+Response
+```
+{
+    "name_health_facilities":"Puskesmas Gading",
+    "category_facilities":"Puskesmas",
+    "name_vaccine":"Sinovac",
+    "stock":100,
+    "start_time": "08.00",
+    "end_time":"12.00",
+    "address_health_facilities":"JL Jakabaring",
+    "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
+    "img_facilities": "data"
+}
+```
+### Edit Data Schedule Vaccine
+Request
+- Method: PUT
+- Endpoint : `/api/v1/schedulevaccine/id
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    "name_health_facilities":"Puskesmas Gading",
+    "category_facilities":"Puskesmas",
+    "name_vaccine":"Sinovac",
+    "stock":100,
+    "start_time": "08.00",
+    "end_time":"12.00",
+    "address_health_facilities":"JL Jakabaring",
+    "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
+    "img_facilities": "filedata"
+}
+```
+Response
+```
+{
+    "name_health_facilities":"Puskesmas Gading",
+    "category_facilities":"Puskesmas",
+    "name_vaccine":"Sinovac",
+    "stock":100,
+    "start_time": "08.00",
+    "end_time":"12.00",
+    "address_health_facilities":"JL Jakabaring",
+    "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
+    "img_facilities": "filedata"
+}
+```
+## 6. Article News
+### Get All Article News and set value 15 data
+Request
+- Method: GET
+- Endpoint : `/api/v1/article?pageSize=15`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show all data in table
+    }
+}
+```
+### Get data base on pagination and sorting
+Request
+- Method: GET
+- Endpoint : `/api/v1/article?pageSize=15&pageNo=1&sortBy=name`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show data defined
+    }
+}
+```
+### Delete article by Id
+Request
+- Method: DELETE
+- Endpoint : `/api/v1/article/id`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+
+}
+```
+## 7. Article News Page detail (2)
+### Create New Data Article News
+Request
+- Method: POST
+- Endpoint : `/api/v1/article
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    "title":"Pentingnya vaksin sebelum keluar rumah",
+    "Author":"Admin",
+    "iamge_aticle":"filedata",
+    "body_content":"string unlimited",
+}
+```
+Response
+```
+{
+    "title":"Pentingnya vaksin sebelum keluar rumah",
+    "Author":"Admin",
+    "iamge_aticle":"filedata",
+    "body_content":"string unlimited",
+}
+```
+### Edit Data Schedule Vaccine
+Request
+- Method: PUT
+- Endpoint : `/api/v1/article/id
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    "title":"Pentingnya vaksin sebelum keluar rumah",
+    "Author":"Admin",
+    "iamge_aticle":"filedata",
+    "body_content":"string unlimited",
+}
+```
+Response
+```
+{
+    "title":"Pentingnya vaksin sebelum keluar rumah",
+    "Author":"Admin",
+    "iamge_aticle":"filedata",
+    "body_content":"string unlimited",
 }
 ```
