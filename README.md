@@ -10,6 +10,43 @@ Request
 - body
 ```
 {
+    "nik":"adminakun",
+    "password":"123456"
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 21:26:33",
+    "message": "Success!",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJwY_Zs",
+        "username":"1871654852548",
+        "password":"passwordAdmin",
+        "firstName":"Jose",
+        "lastName":"Mourinho",
+        "birthDate": "1980-12-10",
+        "gender":"Laki-laki",
+        "email":"test@test.com",
+        "noHandphone":"0721548484",
+        "data" : {
+          "id_health_facilities": 10,
+          "name":"PUSKESMAS JATI"
+        }
+    }
+}
+```
+## 1. Authentication Register Page
+Request
+- Method: POST
+- Validation di MobileApp -> panjang string = 13 dan input = [0-9]
+- Endpoint : `/api/v1/auth/login`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
     "nik":"1871000000021",
     "password":"123456"
 }
@@ -29,45 +66,6 @@ Response
         "gender":"Laki-laki",
         "email":"test@test.com",
         "noHandphone":"0721548484",
-    }
-}
-```
-## 1.1 Authentication Register
-Request
-- Method: POST
-- Endpoint : `/api/v1/auth/register`
-- Header : 
-  - Content-Type: application/json
-  - Accept: application/json
-- body
-```
-{
-    "username":"1871654852548",
-    "password":"passwordAdmin",
-    "firstName":"Jose",
-    "lastName":"Mourinho",
-    "birthDate": "1980-12-10",
-    "gender":"Laki-laki",
-    "email":"test@test.com",
-    "noHandphone":"0721548484",
-    "roles":"USER"
-}
-```
-Response
-```
-{
-    "timestamp": "01-06-2022 23:13:45",
-    "message": "Success!",
-    "data": {
-        "username": "1871654852548",
-        "password": "passwordAdmin",
-        "firstName": "Jose",
-        "lastName": "Mourinho",
-        "birthDate": "1980-12-10",
-        "gender": "Laki-laki",
-        "email": "test@test.com",
-        "noHandphone": "0721548484",
-        "roles": "USER"
     }
 }
 ```
@@ -254,8 +252,17 @@ Response
     "timestamp": "01-06-2022 23:13:45",
     "message": "Success!",
     "data": {
-        // show all data in table
+        "facility":{
+          "id_health_facilities":01,
+          "name_health_facilities":"PUSKESMAS JATI"
+        },
+        "vaccine":{
+          "id_vaccine":01,
+          "name_vaccine":"SINOVAC"
+        },
+        "start_time":"08.00"
     }
+    // pageable
 }
 ```
 ### Get data base on pagination and sorting
@@ -277,8 +284,18 @@ Response
     "timestamp": "01-06-2022 23:13:45",
     "message": "Success!",
     "data": {
-        // show data defined
+        "facility":{
+          "id_health_facilities":01,
+          "name_health_facilities":"PUSKESMAS JATI"
+        },
+        "vaccine":{
+          "id_vaccine":01,
+          "name_vaccine":"SINOVAC"
+        },
+        "start_time":"08.00"
     }
+    // pagebale
+    // sorting
 }
 ```
 ### Delete schedule / data sesion vaccine by Id
@@ -311,15 +328,30 @@ Request
 - body
 ```
 {
-    "name_health_facilities":"Puskesmas Gading",
-    "category_facilities":"Puskesmas",
-    "name_vaccine":"Sinovac",
-    "stock":100,
+    "id_session":"001",
+    "data": {
+      "id_health_facilties": 1,
+      "name_health_facilties":"PUSKESMAS JATI",
+      "category": {
+         "id_category":"01",
+         "name_category":"PUSKESMAS"
+      },
+      "area": {
+         "id_area":"01",
+         "name_area":"Keluarahan JATI"}
+      },
+      "address_health_facilities":"JL Jakabaring",
+      "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
+      "img_facilities": "data"
+    }
+    "vaccine": {
+       "id_vaccine":"01",
+       "name_vaccine":"SINOVAC",
+       "Stock":200
+    },
     "start_time": "08.00",
     "end_time":"12.00",
-    "address_health_facilities":"JL Jakabaring",
-    "link_location":"https://goo.gl/maps/YQH25RZHMmqgsQGF8",
-    "img_facilities": "data"
+    "limit":"150"
 }
 ```
 Response
