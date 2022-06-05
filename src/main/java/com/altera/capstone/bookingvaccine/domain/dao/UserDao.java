@@ -1,6 +1,9 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,19 +28,20 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Table(name = "users")
 // implements UserDetails
 public class UserDao {
 
-//    private static final long serialVersionUID = 7623636514318420512L;
+    private static final long serialVersionUID = 7623636514318420512L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_user;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = true, unique = true)
     private String username;
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = true)
     private String password;
     @Column(name = "first_name")
     private String firstName;
@@ -55,11 +59,15 @@ public class UserDao {
     @Column(name = "roles")
     private String roles;
 
-    @Column(name = "name_photo")
-    private String name;
-    @Column(name = "type_photo")
-    private String typeImg;
+//    @Column(nullable = true, length = 64)
+//    private String photos;
+
+    @Column(name = "image_name")
+    private String imageName;
+    @Column(name = "image_type")
+    private String imageType;
     @Column(name = "img_profile", unique = false, nullable = true, length = 100000)
+    @Lob
     private byte[] imageProfile;
 
 //    @Override
@@ -89,10 +97,10 @@ public class UserDao {
 //        return this.active;
 //    }
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private Timestamp createdAt;
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    public UserDao(String imageName, String imageType, byte[] imageProfile) {
+    }
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
+    private List<FamilyDao> familyDaoList;
 }

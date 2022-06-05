@@ -11,5 +11,5 @@ public interface UserRepository extends JpaRepository<UserDao, Long> {
 //    nik_username as username
     UserDao getDistinctTopByUsername(String username);
 
-    Optional<UserDao> findByName(String namePhoto);
+//    Optional<UserDao> findByName(String namePhoto);
 }

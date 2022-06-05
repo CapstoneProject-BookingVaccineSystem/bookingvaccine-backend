@@ -2,27 +2,27 @@ package com.altera.capstone.bookingvaccine.domain.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class FamilyDto {
+public class RestTemplateDto implements Serializable {
 
-    private Long id_family;
+    private static final long serialVersionUID = -4632550132906063976L;
 
-    @ApiModelProperty(notes = "kamu harus isi NIK", example = "1871xxxxxxxxxxxx")
-    private String nik;
+    private String title;
+    private String subtitle;
+    private String isbn13;
+    private String price;
+    private String image;
+    private String url;
 
-    @ApiModelProperty(notes = "dan mengisi nama lengkap", example = "NAMA SAYA")
-    private String fullName;
-
-    private Long id_user;
 }
