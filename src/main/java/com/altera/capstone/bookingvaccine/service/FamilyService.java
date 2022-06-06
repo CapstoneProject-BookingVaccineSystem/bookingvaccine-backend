@@ -67,10 +67,10 @@ public class FamilyService {
   public ResponseEntity<Object> addFamily(FamilyDto request) {
     log.info("Executing add family with request: {}", request);
     try{
-      log.info("Get user by id: {}", request.getId_user());
-      Optional<UserDao> userDao = userRepository.findById(request.getId_user());
+      log.info("Get user by id: {}", request.getIdUser());
+      Optional<UserDao> userDao = userRepository.findById(request.getIdUser());
       if (userDao.isEmpty()) {
-        log.info("User [{}] not found", request.getId_user());
+        log.info("User [{}] not found", request.getIdUser());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       FamilyDao familyDao = mapper.map(request, FamilyDao.class);

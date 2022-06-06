@@ -24,5 +24,5 @@ public class FamilyDto {
     @ApiModelProperty(notes = "dan mengisi nama lengkap", example = "NAMA SAYA")
     private String fullName;
 
-    private Long id_user;
+    private Long idUser;
 }
