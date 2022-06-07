@@ -123,6 +123,5 @@ public class FamilyService {
       log.trace("Get error when delete family. ", e);
       throw e;
     }
-
   }
 }

@@ -3,6 +3,8 @@ package com.altera.capstone.bookingvaccine.controller;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.common.ResponseMessage;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
+import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
+import com.altera.capstone.bookingvaccine.domain.dto.UserDto;
 import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.service.UserService;
@@ -35,43 +37,74 @@ public class UserController {
 //        return ResponseEntity.ok(principal.getName()+" Berhasil Login");
 //    }
 
+  // POST
   @ApiOperation(value = "Register user",  response = UsernamePassword.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success register user"),
 
   })
-  @PostMapping("/create")
-  public ResponseEntity<?> register(@RequestBody UsernamePassword req) {
-    userService.register(req);
+  @PostMapping("")
+  public ResponseEntity<?> register(@RequestBody UserDto req) {
+    userService.addUser(req);
     return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
   }
 
+  // - Get All
+  @ApiOperation(value = "Get all user",  response = UserDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get list user"),
+  })
+  @GetMapping(value = "")
+  public ResponseEntity<Object> getAll() {
+    return userService.getAllUser();
+  }
+
+  // GET By ID
   @ApiOperation(value = "GET User by id",  response = UserDao.class)
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success get book by id"),
+          @ApiResponse(code = 200, message = "Success get user by id"),
   })
   @GetMapping(value = "/{id}")
   public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id){
     return userService.getUserById(id);
   }
 
-  @ApiOperation(value = "upload photo user",  response = UsernamePassword.class)
+  // PUT User By Id
+  @ApiOperation(value = "Update user",  response = UserDto.class)
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success upload photo user"),
-
+          @ApiResponse(code = 200, message = "Success update user"),
   })
-  @PostMapping("/upload")
-  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file){
-    String message = "";
-    try {
-      userService.store(file);
-      message = "Uploaded The File Successfully: "+ file.getOriginalFilename();
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-    } catch (Exception e){
-      message = "Could Not Upload the File : "+ file.getOriginalFilename() + "!";
-      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-    }
+  @PutMapping(value = "/{id}")
+  public ResponseEntity<Object> updateBook(@PathVariable(value = "id") Long id, @RequestBody UserDto request) {
+    return userService.updateUser(id, request);
   }
+
+  // DELETE User By Id
+  @ApiOperation(value = "Delete user",  response = UserDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success delete user"),
+  })
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
+    return userService.deleteUser(id);
+  }
+//  @ApiOperation(value = "upload photo user",  response = UsernamePassword.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success upload photo user"),
+//
+//  })
+//  @PostMapping("/upload")
+//  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file){
+//    String message = "";
+//    try {
+//      userService.store(file);
+//      message = "Uploaded The File Successfully: "+ file.getOriginalFilename();
+//      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+//    } catch (Exception e){
+//      message = "Could Not Upload the File : "+ file.getOriginalFilename() + "!";
+//      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+//    }
+//  }
 
 //    @PostMapping("/upload/image")
 //    public ResponseEntity<ImageUploadResponse> uplaodImage(@RequestParam("image") MultipartFile file)

@@ -17,6 +17,8 @@ import java.io.Serializable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FamilyDtoResponse implements Serializable {
 
+  private static final long serialVersionUID = -7087356557915022962L;
+
   private Long id_family;
 
   private String nik;
