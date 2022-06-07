@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-// @RequestMapping(value = "/v1/family", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequestMapping(value = "/v1/family", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Family", value = "Family" )
 public class FamilyController {
-//  @Autowired
-//  private RestConsumerService restConsumerService;
 
   @Autowired
   private FamilyService familyService;

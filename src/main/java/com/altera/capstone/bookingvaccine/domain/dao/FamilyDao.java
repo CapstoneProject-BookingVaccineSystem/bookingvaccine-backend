@@ -23,19 +23,19 @@ import java.sql.Timestamp;
 @Where(clause = "is_deleted = false")
 public class FamilyDao extends BaseEntity {
 
-    private static final long serialVersionUID = -1266576651734156259L;
+  private static final long serialVersionUID = -1266576651734156259L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_family;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id_family;
 
-    @Column(name = "nik", nullable = false, unique = true)
-    private String nik;
+  @Column(name = "nik", nullable = false, unique = true)
+  private String nik;
 
-    @Column(name = "fullName", nullable = false, unique = true)
-    private String fullName;
+  @Column(name = "fullName", nullable = false, unique = true)
+  private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private UserDao userMapped;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private UserDao userMapped;
 }
