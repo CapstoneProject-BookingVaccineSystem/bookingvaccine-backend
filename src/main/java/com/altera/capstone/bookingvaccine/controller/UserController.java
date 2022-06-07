@@ -9,6 +9,7 @@ import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.service.UserService;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -25,6 +26,7 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/v1/users")
+@Api(tags = "User", value = "User" )
 public class UserController {
 
   @Autowired
