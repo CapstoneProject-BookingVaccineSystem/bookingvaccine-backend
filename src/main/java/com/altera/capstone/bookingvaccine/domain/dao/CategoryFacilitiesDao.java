@@ -1,14 +1,18 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,4 +26,8 @@ public class CategoryFacilitiesDao {
 
   @Column(name = "category_facilities_name", nullable = false)
   private String categoryFacilitiesName;
+
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "categoryMapped")
+  private List<HealthFacilitiesDao> healthFacilitiesDaoList;
 }
