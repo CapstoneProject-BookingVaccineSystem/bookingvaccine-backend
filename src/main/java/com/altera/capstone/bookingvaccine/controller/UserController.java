@@ -47,11 +47,16 @@ public class UserController {
   })
   @PostMapping("")
   public ResponseEntity<?> register(@RequestBody UserDto req) {
-    userService.addUser(req);
+    if(req.getRoles() == null){
+      req.setRoles("USER");
+      userService.addUser(req);
+    } else {
+      userService.addUserAdmin(req);
+    }
     return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
   }
 
-  // - Get All
+  // - Get All User
   @ApiOperation(value = "Get all user",  response = UserDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get list user"),
@@ -62,13 +67,13 @@ public class UserController {
   }
 
   // GET By ID
-  @ApiOperation(value = "GET User by id",  response = UserDao.class)
+  @ApiOperation(value = "GET User by id",  response = UserDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get user by id"),
   })
   @GetMapping(value = "/{id}")
-  public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id){
-    return userService.getUserById(id);
+  public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id_user){
+    return userService.getUserById(id_user);
   }
 
   // PUT User By Id

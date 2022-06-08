@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface HealthFacilitesRepository extends JpaRepository<HealthFacilitiesDao, Long> {
-//  List<HealthFacilitiesDao> findHealthFacilitiesDaoByName(String healthFacilitiesName);
+//  List<HealthFacilitiesDao> findFacilityByName(String healthFacilitiesName);
 //
 //  @Query(value = "SELECT b FROM HealthFacilitiesDao b WHERE upper(b.healthFacilitiesName) LIKE UPPER(CONCAT('%', :healthFacilitiesName, '%') ) ")
 //  List<HealthFacilitiesDao> findAllByName(@Param("healthFacilitiesName") String healthFacilitiesName);

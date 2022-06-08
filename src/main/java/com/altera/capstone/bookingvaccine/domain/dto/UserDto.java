@@ -61,6 +61,5 @@ public class UserDto {
 //  @ApiModelProperty(notes = "familyId", example = "1")
 //  private Long id_family;
 
-//  @ApiModelProperty(notes = "healthFacilitiesId", example = "1")
-//  private Long id_health_facilities;
+  private Long idHealthFacilities;
 }

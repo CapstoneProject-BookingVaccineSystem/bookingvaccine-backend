@@ -48,16 +48,10 @@ public class HealthFacilitiesService {
       for(HealthFacilitiesDao dao : daoList) {
         list.add(HealthFacilitiesDtoResponse.builder()
                 .id_health_facilities(dao.getId_health_facilities())
-                .healthFacilitiesName(dao.getHealthFacilitiesName())
+                .healthFacilitiesName(dao.getHealthFacilityName())
                 .addressHealthFacilities(dao.getAddressHealthFacilities())
                 .linkLocation(dao.getLinkLocation())
                 .phoneFacilities(dao.getPhoneFacilities())
-                .user(UserDao.builder()
-                        .id_user(dao.getUserMapped().getId_user())
-                        .username(dao.getUserMapped().getUsername())
-                        .firstName(dao.getUserMapped().getFirstName())
-                        .lastName(dao.getUserMapped().getLastName())
-                        .build())
                 .area(AreaDao.builder()
                         .id_area(dao.getAreaMapped().getId_area())
                         .areaName(dao.getAreaMapped().getAreaName())
@@ -79,12 +73,6 @@ public class HealthFacilitiesService {
   public ResponseEntity<Object> addHealthFacility(HealthFaciltiesDto request) {
     log.info("Executing add health facility with request: {}", request);
     try{
-//      log.info("Get user by id: {}", request.getIdUser());
-//      Optional<UserDao> userDao = userRepository.findById(request.getIdUser());
-//      if (userDao.isEmpty()) {
-//        log.info("User [{}] not found", request.getIdUser());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
       log.info("Get area by id: {}", request.getIdArea());
       Optional<AreaDao> areaDao = areaRepository.findById(request.getIdArea());
       if (areaDao.isEmpty()) {
@@ -98,7 +86,6 @@ public class HealthFacilitiesService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       HealthFacilitiesDao healthFacilitiesDao = mapper.map(request, HealthFacilitiesDao.class);
-//      healthFacilitiesDao.setUserMapped(userDao.get());
       healthFacilitiesDao.setAreaMapped(areaDao.get());
       healthFacilitiesDao.setCategoryMapped(categoryFacilitiesDao.get());
       healthFacilitiesDao = healthFacilitesRepository.save(healthFacilitiesDao);
@@ -120,7 +107,7 @@ public class HealthFacilitiesService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       healthFacilitiesDaoOptional.ifPresent(res -> {
-        res.setHealthFacilitiesName(request.getHealthFacilitiesName());
+        res.setHealthFacilityName(request.getHealthFacilitiesName());
         res.setAddressHealthFacilities(request.getAddressHealthFacilities());
         res.setPhoneFacilities(request.getPhoneFacilities());
         res.setLinkLocation(request.getLinkLocation());

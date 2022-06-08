@@ -24,7 +24,7 @@ public class HealthFacilitiesController {
   // - Get All
   @ApiOperation(value = "Get all health facility",  response = HealthFaciltiesDto.class)
   @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success get list health facility"),
+          @ApiResponse(code = 200, message = "Success get list All health facility"),
   })
   @GetMapping(value = "")
   public ResponseEntity<Object> getAll() {

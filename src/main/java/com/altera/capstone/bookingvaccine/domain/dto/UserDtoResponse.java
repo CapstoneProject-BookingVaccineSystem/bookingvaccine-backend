@@ -44,6 +44,6 @@ public class UserDtoResponse {
   private String imageType;
   private String imageProfile;
 
-  private FamilyDao family;
-//  private HealthFacilitiesDao healthFacilities;
+//  private FamilyDao family;
+  private HealthFacilitiesDao healthFacilitiesDao;
 }

@@ -1,13 +1,11 @@
 package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
+import com.altera.capstone.bookingvaccine.domain.dao.CategoryFacilitiesDao;
 import com.altera.capstone.bookingvaccine.domain.dao.FamilyDao;
 import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
-import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
-import com.altera.capstone.bookingvaccine.domain.dto.FamilyDtoResponse;
-import com.altera.capstone.bookingvaccine.domain.dto.UserDto;
-import com.altera.capstone.bookingvaccine.domain.dto.UserDtoResponse;
+import com.altera.capstone.bookingvaccine.domain.dto.*;
 import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.FamilyRepository;
 import com.altera.capstone.bookingvaccine.repository.HealthFacilitesRepository;
@@ -76,31 +74,61 @@ public class UserService {
 //    return userRepository.save(user);
 //  }
 
-  public ResponseEntity<Object> addUser(UserDto request) {
-    log.info("Executing add user with request: {}", request);
+  public ResponseEntity<Object> addUserAdmin(UserDto request) {
+    log.info("Executing add user admin with request: {}", request);
     try{
-//      log.info("Get family by id: {}", request.getId_family());
-//      Optional<FamilyDao> familyDao = familyRepository.findById(request.getId_family());
-//      if (familyDao.isEmpty()) {
-//        log.info("Family [{}] not found", request.getId_family());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
-
-//      log.info("Get health facility by id: {}", request.getId_health_facilities());
-//      Optional<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findById(request.getId_health_facilities());
-//      if (healthFacilitiesDao.isEmpty()) {
-//        log.info("Health Facility [{}] not found", request.getId_health_facilities());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
-      UserDao userDao = mapper.map(request, UserDao.class);
-//      userDao.setFamilyDaoList((List<FamilyDao>) familyDao.get());
-//      userDao.setHealthFacilitiesDaoList(healthFacilitiesDao.get());
+      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
+      Optional<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+      if (healthFacilitiesDao.isEmpty()) {
+        log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+//      UserDao userDao = mapper.map(request, UserDao.class);
+//      userDao.setHealthFacilitiesDaoMapped(healthFacilitiesDao.get());
+      UserDao userDao = UserDao.builder()
+              .username(request.getUsername())
+              .password(request.getPassword())
+              .firstName(request.getFirstName())
+              .lastName(request.getLastName())
+              .gender(request.getGender())
+              .birthDate(request.getBirthDate())
+              .email(request.getEmail())
+              .noPhone(request.getNoPhone())
+              .roles(request.getRoles())
+              .healthFacilitiesDaoMapped(healthFacilitiesDao.get())
+              .build();
       userDao = userRepository.save(userDao);
-      log.info("Executing add user success");
+      log.info("Executing add user admin success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDao, UserDto.class), HttpStatus.OK);
 
     } catch (Exception e) {
-      log.error("Happened error when add user. Error: {}", e.getMessage());
+      log.error("Happened error when add user admin. Error: {}", e.getMessage());
+      log.trace("Get error when add user. ", e);
+      throw e;   }
+  }
+
+  public ResponseEntity<Object> addUser(UserDto request) {
+    log.info("Executing add user admin with request: {}", request);
+    try{
+//      UserDao userDao = mapper.map(request, UserDao.class);
+//      userDao.setHealthFacilitiesDaoMapped(healthFacilitiesDao.get());
+      UserDao userDao = UserDao.builder()
+              .username(request.getUsername())
+              .password(request.getPassword())
+              .firstName(request.getFirstName())
+              .lastName(request.getLastName())
+              .gender(request.getGender())
+              .birthDate(request.getBirthDate())
+              .email(request.getEmail())
+              .noPhone(request.getNoPhone())
+              .roles(request.getRoles())
+              .build();
+      userDao = userRepository.save(userDao);
+      log.info("Executing add user admin success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDao, UserDto.class), HttpStatus.OK);
+
+    } catch (Exception e) {
+      log.error("Happened error when add user admin. Error: {}", e.getMessage());
       log.trace("Get error when add user. ", e);
       throw e;   }
   }
@@ -133,32 +161,16 @@ public class UserService {
   }
 
   public ResponseEntity<Object> getAllUser() {
-    log.info("Executing get All User");
-    try {
+    log.info("Executing get all user.");
+    try{
       List<UserDao> daoList = userRepository.findAll();
       List<UserDtoResponse> list = new ArrayList<>();
-      for(UserDao dao : daoList) {
-        list.add(UserDtoResponse.builder()
-                .id_user(dao.getId_user())
-                .username(dao.getUsername())
-                .firstName(dao.getFirstName())
-                .lastName(dao.getLastName())
-                .gender(dao.getGender())
-                .email(dao.getEmail())
-                .birthDate(dao.getBirthDate())
-                .noPhone(dao.getNoPhone())
-                .roles(dao.getRoles())
-//                .user(UserDao.builder()
-//                        .id_user(dao.getUserMapped().getId_user())
-//                        .username(dao.getUserMapped().getUsername())
-//                        .firstName(dao.getUserMapped().getFirstName())
-//                        .lastName(dao.getUserMapped().getLastName())
-//                        .build())
-                .build());
+      for(UserDao dao : daoList){
+        list.add(mapper.map(dao, UserDtoResponse.class));
       }
       return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
-    }catch (Exception e){
-      log.error("Happened error when get all User. Error: {}", e.getMessage());
+    } catch (Exception e) {
+      log.error("Happened error when get all user. Error: {}", e.getMessage());
       log.trace("Get error when get all user. ", e);
       throw e;
     }

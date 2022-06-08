@@ -26,7 +26,7 @@ public class HealthFacilitiesDtoResponse {
 
   private String phoneFacilities;
 
-  private UserDao user;
+//  private UserDao user;
 
   private AreaDao area;
 

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "health_facilities")
 @SQLDelete(sql = "UPDATE health_facilities SET is_deleted = true WHERE id_health_facilities = ?")
 @Where(clause = "is_deleted = false")
-public class HealthFacilitiesDao extends BaseEntity {
+public class HealthFacilitiesDao extends BaseEntity{
 
   private static final long serialVersionUID = -1266576651734156259L;
 
@@ -26,8 +26,8 @@ public class HealthFacilitiesDao extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id_health_facilities;
 
-  @Column(name = "health_facilities", nullable = false, unique = true)
-  private String healthFacilitiesName;
+  @Column(name = "health_facilities_name", nullable = false, unique = true)
+  private String healthFacilityName;
 
   @Column(name = "address_health_facilities", nullable = false, unique = true)
   private String addressHealthFacilities;
@@ -38,9 +38,12 @@ public class HealthFacilitiesDao extends BaseEntity {
   @Column(name = "phone_facilities", nullable = false, unique = true)
   private String phoneFacilities;
 
-  @OneToOne
-  @JoinColumn(name = "id_user")
-  private UserDao userMapped;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_user")
+//  private UserDao userMapped;
+
+//  @OneToOne(mappedBy = "healthFacilitiesMapped")
+//  private UserDao userMapped;
 
   @ManyToOne
   @JoinColumn(name = "id_category_facilities")

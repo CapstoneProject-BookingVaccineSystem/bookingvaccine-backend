@@ -21,16 +21,16 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Table(name = "users")
-//@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id_user = ?")
-//@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id_user = ?")
+@Where(clause = "is_deleted = false")
 // implements UserDetails
-public class UserDao {
+public class UserDao extends BaseEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,13 +67,13 @@ public class UserDao {
 //    @Column(nullable = true, length = 64)
 //    private String photos;
 
-  @Column(name = "image_name")
-  private String imageName;
-  @Column(name = "image_type")
-  private String imageType;
-  @Column(name = "image_profile", unique = false, nullable = true, length = 100000)
-  @Lob
-  private byte[] imageProfile;
+//  @Column(name = "image_name")
+//  private String imageName;
+//  @Column(name = "image_type")
+//  private String imageType;
+//  @Column(name = "image_profile", unique = false, nullable = true, length = 100000)
+//  @Lob
+//  private byte[] imageProfile;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -104,6 +104,13 @@ public class UserDao {
 
 //  public UserDao(String imageName, String imageType, byte[] imageProfile) {
 //  }
+
+//  @OneToOne(mappedBy = "userMapped")
+//  private HealthFacilitiesDao healthFacilitiesDao;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "id_health_facilities")
+  private HealthFacilitiesDao healthFacilitiesDaoMapped;
 
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
