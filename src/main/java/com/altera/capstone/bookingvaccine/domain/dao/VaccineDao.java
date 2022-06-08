@@ -23,7 +23,7 @@ public class VaccineDao {
   private Long id_vaccine;
 
   @Column(name = "vaccine_name", nullable = false)
-  private String vaccine_name;
+  private String vaccineName;
 
   @Column(name = "stock_vaccine", nullable = false)
   private String stockVaccine;

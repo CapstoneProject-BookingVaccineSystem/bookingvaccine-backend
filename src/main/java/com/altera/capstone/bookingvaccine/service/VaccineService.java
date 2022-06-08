@@ -78,12 +78,12 @@ public class VaccineService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       vaccineDao.ifPresent(res -> {
-        res.setVaccine_name(request.getVaccineName());
+        res.setVaccineName(request.getVaccineName());
         res.setStockVaccine(request.getStockVaccine());
         vaccineRepository.save(res);
       });
       log.info("Executing update vaccine success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(vaccineDao, VaccineService.class), HttpStatus.OK);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(vaccineDao, VaccineDto.class), HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when update vaccine. Error: {}", e.getMessage());
       log.trace("Get error when update vaccine. ", e);
@@ -91,5 +91,21 @@ public class VaccineService {
     }
   }
 
-//  public ResponseEntity<Object> deleteVaccine(){}
+  public ResponseEntity<Object> deleteVaccine(Long id){
+    log.info("Executing delete vaccine id: {}", id);
+    try{
+      Optional<VaccineDao> vaccineDao = vaccineRepository.findById(id);
+      if(vaccineDao.isEmpty()) {
+        log.info("category {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      vaccineRepository.deleteById(id);
+      log.info("Executing delete vaccine success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, null, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when delete vaccine. Error: {}", e.getMessage());
+      log.trace("Get error when delete vaccine. ", e);
+      throw e;
+    }
+  }
 }
