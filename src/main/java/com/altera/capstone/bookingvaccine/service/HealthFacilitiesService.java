@@ -48,7 +48,7 @@ public class HealthFacilitiesService {
       for(HealthFacilitiesDao dao : daoList) {
         list.add(HealthFacilitiesDtoResponse.builder()
                 .id_health_facilities(dao.getId_health_facilities())
-                .healthFacilitiesName(dao.getHealthFacilityName())
+                .healthFacilitiesName(dao.getHealthFacilitiesName())
                 .addressHealthFacilities(dao.getAddressHealthFacilities())
                 .linkLocation(dao.getLinkLocation())
                 .phoneFacilities(dao.getPhoneFacilities())
@@ -107,7 +107,7 @@ public class HealthFacilitiesService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       healthFacilitiesDaoOptional.ifPresent(res -> {
-        res.setHealthFacilityName(request.getHealthFacilitiesName());
+        res.setHealthFacilitiesName(request.getHealthFacilitiesName());
         res.setAddressHealthFacilities(request.getAddressHealthFacilities());
         res.setPhoneFacilities(request.getPhoneFacilities());
         res.setLinkLocation(request.getLinkLocation());
