@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class VaccineDto {
 
-  private static final long serialVersionUID = -6735953605516155759L;
-
   private Long id;
 
   @ApiModelProperty(notes = "Vaccine Name", example = "Sinovac")

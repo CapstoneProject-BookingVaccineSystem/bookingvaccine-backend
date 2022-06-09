@@ -112,6 +112,10 @@ public class UserDao extends BaseEntity{
   @JoinColumn(name = "id_health_facilities")
   private HealthFacilitiesDao healthFacilitiesDaoMapped;
 
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_session")
+//  private SessionDao sessionDaoMapped;
+
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<FamilyDao> familyDaoList;
