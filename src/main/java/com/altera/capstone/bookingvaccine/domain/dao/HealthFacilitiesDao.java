@@ -1,6 +1,7 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,7 +29,7 @@ public class HealthFacilitiesDao extends BaseEntity{
   private Long id_health_facilities;
 
   @Column(name = "health_facilities_name", nullable = false, unique = true)
-  private String healthFacilityName;
+  private String healthFacilitiesName;
 
   @Column(name = "address_health_facilities", nullable = false, unique = true)
   private String addressHealthFacilities;
@@ -44,6 +46,10 @@ public class HealthFacilitiesDao extends BaseEntity{
 
 //  @OneToOne(mappedBy = "healthFacilitiesMapped")
 //  private UserDao userMapped;
+
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "healthFacilitiesDaoMapped")
+  private List<SessionDao> sessionDaoList;
 
   @ManyToOne
   @JoinColumn(name = "id_category_facilities")
