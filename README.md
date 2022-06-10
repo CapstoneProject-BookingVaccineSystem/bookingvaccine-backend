@@ -373,7 +373,7 @@ Response
     }
 }
 ```
-### Create Booking Session Vaccine
+### Create Booking Vaccine
 Request
 - Method: POST
 - Endpoint : `/api/v1/booking`
@@ -383,7 +383,19 @@ Request
 - body
 ```
 {
-  
+  "booking" : [
+    {
+      "id_user": 1,
+      "id_family": 1 or null,
+      "id_session":1,
+    },
+    {
+      "id_user": 1,
+      "id_family": 1 or null,
+      "id_session":1,
+    },
+    ... bertambah
+  ]
 }
 ```
 Response
