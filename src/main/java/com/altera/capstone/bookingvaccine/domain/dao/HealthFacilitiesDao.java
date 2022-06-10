@@ -40,9 +40,9 @@ public class HealthFacilitiesDao extends BaseEntity{
   @Column(name = "phone_facilities", nullable = false, unique = true)
   private String phoneFacilities;
 
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "id_user")
-//  private UserDao userMapped;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "id_user")
+  private UserDao userMapped;
 
 //  @OneToOne(mappedBy = "healthFacilitiesMapped")
 //  private UserDao userMapped;

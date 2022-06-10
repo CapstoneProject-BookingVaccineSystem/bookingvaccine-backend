@@ -25,12 +25,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id_user = ?")
 @Where(clause = "is_deleted = false")
 // implements UserDetails
 public class UserDao extends BaseEntity{
+
+  private static final long serialVersionUID = -1266576651734156259L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,9 +73,9 @@ public class UserDao extends BaseEntity{
 //  private String imageName;
 //  @Column(name = "image_type")
 //  private String imageType;
-//  @Column(name = "image_profile", unique = false, nullable = true, length = 100000)
-//  @Lob
-//  private byte[] imageProfile;
+  @Column(name = "image_profile", unique = false, nullable = true, length = 100000)
+  @Lob
+  private byte[] imageProfile;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

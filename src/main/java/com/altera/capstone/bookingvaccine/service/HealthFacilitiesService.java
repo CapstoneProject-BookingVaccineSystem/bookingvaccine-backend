@@ -74,20 +74,25 @@ public class HealthFacilitiesService {
     log.info("Executing add health facility with request: {}", request);
     try{
       log.info("Get area by id: {}", request.getIdArea());
-      Optional<AreaDao> areaDao = areaRepository.findById(request.getIdArea());
-      if (areaDao.isEmpty()) {
+      Optional<AreaDao> areaDaoOptional = areaRepository.findById(request.getIdArea());
+      if (areaDaoOptional.isEmpty()) {
         log.info("Area [{}] not found", request.getIdArea());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       log.info("Get category facility by id: {}", request.getIdCategoryFacilities());
-      Optional<CategoryFacilitiesDao> categoryFacilitiesDao = categoryFacilitiesRepository.findById(request.getIdCategoryFacilities());
-      if (categoryFacilitiesDao.isEmpty()) {
+      Optional<CategoryFacilitiesDao> categoryFacilitiesDaoOptional = categoryFacilitiesRepository.findById(request.getIdCategoryFacilities());
+      if (categoryFacilitiesDaoOptional.isEmpty()) {
         log.info("Category Facility [{}] not found", request.getIdCategoryFacilities());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
+
+//      log.info("Get user by id: {}", request.getIdCategoryFacilities());
+//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+
       HealthFacilitiesDao healthFacilitiesDao = mapper.map(request, HealthFacilitiesDao.class);
-      healthFacilitiesDao.setAreaMapped(areaDao.get());
-      healthFacilitiesDao.setCategoryMapped(categoryFacilitiesDao.get());
+      healthFacilitiesDao.setAreaMapped(areaDaoOptional.get());
+      healthFacilitiesDao.setCategoryMapped(categoryFacilitiesDaoOptional.get());
+//      healthFacilitiesDao.setUserMapped(userDaoOptional.get()); //idUser defined when PUT
       healthFacilitiesDao = healthFacilitesRepository.save(healthFacilitiesDao);
       log.info("Executing add health facility success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(healthFacilitiesDao, HealthFaciltiesDto.class), HttpStatus.OK);
@@ -98,15 +103,18 @@ public class HealthFacilitiesService {
       throw e;   }
   }
 
-  public ResponseEntity<Object> updateHealthFacility(Long id_health_facilities, HealthFaciltiesDto request){
+  public ResponseEntity<Object> updateHealthFacility(Long id, HealthFaciltiesDto request){
     log.info("Executing update health facility with request: {}", request);
     try {
-      Optional<HealthFacilitiesDao>healthFacilitiesDaoOptional= healthFacilitesRepository.findById(id_health_facilities);
+      Optional<HealthFacilitiesDao>healthFacilitiesDaoOptional= healthFacilitesRepository.findById(id);
       if(healthFacilitiesDaoOptional.isEmpty()) {
-        log.info("health facility {} not found", id_health_facilities);
+        log.info("health facility {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
+      Optional<UserDao>userDaoOptional= userRepository.findById(id);
+
       healthFacilitiesDaoOptional.ifPresent(res -> {
+        res.setUserMapped(userDaoOptional.get()); // updated idUser
         res.setHealthFacilitiesName(request.getHealthFacilitiesName());
         res.setAddressHealthFacilities(request.getAddressHealthFacilities());
         res.setPhoneFacilities(request.getPhoneFacilities());
