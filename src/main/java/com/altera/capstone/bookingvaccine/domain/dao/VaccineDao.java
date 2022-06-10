@@ -27,8 +27,8 @@ public class VaccineDao {
   @Column(name = "vaccine_name", nullable = false)
   private String vaccineName;
 
-  @Column(name = "stock_vaccine", nullable = false)
-  private String stockVaccine;
+//  @Column(name = "stock_vaccine", nullable = false)
+//  private String stockVaccine;
 
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vaccineMapped")

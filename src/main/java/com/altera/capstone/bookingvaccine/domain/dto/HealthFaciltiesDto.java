@@ -29,7 +29,7 @@ public class HealthFaciltiesDto {
   @ApiModelProperty(notes = "(kode area) no phone", example = "(021) 554422 ")
   private String phoneFacilities;
 
-//  private Long idUser;
+  private Long idUser;
 
   private Long idArea;
 

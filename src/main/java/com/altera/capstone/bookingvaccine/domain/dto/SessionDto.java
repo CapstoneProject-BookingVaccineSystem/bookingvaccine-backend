@@ -19,16 +19,19 @@ public class SessionDto {
 
   private Long id_session;
 
-  @ApiModelProperty(notes = "menandakan jam dimulainya session", example = "08.00")
+  @ApiModelProperty(notes = "input existing stock", example = "100")
+  private Integer stock;
+
+  @ApiModelProperty(notes = "start on session", example = "08.00")
   private String startTime;
 
-  @ApiModelProperty(notes = "menandakan jam berakhirnya session", example = "10.00")
+  @ApiModelProperty(notes = "session ended", example = "10.00")
   private String endTime;
 
-  @ApiModelProperty(notes = "jumlah stok vaccine yang tersedia", example = "100")
-  private Integer lastStock;
+//  @ApiModelProperty(notes = "remaining vaccine stock", example = "50")
+//  private Integer lastStock;
 
-  private Long idUser;
+//  private Long idUser;
 
   private Long idVaccine;
 

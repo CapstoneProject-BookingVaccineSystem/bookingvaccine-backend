@@ -24,24 +24,27 @@ public class SessionDao extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id_session;
 
+  @Column(name = "stock", nullable = false)
+  private Integer stock;
+
   @Column(name = "start_time", nullable = false)
   private String startTime;
 
   @Column(name = "end_time", nullable = false)
   private String endTime;
 
-  @Column(name = "last_stock", nullable = false)
-  private Integer lastStock;
+//  @Column(name = "last_stock", nullable = false)
+//  private Integer lastStock;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private UserDao userDaoMapped;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "user_id")
+//  private UserDao userDaoMapped;
 
   @ManyToOne
   @JoinColumn(name = "vaccine_id")
   private VaccineDao vaccineMapped;
 
   @ManyToOne
-  @JoinColumn(name = "id_health_facilities")
+  @JoinColumn(name = "health_facilities_id")
   private HealthFacilitiesDao healthFacilitiesDaoMapped;
 }

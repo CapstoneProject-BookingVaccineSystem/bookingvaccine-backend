@@ -79,7 +79,7 @@ public class VaccineService {
       }
       vaccineDao.ifPresent(res -> {
         res.setVaccineName(request.getVaccineName());
-        res.setStockVaccine(request.getStockVaccine());
+//        res.setStockVaccine(request.getStockVaccine());
         vaccineRepository.save(res);
       });
       log.info("Executing update vaccine success");

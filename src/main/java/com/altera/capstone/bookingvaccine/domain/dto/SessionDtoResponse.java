@@ -22,13 +22,15 @@ public class SessionDtoResponse {
 
   private Long id_session;
 
+  private Integer stock;
+
   private String startTime;
 
   private String endTime;
 
-  private Integer lastStock;
+//  private Integer lastStock;
 
-  private UserDao userDao;
+//  private UserDao userDao;
 
   private VaccineDao vaccineDao;
 

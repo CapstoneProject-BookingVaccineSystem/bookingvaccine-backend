@@ -77,18 +77,19 @@ public class SessionService {
   public ResponseEntity<Object> addSession(SessionDto request) {
     log.info("Executing add session with request: {}", request);
     try{
-      log.info("Get user by id: {}", request.getIdUser());
-      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-      if (userDaoOptional.isEmpty()) {
-        log.info("user [{}] not found", request.getIdUser());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-//      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
-//      Optional<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findById(request.getIdHealthFacilities());
-//      if (healthFacilitiesDao.isEmpty()) {
-//        log.info("health facility [{}] not found", request.getIdHealthFacilities());
+//      log.info("Get user by id: {}", request.getIdUser());
+//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+//      if (userDaoOptional.isEmpty()) {
+//        log.info("user [{}] not found", request.getIdUser());
 //        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
 //      }
+
+      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
+      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+      if (healthFacilitiesDaoOptional.isEmpty()) {
+        log.info("health facility [{}] not found", request.getIdHealthFacilities());
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
 
       log.info("Get vaccine by id: {}", request.getIdVaccine());
       Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(request.getIdVaccine());
@@ -96,12 +97,17 @@ public class SessionService {
         log.info("vaccine [{}] not found", request.getIdVaccine());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
+
+//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+
       SessionDao sessionDao = SessionDao.builder()
-              .userDaoMapped(userDaoOptional.get())
+//              .userDaoMapped(userDaoOptional.get()) //no mandatory
               .vaccineMapped(vaccineDaoOptional.get())
+              .healthFacilitiesDaoMapped((healthFacilitiesDaoOptional.get()))
+              .stock(request.getStock())
               .startTime(request.getStartTime())
               .endTime(request.getEndTime())
-              .lastStock(request.getLastStock())
+//              .lastStock(request.getLastStock())
               .build();
       sessionDao = sessionRepository.save(sessionDao);
       log.info("Executing add session success");
@@ -135,7 +141,8 @@ public class SessionService {
         res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
         res.setStartTime(request.getStartTime());
         res.setEndTime(request.getEndTime());
-        res.setLastStock(request.getLastStock());
+        res.setStock(request.getStock());
+//        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);
       });
       log.info("Executing update review success");
