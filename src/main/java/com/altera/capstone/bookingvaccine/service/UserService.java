@@ -78,8 +78,8 @@ public class UserService {
     log.info("Executing add user admin with request: {}", request);
     try{
       log.info("Get health facility by id: {}", request.getIdHealthFacilities());
-      Optional<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findById(request.getIdHealthFacilities());
-      if (healthFacilitiesDao.isEmpty()) {
+      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+      if (healthFacilitiesDaoOptional.isEmpty()) {
         log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
@@ -95,7 +95,7 @@ public class UserService {
               .email(request.getEmail())
               .noPhone(request.getNoPhone())
               .roles(request.getRoles())
-              .healthFacilitiesDaoMapped(healthFacilitiesDao.get())
+              .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
               .build();
       userDao = userRepository.save(userDao);
       log.info("Executing add user admin success");
@@ -108,7 +108,7 @@ public class UserService {
   }
 
   public ResponseEntity<Object> addUser(UserDto request) {
-    log.info("Executing add user admin with request: {}", request);
+    log.info("Executing add user with request: {}", request);
     try{
 //      UserDao userDao = mapper.map(request, UserDao.class);
 //      userDao.setHealthFacilitiesDaoMapped(healthFacilitiesDao.get());
