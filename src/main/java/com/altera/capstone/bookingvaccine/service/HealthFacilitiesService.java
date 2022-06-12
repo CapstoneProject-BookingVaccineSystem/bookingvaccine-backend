@@ -52,6 +52,7 @@ public class HealthFacilitiesService {
                 .addressHealthFacilities(dao.getAddressHealthFacilities())
                 .linkLocation(dao.getLinkLocation())
                 .phoneFacilities(dao.getPhoneFacilities())
+                // from HealthFacilityDtoResponse
                 .area(AreaDao.builder()
                         .id_area(dao.getAreaMapped().getId_area())
                         .areaName(dao.getAreaMapped().getAreaName())
@@ -59,6 +60,11 @@ public class HealthFacilitiesService {
                 .categoryFacilities(CategoryFacilitiesDao.builder()
                         .id_category_facilities(dao.getCategoryMapped().getId_category_facilities())
                         .categoryFacilitiesName(dao.getCategoryMapped().getCategoryFacilitiesName())
+                        .build())
+                .user(UserDao.builder()
+                        .id_user(dao.getUserMapped().getId_user())
+                        .firstName(dao.getUserMapped().getFirstName())
+                        .lastName(dao.getUserMapped().getLastName())
                         .build())
                 .build());
       }
@@ -86,13 +92,17 @@ public class HealthFacilitiesService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
 
-//      log.info("Get user by id: {}", request.getIdCategoryFacilities());
-//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+      log.info("Get user by id: {}", request.getIdUser());
+      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+      if (userDaoOptional.isEmpty()) {
+        log.info("User [{}] not found", request.getIdUser());
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
 
       HealthFacilitiesDao healthFacilitiesDao = mapper.map(request, HealthFacilitiesDao.class);
       healthFacilitiesDao.setAreaMapped(areaDaoOptional.get());
       healthFacilitiesDao.setCategoryMapped(categoryFacilitiesDaoOptional.get());
-//      healthFacilitiesDao.setUserMapped(userDaoOptional.get()); //idUser defined when PUT
+      healthFacilitiesDao.setUserMapped(userDaoOptional.get());
       healthFacilitiesDao = healthFacilitesRepository.save(healthFacilitiesDao);
       log.info("Executing add health facility success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(healthFacilitiesDao, HealthFaciltiesDto.class), HttpStatus.OK);
@@ -125,23 +135,23 @@ public class HealthFacilitiesService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
       log.info("GET user by id: {}", request);
-      Optional<UserDao>userDaoOptional= userRepository.findById(id);
+      Optional<UserDao> userDaoOptional = userRepository.findById(id);
       if(userDaoOptional.isEmpty()) {
-        log.info("user {} not found", id);
+        log.info("User {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-//      if(userDaoOptional.get().getRoles() == "USER") {
-//        log.info("user {} not assigned as ADMIN", id);
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
+      if(userDaoOptional.get().getRoles() == "USER") {
+        log.info("user {} not assigned as ADMIN", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
       healthFacilitiesDaoOptional.ifPresent(res -> {
         res.setHealthFacilitiesName(request.getHealthFacilitiesName());
         res.setAddressHealthFacilities(request.getAddressHealthFacilities());
         res.setPhoneFacilities(request.getPhoneFacilities());
         res.setLinkLocation(request.getLinkLocation());
-        res.setUserMapped(userDaoOptional.get()); // updated idUser
         res.setCategoryMapped(categoryFacilitiesDaoOptional.get());
         res.setAreaMapped(areaDaoOptional.get());
+        res.setUserMapped(userDaoOptional.get());
         healthFacilitesRepository.save(res);
       });
       log.info("Executing update health facility success");

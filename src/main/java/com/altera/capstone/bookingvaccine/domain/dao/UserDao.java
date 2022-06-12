@@ -110,19 +110,20 @@ public class UserDao extends BaseEntity{
 //  @OneToOne(mappedBy = "userMapped")
 //  private HealthFacilitiesDao healthFacilitiesDao;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_health_facilities")
-  private HealthFacilitiesDao healthFacilitiesDaoMapped;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "id_health_facilities")
+//  private HealthFacilitiesDao healthFacilitiesMapped;
 
 //  @OneToOne(cascade = CascadeType.ALL)
 //  @JoinColumn(name = "id_session")
 //  private SessionDao sessionDaoMapped;
 
+//  @ManyToOne
+//  @JoinColumn(name = "health_facilities_id")
+//  private HealthFacilitiesDao healthFacilitiesMapped;
+
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<FamilyDao> familyDaoList;
 
-//  @JsonIgnore
-//  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
-//  private HealthFacilitiesDao healthFacilitiesDaoList;
 }

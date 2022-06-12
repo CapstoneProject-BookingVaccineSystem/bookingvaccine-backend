@@ -11,6 +11,7 @@ import com.altera.capstone.bookingvaccine.repository.FamilyRepository;
 import com.altera.capstone.bookingvaccine.repository.HealthFacilitesRepository;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -77,14 +78,12 @@ public class UserService {
   public ResponseEntity<Object> addUserAdmin(UserDto request) {
     log.info("Executing add user admin with request: {}", request);
     try{
-      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
-      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
-      if (healthFacilitiesDaoOptional.isEmpty()) {
-        log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-//      UserDao userDao = mapper.map(request, UserDao.class);
-//      userDao.setHealthFacilitiesDaoMapped(healthFacilitiesDao.get());
+//      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
+//      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+//      if (healthFacilitiesDaoOptional.isEmpty()) {
+//        log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
       UserDao userDao = UserDao.builder()
               .username(request.getUsername())
               .password(request.getPassword())
@@ -95,8 +94,14 @@ public class UserService {
               .email(request.getEmail())
               .noPhone(request.getNoPhone())
               .roles(request.getRoles())
-              .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
+//              .healthFacilitiesMapped(healthFacilitiesDaoOptional.get())
               .build();
+      // USER not assigned as ADMIN facility !
+//      if (request.getRoles()== "ADMIN"){
+//        userDao = userRepository.save(userDao);
+//      } else{
+//        log.info("Executing add user failed !, because role must ADMIN");
+//      }
       userDao = userRepository.save(userDao);
       log.info("Executing add user admin success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDao, UserDto.class), HttpStatus.OK);
@@ -110,8 +115,6 @@ public class UserService {
   public ResponseEntity<Object> addUser(UserDto request) {
     log.info("Executing add user with request: {}", request);
     try{
-//      UserDao userDao = mapper.map(request, UserDao.class);
-//      userDao.setHealthFacilitiesDaoMapped(healthFacilitiesDao.get());
       UserDao userDao = UserDao.builder()
               .username(request.getUsername())
               .password(request.getPassword())
