@@ -77,12 +77,6 @@ public class SessionService {
   public ResponseEntity<Object> addSession(SessionDto request) {
     log.info("Executing add session with request: {}", request);
     try{
-//      log.info("Get user by id: {}", request.getIdUser());
-//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-//      if (userDaoOptional.isEmpty()) {
-//        log.info("user [{}] not found", request.getIdUser());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
 
       log.info("Get health facility by id: {}", request.getIdHealthFacilities());
       Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
@@ -98,10 +92,7 @@ public class SessionService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
 
-//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-
       SessionDao sessionDao = SessionDao.builder()
-//              .userDaoMapped(userDaoOptional.get()) //no mandatory
               .vaccineMapped(vaccineDaoOptional.get())
               .healthFacilitiesDaoMapped((healthFacilitiesDaoOptional.get()))
               .stock(request.getStock())

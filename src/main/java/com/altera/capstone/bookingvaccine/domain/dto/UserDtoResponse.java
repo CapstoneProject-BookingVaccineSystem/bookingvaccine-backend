@@ -4,6 +4,8 @@ import com.altera.capstone.bookingvaccine.domain.dao.FamilyDao;
 import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,8 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserDtoResponse implements Serializable {
 
@@ -50,5 +54,5 @@ public class UserDtoResponse implements Serializable {
   private String imageProfile;
 
 //  private FamilyDao family;
-  private HealthFacilitiesDao healthFacilitiesDao;
+//  private HealthFacilitiesDao healthFacilitiesDaoDtoResponse;
 }
