@@ -136,7 +136,7 @@ public class SessionService {
 //        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);
       });
-      log.info("Executing update review success");
+      log.info("Executing update session success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(sessionDaoOptional, SessionDto.class), HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when update session. Error: {}", e.getMessage());

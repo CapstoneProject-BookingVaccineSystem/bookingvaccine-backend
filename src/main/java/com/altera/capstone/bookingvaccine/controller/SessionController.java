@@ -70,6 +70,7 @@ public class SessionController {
     return sessionService.updateSession(id, request);
   }
 
+  // DELETE
   @ApiOperation(value = "Delete session",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success delete session"),
