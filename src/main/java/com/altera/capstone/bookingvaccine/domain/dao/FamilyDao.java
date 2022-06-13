@@ -1,6 +1,7 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -38,4 +41,11 @@ public class FamilyDao extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private UserDao userMapped;
+
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "familyMapped")
+  private List<BookingDao> bookingDaoList;
+
+//  @ManyToMany
+//  private Set<BookingDao> bookingDaoSet;
 }

@@ -2,6 +2,7 @@ package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -50,6 +52,10 @@ public class SessionDao extends BaseEntity {
 //  @JoinColumn(name = "area_id")
 //  private AreaDao areaMapped;
 
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sessionMapped")
+  private List<BookingDao> bookingDaoList;
+
   @ManyToOne
   @JoinColumn(name = "vaccine_id")
   private VaccineDao vaccineMapped;
@@ -57,4 +63,5 @@ public class SessionDao extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "health_facilities_id")
   private HealthFacilitiesDao healthFacilitiesDaoMapped;
+
 }

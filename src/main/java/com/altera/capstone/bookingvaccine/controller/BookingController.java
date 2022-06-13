@@ -1,0 +1,48 @@
+package com.altera.capstone.bookingvaccine.controller;
+
+import com.altera.capstone.bookingvaccine.domain.dto.BookingDto;
+import com.altera.capstone.bookingvaccine.service.BookingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@Slf4j
+@RestController
+@RequestMapping(value = "/v1/booking", produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(tags = "Booking", value = "Booking" )
+public class BookingController {
+  @Autowired
+  private BookingService bookingService;
+
+  // GET
+  @ApiOperation(value = "Get all booking",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get list booking"),
+
+  })
+  @GetMapping(value = "")
+  public ResponseEntity<Object> getAll() {
+    return bookingService.getAllBooking();
+  }
+
+  // POST
+  @ApiOperation(value = "Add Booking",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success add booking"),
+
+  })
+  @PostMapping(value = "")
+  public ResponseEntity<Object> addSession(@RequestBody BookingDto request) {
+    try{
+      return bookingService.addBooking(request);
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+}
