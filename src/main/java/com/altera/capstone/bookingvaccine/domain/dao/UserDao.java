@@ -126,4 +126,8 @@ public class UserDao extends BaseEntity{
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<FamilyDao> familyDaoList;
 
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
+  private List<BookingDao> bookingDaoList;
+
 }
