@@ -114,4 +114,54 @@ public class BookingService {
       throw e;
     }
   }
+
+  public ResponseEntity<Object> updateBooking(Long id, BookingDto request) {
+    log.info("Executing update booking with request: {}", request);
+    try {
+      Optional<BookingDao> bookingDaoOptional = bookingRepository.findById(id);
+      if(bookingDaoOptional.isEmpty()) {
+        log.info("booking {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
+      if(sessionDaoOptional.isEmpty()) {
+        log.info("session {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(id);
+      if(familyDaoOptional.isEmpty()){
+        log.info("family {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      bookingDaoOptional.ifPresent(res -> {
+        res.setSessionMapped(sessionDaoOptional.get());
+        res.setFamilyMapped(familyDaoOptional.get());
+        bookingRepository.save(res);
+      });
+      log.info("Executing update booking success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDaoOptional, BookingDto.class), HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when update booking. Error: {}", e.getMessage());
+      log.trace("Get error when update booking. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> deleteBooking(Long id) {
+    log.info("Executing delete booking id: {}", id);
+    try{
+      Optional<BookingDao> bookingDaoOptional = bookingRepository.findById(id);
+      if(bookingDaoOptional.isEmpty()) {
+        log.info("booking {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      bookingRepository.deleteById(id);
+      log.info("Executing delete booking success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, null, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when delete booking. Error: {}", e.getMessage());
+      log.trace("Get error when delete booking. ", e);
+      throw e;
+    }
+  }
 }
