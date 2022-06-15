@@ -24,7 +24,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 
-@Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping("/v1/users")
 @Api(tags = "User", value = "User" )
 public class UserController {
