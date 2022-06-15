@@ -48,9 +48,9 @@ public class SessionDao extends BaseEntity {
 //  @JoinColumn(name = "user_id")
 //  private UserDao userDaoMapped;
 
-//  @ManyToOne
-//  @JoinColumn(name = "area_id")
-//  private AreaDao areaMapped;
+  @ManyToOne
+  @JoinColumn(name = "area_id")
+  private AreaDao areaMapped;
 
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sessionMapped")
