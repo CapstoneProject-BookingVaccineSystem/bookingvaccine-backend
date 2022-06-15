@@ -35,4 +35,8 @@ public class AreaDao extends BaseEntity {
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "areaMapped")
   private List<HealthFacilitiesDao> healthFacilitiesDaoList;
+
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "areaMapped")
+  private List<SessionDao> sessionDaoList;
 }

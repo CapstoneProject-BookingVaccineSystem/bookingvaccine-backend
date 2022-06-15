@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/v1/session", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Session", value = "Session" )
@@ -42,6 +43,17 @@ public class SessionController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id){
     return sessionService.getSessionById(id);
+  }
+
+  // GET By Area Id
+  @ApiOperation(value = "Get session by Area id",  response = SessionDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get session by id"),
+
+  })
+  @GetMapping(value = "/area/{id}")
+  public ResponseEntity<Object> getByAreaId(@PathVariable(value = "id") Long id){
+    return sessionService.getSessionByAreaId(id);
   }
 
   // POST

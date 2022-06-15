@@ -40,7 +40,7 @@ public class SessionDtoResponse {
 
 //  private Integer lastStock;
 
-//  private AreaDao areaDao;
+  private AreaDao areaDao;
 
   private VaccineDao vaccineDao;
 

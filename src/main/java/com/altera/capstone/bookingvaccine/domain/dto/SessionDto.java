@@ -40,7 +40,7 @@ public class SessionDto {
 //  @ApiModelProperty(notes = "remaining vaccine stock", example = "50")
 //  private Integer lastStock;
 
-//  private Long idArea;
+  private Long idArea;
 
   private Long idVaccine;
 
