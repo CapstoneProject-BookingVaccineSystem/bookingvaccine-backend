@@ -75,6 +75,23 @@ public class UserService {
 //    return userRepository.save(user);
 //  }
 
+//  public ResponseEntity<Object> getFamilyByUserId(Long id_user) {
+//    log.info("Executing get Family by user by id: {} ", id_user);
+//    try {
+//      List<FamilyDao>  familyDaoList = userRepository.findFamilyByUserId(id_user);
+//      if(familyDaoList.isEmpty()) {
+//        log.info("Family by user by id: {} not found", id_user);
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//      log.info("Executing get Family by user by id success");
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, familyDaoList, HttpStatus.OK);
+//    } catch (Exception e) {
+//      log.error("Happened error when get Family by user by id. Error: {}", e.getMessage());
+//      log.trace("Get error when get Family by user by id. ", e);
+//      throw e;
+//    }
+//  }
+
   public ResponseEntity<Object> addUserAdmin(UserDto request) {
     log.info("Executing add user admin with request: {}", request);
     try{
