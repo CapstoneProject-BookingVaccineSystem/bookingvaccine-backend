@@ -40,6 +40,24 @@ public class HealthFacilitiesService {
   @Autowired
   private ModelMapper mapper;
 
+  // for admin at feature manage schedule vaccine
+  public ResponseEntity<Object> getFacilityByUserId(Long id) {
+    log.info("Executing get Facility by user id: {} ", id);
+    try {
+      List<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findFacilityByUserId(id);
+      if(healthFacilitiesDao.isEmpty()) {
+        log.info("Facility id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "facility not found, please check user_id", HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get Facility by User id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, healthFacilitiesDao, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get Facility by User id. Error: {}", e.getMessage());
+      log.trace("Get error when get Facility by User id. ", e);
+      throw e;
+    }
+  }
+
   public ResponseEntity<Object> getAllHealthFacility(){
     log.info("Executing get All Health Facility");
     try {

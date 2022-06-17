@@ -241,8 +241,4 @@ public class UserService {
     }
   }
 
-//  public Stream<UserDao> getAllFileByUserDao() {
-//    return userRepository.findAll().stream();
-//  }
-
 }

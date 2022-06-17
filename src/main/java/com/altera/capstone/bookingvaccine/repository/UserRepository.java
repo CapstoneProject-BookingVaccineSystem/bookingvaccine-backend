@@ -34,4 +34,8 @@ public interface UserRepository extends JpaRepository<UserDao, Long> {
 //    SELECT u.id_user, u.first_name, u.last_name, u.username,
 //    f.id_family, f.nik, f.full_name, f.user_id
 //    FROM public.users u RIGHT JOIN public.family f ON u.id_user = f.id_family;
+
+//  @Query("SELECT u (u.id_user, u.first_name, u.last_name, f.id_family, f.nik, f.full_name) "
+//          + "FROM users s LEFT JOIN s.familyDaoList f")
+//  List<UserDao> findUserLeftJoinFamily();
 }

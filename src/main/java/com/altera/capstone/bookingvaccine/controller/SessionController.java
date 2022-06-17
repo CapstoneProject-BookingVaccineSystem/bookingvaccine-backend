@@ -23,7 +23,7 @@ public class SessionController {
   @Autowired
   private SessionService sessionService;
 
-  // GET
+  // GET All with Pageable
   @ApiOperation(value = "Get all session",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get list session"),
@@ -35,7 +35,7 @@ public class SessionController {
     return sessionService.getAllSession(page, size);
   }
 
-  // GET By Id
+  // GETById
   @ApiOperation(value = "Get session by id",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get session by id"),
