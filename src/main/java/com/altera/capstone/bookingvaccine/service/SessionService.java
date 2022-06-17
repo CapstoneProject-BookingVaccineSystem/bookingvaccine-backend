@@ -1,20 +1,17 @@
 package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
-import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
-import com.altera.capstone.bookingvaccine.domain.dao.SessionDao;
-import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
-import com.altera.capstone.bookingvaccine.domain.dao.VaccineDao;
+import com.altera.capstone.bookingvaccine.domain.dao.*;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDtoResponse;
-import com.altera.capstone.bookingvaccine.repository.HealthFacilitesRepository;
-import com.altera.capstone.bookingvaccine.repository.SessionRepository;
-import com.altera.capstone.bookingvaccine.repository.UserRepository;
-import com.altera.capstone.bookingvaccine.repository.VaccineRepository;
+import com.altera.capstone.bookingvaccine.repository.*;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,23 +33,62 @@ public class SessionService {
   private VaccineRepository vaccineRepository;
 
   @Autowired
+  private AreaRepository areaRepository;
+
+  @Autowired
   private HealthFacilitesRepository healthFacilitesRepository;
 
   @Autowired
   private ModelMapper mapper;
 
-  public ResponseEntity<Object> getAllSession() {
+  public ResponseEntity<Object> getAllSession(int page, int size) {
     log.info("Executing get all session.");
     try{
-      List<SessionDao> daoList = sessionRepository.findAll();
-      List<SessionDtoResponse> list = new ArrayList<>();
-      for(SessionDao dao : daoList){
-        list.add(mapper.map(dao, SessionDtoResponse.class));
-      }
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
+      Pageable paging = PageRequest.of(page, size);
+      Page<SessionDao> pageResult = sessionRepository.findAll(paging);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult.toList(), HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when get all session. Error: {}", e.getMessage());
       log.trace("Get error when get all session. ", e);
+      throw e;
+    }
+  }
+
+  // Filter for mobile app
+  public ResponseEntity<Object> getSessionByAreaId(Long id) {
+    log.info("Executing get session by area id: {} ", id);
+    try {
+      List<SessionDao> sessionDao = sessionRepository.getSessionByAreaId(id);
+      if(sessionDao.isEmpty()) {
+        log.info("Area id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get session by Area id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, sessionDao, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get session by Area id. Error: {}", e.getMessage());
+      log.trace("Get error when get session by Area id. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> getFacilityByLike(String search){
+    try {
+      log.info("Execute get data facility");
+      List<SessionDao> sessionDaoList = sessionRepository.findByFacilityLike(search, search);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, sessionDaoList, HttpStatus.OK);
+//      List<SessionDtoResponse> sessionDtoResponses = new ArrayList<>();
+//      for (SessionDao sessionDao : sessionDaoList) {
+//        sessionDaoList.add(SessionDao.builder()
+//                        .healthFacilitiesDaoMapped()
+//                .build());
+//      }
+//      for(SessionDao dao : sessionDaoList){
+//
+//      }
+    } catch (Exception e){
+      log.error("Happened error when get session by id. Error: {}", e.getMessage());
+      log.trace("Get error when get session by id. ", e);
       throw e;
     }
   }
@@ -77,12 +113,13 @@ public class SessionService {
   public ResponseEntity<Object> addSession(SessionDto request) {
     log.info("Executing add session with request: {}", request);
     try{
-//      log.info("Get user by id: {}", request.getIdUser());
-//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-//      if (userDaoOptional.isEmpty()) {
-//        log.info("user [{}] not found", request.getIdUser());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
+
+      log.info("Get area by id: {}", request.getIdArea());
+      Optional<AreaDao> areaDaoOptional = areaRepository.findById(request.getIdArea());
+      if (areaDaoOptional.isEmpty()) {
+        log.info("area [{}] not found", request.getIdArea());
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
 
       log.info("Get health facility by id: {}", request.getIdHealthFacilities());
       Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
@@ -98,12 +135,10 @@ public class SessionService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
 
-//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-
       SessionDao sessionDao = SessionDao.builder()
-//              .userDaoMapped(userDaoOptional.get()) //no mandatory
+              .areaMapped(areaDaoOptional.get())
               .vaccineMapped(vaccineDaoOptional.get())
-              .healthFacilitiesDaoMapped((healthFacilitiesDaoOptional.get()))
+              .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
               .stock(request.getStock())
               .startTime(request.getStartTime())
               .endTime(request.getEndTime())
@@ -137,15 +172,21 @@ public class SessionService {
         log.info("vaccine {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
+      Optional<AreaDao> areaDaoOptional = areaRepository.findById(id);
+      if(areaDaoOptional.isEmpty()) {
+        log.info("area {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      }
       sessionDaoOptional.ifPresent(res -> {
         res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
+        res.setAreaMapped(areaDaoOptional.get());
         res.setStartTime(request.getStartTime());
         res.setEndTime(request.getEndTime());
         res.setStock(request.getStock());
 //        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);
       });
-      log.info("Executing update review success");
+      log.info("Executing update session success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(sessionDaoOptional, SessionDto.class), HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when update session. Error: {}", e.getMessage());
