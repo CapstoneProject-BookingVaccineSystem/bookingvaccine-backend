@@ -1,8 +1,8 @@
 package com.altera.capstone.bookingvaccine.domain.common;
 
-
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.common.ApiResponse;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-//@SuperBuilder
+// @SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -26,12 +26,14 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 3595678817094961783L;
 
     @Column(name = "created_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
     @Column(name = "updated_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted")
@@ -40,7 +42,8 @@ public abstract class BaseEntity implements Serializable {
     @PrePersist
     void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (createdBy == null) createdBy = AppConstant.DEFAULT_SYSTEM;
+        if (createdBy == null)
+            createdBy = AppConstant.DEFAULT_SYSTEM;
         this.isDeleted = Boolean.FALSE;
     }
 
@@ -48,6 +51,5 @@ public abstract class BaseEntity implements Serializable {
     void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
 
 }
