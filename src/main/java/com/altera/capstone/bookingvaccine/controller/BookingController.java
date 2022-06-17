@@ -22,15 +22,16 @@ public class BookingController {
   @Autowired
   private BookingService bookingService;
 
-  // GET
+  // GET All and pagination
   @ApiOperation(value = "Get all booking",  response = BookingDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get list booking"),
 
   })
-  @GetMapping(value = "")
-  public ResponseEntity<Object> getAll() {
-    return bookingService.getAllBooking();
+  @GetMapping(value = "/{page}/{size}")
+  public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
+                                       @PathVariable(value = "size") int size) {
+    return bookingService.getAllBooking(page, size);
   }
 
   // GET By Id

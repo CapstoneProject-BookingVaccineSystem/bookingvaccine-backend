@@ -15,7 +15,8 @@ public interface SessionRepository extends PagingAndSortingRepository<SessionDao
   @Query(value = "SELECT * FROM session_vaccine s WHERE s.area_id = :area_id", nativeQuery = true)
   List<SessionDao> getSessionByAreaId(@PathVariable("area_id")Long area_id);
 
-  // searching via LIKE
-//  @Query("SELECT s FROM session_vaccine s WHERE s.health_facilities_name LIKE %?1%")
-//  List<SessionDao> findByFacilityLike(String health_facility_name);
+  // searching with LIKE
+  @Query("SELECT s FROM SessionDao s WHERE s.healthFacilitiesDaoMapped.healthFacilitiesName " +
+          "LIKE %?1% OR s.vaccineMapped.vaccineName LIKE %?2%")
+  List<SessionDao> findByFacilityLike(String health_facility_name, String vaccine_name);
 }
