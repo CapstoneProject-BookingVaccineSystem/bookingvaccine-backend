@@ -9,11 +9,13 @@ import com.altera.capstone.bookingvaccine.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,15 +40,12 @@ public class SessionService {
   @Autowired
   private ModelMapper mapper;
 
-  public ResponseEntity<Object> getAllSession() {
+  public ResponseEntity<Object> getAllSession(int page, int size) {
     log.info("Executing get all session.");
     try{
-      List<SessionDao> daoList = sessionRepository.findAll();
-      List<SessionDtoResponse> list = new ArrayList<>();
-      for(SessionDao dao : daoList){
-        list.add(mapper.map(dao, SessionDtoResponse.class));
-      }
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
+      Pageable paging = PageRequest.of(page, size);
+      Page<SessionDao> pageResult = sessionRepository.findAll(paging);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult.toList(), HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when get all session. Error: {}", e.getMessage());
       log.trace("Get error when get all session. ", e);
@@ -54,6 +53,7 @@ public class SessionService {
     }
   }
 
+  // Filter for mobile app
   public ResponseEntity<Object> getSessionByAreaId(Long id) {
     log.info("Executing get session by area id: {} ", id);
     try {
