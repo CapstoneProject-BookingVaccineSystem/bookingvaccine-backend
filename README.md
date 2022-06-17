@@ -230,8 +230,8 @@ Response
 ### Get All data Jadwal and set value 15 data
 Request
 - Method: GET
-- Endpoint : `{{URL_SERVER}}/v1/session`
-- Note : GET ALL before use limit per page
+- Endpoint : `{{URL_SERVER}}/v1/session/0/2`
+- Note : GET data pada halaman pertama (index 0) sebanyak 2 data
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
@@ -278,39 +278,6 @@ Response
             }
         }
     ]
-}
-```
-### Get data base on pagination and sorting
-Request
-- Method: GET
-- Endpoint : `/api/v1/bookingpage?pageSize=15&pageNo=1&sortBy=name`
-- Header : 
-  - Content-Type: application/json
-  - Accept: application/json
-- body
-```
-{
-    
-}
-```
-Response
-```
-{
-    "timestamp": "01-06-2022 23:13:45",
-    "message": "Success!",
-    "data": {
-        "facility":{
-          "id_health_facilities":01,
-          "name_health_facilities":"PUSKESMAS JATI"
-        },
-        "vaccine":{
-          "id_vaccine":01,
-          "name_vaccine":"SINOVAC"
-        },
-        "start_time":"08.00"
-    }
-    // pagebale
-    // sorting
 }
 ```
 ### Tambahkan Jadwal vaksin
