@@ -3,7 +3,7 @@
 ### {{URL_SERVER}} : http://34.142.219.145/api
 ### Swagger Link http://34.142.219.145/api/swagger-ui/index.html
 ### Workspace Collaboration Postman -> https://app.getpostman.com/join-team?invite_code=5e272200f6b1e7386f7828854fc84fe4&target_code=0b856c673d866291c61b04afac316d0a
-## 1. Authentication Login Page
+## 1. Login dan Dashboard 
 Request
 - Method: POST
 - Validation di MobileApp -> panjang string = 13 dan input = [0-9]
@@ -40,7 +40,7 @@ Response
     }
 }
 ```
-## 2. Dashboard Page
+### Dashboard Page
 ### Total Data Admin
 Request
 - Method: GET
@@ -156,7 +156,7 @@ Response
     }
 }
 ```
-## 3. Data Booking
+## 2. Kelola Booking dari User
 ### Get All data booking and set value 15 data
 Request
 - Method: GET
@@ -203,12 +203,35 @@ Response
     }
 }
 ```
-## 4. Schedule Vaccine Page (1)
-### Get All data booking and set value 15 data
+### Get data booking by id
 Request
 - Method: GET
-- Endpoint : `{{URL_SERVER}}/v1/session`
-- Note : GET ALL before use limit per page
+- Endpoint : `/api/v1/booking/{id}
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    
+}
+```
+Response
+```
+{
+    "timestamp": "01-06-2022 23:13:45",
+    "message": "Success!",
+    "data": {
+        // show data defined
+    }
+}
+```
+## 3. Kelola Jadwal Vaksin dari Faskes
+### Get All data Jadwal and set value 15 data
+Request
+- Method: GET
+- Endpoint : `{{URL_SERVER}}/v1/session/0/2`
+- Note : GET data pada halaman pertama (index 0) sebanyak 2 data
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
@@ -240,7 +263,7 @@ Response
                 "is_deleted": false,
                 "id_health_facilities": 1,
                 "health_facilities_name": "Puskesmas Kota Karang",
-                "address_health_facilities": "Komplek Kota Karang, Jl. Teluk Ratai No. 18, Kota Karang, Teluk Betung Timur, Kota Karang, Kec. Telukbetung Timur, Kota Bandar Lampung, Lampung",
+                "address_health_facilities": "Komplek Kota Karang, Jl. Teluk Ratai.....",
                 "link_location": "https://goo.gl/maps/uwRK8xgxBnAa9YgJ9",
                 "phone_facilities": "(0721) 480129",
                 "user_mapped": null,
@@ -257,43 +280,76 @@ Response
     ]
 }
 ```
-### Get data base on pagination and sorting
+### Tambahkan Jadwal vaksin
 Request
-- Method: GET
-- Endpoint : `/api/v1/bookingpage?pageSize=15&pageNo=1&sortBy=name`
+- Method: POST
+- Endpoint : `{{URL_SERVER}}/v1/session`
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
 - body
 ```
 {
-    
+    "id_area": 1,
+    "id_health_facilities": 1,
+    "id_vaccine": 1,
+    "stock": 50,
+    "start_time": "13:00:00",
+    "end_time":"15:00:00"
 }
 ```
 Response
 ```
 {
-    "timestamp": "01-06-2022 23:13:45",
+    "timestamp": "16-06-2022 21:21:51",
     "message": "Success!",
     "data": {
-        "facility":{
-          "id_health_facilities":01,
-          "name_health_facilities":"PUSKESMAS JATI"
-        },
-        "vaccine":{
-          "id_vaccine":01,
-          "name_vaccine":"SINOVAC"
-        },
-        "start_time":"08.00"
+        "id_session": 4,
+        "stock": 30,
+        "start_time": "07:00:00",
+        "end_time": "11:00:00",
+        "id_area": 1,
+        "id_vaccine": 1,
+        "id_health_facilities": 1
     }
-    // pagebale
-    // sorting
+}
+```
+### Edit Jadwal vaksin
+Request
+- Method: PUT
+- Endpoint : `{{URL_SERVER}}/v1/session/{id}`
+- Header : 
+  - Content-Type: application/json
+  - Accept: application/json
+- body
+```
+{
+    "id_vaccine": 1,
+    "stock": 30,
+    "start_time": "07.00",
+    "end_time":"10.00"
+}
+```
+Response
+```
+{
+    "timestamp": "16-06-2022 21:21:51",
+    "message": "Success!",
+    "data": {
+        "id_session": 4,
+        "stock": 30,
+        "start_time": "07:00:00",
+        "end_time": "11:00:00",
+        "id_area": 1,
+        "id_vaccine": 1,
+        "id_health_facilities": 1
+    }
 }
 ```
 ### Delete schedule / data sesion vaccine by Id
 Request
 - Method: DELETE
-- Endpoint : `{{URL_SERVER}}/v1/session/2`
+- Endpoint : `{{URL_SERVER}}/v1/session/{id}`
 - Header : 
   - Content-Type: application/json
   - Accept: application/json
@@ -311,8 +367,8 @@ Response
     "data": null
 }
 ```
-## 5. Schedule Vaccine Page detail (2)
-### GET Data User By Id for GET DATA Health Facility, Category, Area 
+## 4. Kelola Berita
+### GET All Data Berita
 Request
 - Method: GET
 - Endpoint : `{{URL_LOCAL}}/v1/users/1`
@@ -331,7 +387,7 @@ Response
     "timestamp": "10-06-2022 09:05:14",
     "message": "Success!",
     "data": {
-        "created_at": [ ],
+        "created_at": "",
         "created_by": "SYSTEM",
         "updated_at": null,
         "is_deleted": false,

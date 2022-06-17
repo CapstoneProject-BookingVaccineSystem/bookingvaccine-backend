@@ -4,6 +4,7 @@ import com.altera.capstone.bookingvaccine.domain.dao.FamilyDao;
 import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +21,8 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 //implements Serializable
 public class UserDto implements Serializable{
@@ -63,5 +66,5 @@ public class UserDto implements Serializable{
 //  @ApiModelProperty(notes = "familyId", example = "1")
 //  private Long id_family;
 
-  private Long idHealthFacilities;
+//  private Long idHealthFacilities;
 }

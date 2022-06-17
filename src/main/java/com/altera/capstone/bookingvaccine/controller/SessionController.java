@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/v1/session", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Session", value = "Session" )
@@ -22,18 +23,19 @@ public class SessionController {
   @Autowired
   private SessionService sessionService;
 
-  // GET
+  // GET All with Pageable
   @ApiOperation(value = "Get all session",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get list session"),
 
   })
-  @GetMapping(value = "")
-  public ResponseEntity<Object> getAll() {
-    return sessionService.getAllSession();
+  @GetMapping(value = "/{page}/{size}")
+  public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
+                                       @PathVariable(value = "size") int size) {
+    return sessionService.getAllSession(page, size);
   }
 
-  // GET By Id
+  // GETById
   @ApiOperation(value = "Get session by id",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get session by id"),
@@ -42,6 +44,17 @@ public class SessionController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id){
     return sessionService.getSessionById(id);
+  }
+
+  // GET By AreaId // Filter for mobile app
+  @ApiOperation(value = "Get session by Area id",  response = SessionDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get session by id"),
+
+  })
+  @GetMapping(value = "/area/{id}")
+  public ResponseEntity<Object> getByAreaId(@PathVariable(value = "id") Long id){
+    return sessionService.getSessionByAreaId(id);
   }
 
   // POST
@@ -70,6 +83,7 @@ public class SessionController {
     return sessionService.updateSession(id, request);
   }
 
+  // DELETE
   @ApiOperation(value = "Delete session",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success delete session"),

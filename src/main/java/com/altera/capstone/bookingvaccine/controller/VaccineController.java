@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/v1/vaccine", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "Vaccine", value = "Vaccine" )
