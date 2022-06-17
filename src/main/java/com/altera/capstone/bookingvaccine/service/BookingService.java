@@ -44,18 +44,18 @@ public class BookingService {
   @Autowired
   private ModelMapper mapper;
 
-  public ResponseEntity<Object> getAllBooking(int page, int size) {
+  public ResponseEntity<Object> getAllBooking() {
     log.info("Executing get all booking.");
     try{
-      Pageable paging = PageRequest.of(page, size);
-      Page<BookingDao> pageResult = bookingRepository.findAll(paging);
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult.toList(), HttpStatus.OK);
-//      List<BookingDao> daoList = bookingRepository.findAll();
-//      List<BookingDtoResponse> list = new ArrayList<>();
-//      for(BookingDao dao : daoList){
-//        list.add(mapper.map(dao, BookingDtoResponse.class));
-//      }
-//      return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
+//      Pageable paging = PageRequest.of(page, size);
+//      Page<BookingDao> pageResult = bookingRepository.findAll(paging);
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult.toList(), HttpStatus.OK);
+      List<BookingDao> daoList = bookingRepository.findAll();
+      List<BookingDtoResponse> list = new ArrayList<>();
+      for(BookingDao dao : daoList){
+        list.add(mapper.map(dao, BookingDtoResponse.class));
+      }
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when get all booking. Error: {}", e.getMessage());
       log.trace("Get error when get all booking. ", e);

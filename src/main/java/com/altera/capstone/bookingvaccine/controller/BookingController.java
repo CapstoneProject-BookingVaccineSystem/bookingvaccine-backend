@@ -28,10 +28,9 @@ public class BookingController {
           @ApiResponse(code = 200, message = "Success get list booking"),
 
   })
-  @GetMapping(value = "/{page}/{size}")
-  public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
-                                       @PathVariable(value = "size") int size) {
-    return bookingService.getAllBooking(page, size);
+  @GetMapping(value = "")
+  public ResponseEntity<Object> getAll() {
+    return bookingService.getAllBooking();
   }
 
   // GET By Id

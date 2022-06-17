@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<BookingDao, Long> {
   // searching with LIKE
-  @Query("SELECT b FROM BookingDao b WHERE b.healthFacilitiesDaoMapped.healthFacilitiesName " +
-          "LIKE %?1% OR s.vaccineMapped.vaccineName LIKE %?2%")
-  List<BookingDao> findNameByLike(String health_facility_name, String vaccine_name);
+//  @Query("SELECT b FROM BookingDao b WHERE b.healthFacilitiesDaoMapped.healthFacilitiesName " +
+//          "LIKE %?1% OR s.vaccineMapped.vaccineName LIKE %?2%")
+//  List<BookingDao> findNameByLike(String health_facility_name, String vaccine_name);
 }
