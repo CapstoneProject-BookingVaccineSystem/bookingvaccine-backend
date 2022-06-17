@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,27 @@ public class SessionService {
     } catch (Exception e) {
       log.error("Happened error when get session by Area id. Error: {}", e.getMessage());
       log.trace("Get error when get session by Area id. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> getFacilityByLike(String search){
+    try {
+      log.info("Execute get data facility");
+      List<SessionDao> sessionDaoList = sessionRepository.findByFacilityLike(search, search);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, sessionDaoList, HttpStatus.OK);
+//      List<SessionDtoResponse> sessionDtoResponses = new ArrayList<>();
+//      for (SessionDao sessionDao : sessionDaoList) {
+//        sessionDaoList.add(SessionDao.builder()
+//                        .healthFacilitiesDaoMapped()
+//                .build());
+//      }
+//      for(SessionDao dao : sessionDaoList){
+//
+//      }
+    } catch (Exception e){
+      log.error("Happened error when get session by id. Error: {}", e.getMessage());
+      log.trace("Get error when get session by id. ", e);
       throw e;
     }
   }

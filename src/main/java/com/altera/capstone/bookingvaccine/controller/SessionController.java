@@ -23,6 +23,7 @@ public class SessionController {
   @Autowired
   private SessionService sessionService;
 
+//  Sort, fulltext search
   // GET All with Pageable
   @ApiOperation(value = "Get all session",  response = SessionDto.class)
   @ApiResponses(value = {
@@ -33,6 +34,10 @@ public class SessionController {
   public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
                                        @PathVariable(value = "size") int size) {
     return sessionService.getAllSession(page, size);
+  }
+  @GetMapping("/search/{search}")
+  public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
+    return sessionService.getFacilityByLike(search);
   }
 
   // GETById
