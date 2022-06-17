@@ -29,9 +29,10 @@ public class SessionController {
           @ApiResponse(code = 200, message = "Success get list session"),
 
   })
-  @GetMapping(value = "")
-  public ResponseEntity<Object> getAll() {
-    return sessionService.getAllSession();
+  @GetMapping(value = "/{page}/{size}")
+  public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
+                                       @PathVariable(value = "size") int size) {
+    return sessionService.getAllSession(page, size);
   }
 
   // GET By Id
@@ -45,7 +46,7 @@ public class SessionController {
     return sessionService.getSessionById(id);
   }
 
-  // GET By Area Id
+  // GET By AreaId // Filter for mobile app
   @ApiOperation(value = "Get session by Area id",  response = SessionDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get session by id"),
