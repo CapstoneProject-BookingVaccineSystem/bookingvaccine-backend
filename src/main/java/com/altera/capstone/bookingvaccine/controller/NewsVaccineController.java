@@ -1,5 +1,7 @@
 package com.altera.capstone.bookingvaccine.controller;
 
+import com.altera.capstone.bookingvaccine.domain.dao.NewsVaccineDao;
+import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,27 @@ public class NewsVaccineController {
     public ResponseEntity<Object> getAllNews(@PathVariable (value = "page")int page,
                                              @PathVariable(value = "size") int size) {
         return newsVaccineService.getAllNewsVaccine(page, size);
+    }
+
+    // GET ALL News Data By Desc
+    @ApiOperation(value = "Get all news vaccine By Desc", response = NewsVaccineDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success get list news vaccine By Desc"),
+    })
+    @GetMapping(value = "/desc")
+    public Iterable<NewsVaccineDao> getAllByDesc() {
+        return newsVaccineService.getAllNewByDesc();
+    }
+
+    // GET By Like
+    @ApiOperation(value = "Get By LIKE News Vaccine",  response = SessionDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success get By LIKE News Vaccine"),
+
+    })
+    @GetMapping("/search/{search}")
+    public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
+        return newsVaccineService.getNewsByLike(search);
     }
 
     @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
