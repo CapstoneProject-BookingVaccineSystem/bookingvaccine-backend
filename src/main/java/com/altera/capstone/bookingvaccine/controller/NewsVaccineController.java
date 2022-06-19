@@ -33,9 +33,10 @@ public class NewsVaccineController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success get list news vaccine"),
     })
-    @GetMapping(value = "")
-    public ResponseEntity<Object> getAllNews() {
-        return newsVaccineService.getAllNewsVaccine();
+    @GetMapping(value = "/{page}/{size}")
+    public ResponseEntity<Object> getAllNews(@PathVariable (value = "page")int page,
+                                             @PathVariable(value = "size") int size) {
+        return newsVaccineService.getAllNewsVaccine(page, size);
     }
 
     @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
