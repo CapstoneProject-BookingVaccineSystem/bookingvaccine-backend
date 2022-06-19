@@ -9,6 +9,9 @@ import java.util.Optional;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,11 +34,12 @@ public class NewsVaccineService {
     @Autowired
     private ModelMapper mapper;
 
-    public ResponseEntity<Object> getAllNewsVaccine() {
+    public ResponseEntity<Object> getAllNewsVaccine(int page, int size) {
         log.info("Executing get all news vaccine");
         try {
-            List<NewsVaccineDao> daoList = newsVaccineRepository.findAll();
-            return ResponseUtil.build(AppConstant.Message.SUCCESS, daoList, HttpStatus.OK);
+            Pageable paging = PageRequest.of(page, size);
+            Page<NewsVaccineDao> pageResult = newsVaccineRepository.findAll(paging);
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Happened error when get all news vaccine. Error: {}", e.getMessage());
             log.trace("Get error when get all news vaccine. ", e);
