@@ -1,12 +1,11 @@
 package com.altera.capstone.bookingvaccine.domain.common;
 
-
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.common.ApiResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-//@SuperBuilder
+// @SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,7 +44,8 @@ public abstract class BaseEntity implements Serializable {
     @PrePersist
     void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (createdBy == null) createdBy = AppConstant.DEFAULT_SYSTEM;
+        if (createdBy == null)
+            createdBy = AppConstant.DEFAULT_SYSTEM;
         this.isDeleted = Boolean.FALSE;
     }
 
@@ -53,6 +53,5 @@ public abstract class BaseEntity implements Serializable {
     void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
 
 }
