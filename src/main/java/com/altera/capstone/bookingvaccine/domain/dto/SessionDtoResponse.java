@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class SessionDtoResponse {
   @ApiModelProperty(notes = "start on session Date", example = "01-01-2001")
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   @JsonFormat(pattern = "dd-MM-yyyy")
-  private Date startDate;
+  private LocalDate startDate;
 
   @DateTimeFormat(pattern = "HH:mm:ss")
   @JsonFormat(pattern = "HH:mm:ss")
