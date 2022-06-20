@@ -45,6 +45,17 @@ public class BookingController {
     return bookingService.getBookingById(id);
   }
 
+  // GET Booking By UserId
+  @ApiOperation(value = "Get booking by User id",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get booking by User id"),
+
+  })
+  @GetMapping(value = "/user/{id}")
+  public ResponseEntity<Object> getBookingByUserId(@PathVariable(value = "id") Long id){
+    return bookingService.getBookingByUserId(id);
+  }
+
   // GET By Like
   @ApiOperation(value = "Get By LIKE name at Booking",  response = BookingDto.class)
   @ApiResponses(value = {

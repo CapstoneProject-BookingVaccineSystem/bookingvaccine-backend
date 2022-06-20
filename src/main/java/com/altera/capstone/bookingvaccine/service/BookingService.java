@@ -92,6 +92,24 @@ public class BookingService {
     }
   }
 
+  // GET Booking By User Id
+  public ResponseEntity<Object> getBookingByUserId(Long id) {
+    log.info("Executing get Booking by user id: {} ", id);
+    try {
+      List<BookingDao> bookingDaoList = bookingRepository.findBookingByUserId(id);
+      if(bookingDaoList.isEmpty()) {
+        log.info("Booking id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Booking not found, please check user_id", HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get Booking by User id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, bookingDaoList, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get Booking by User id. Error: {}", e.getMessage());
+      log.trace("Get error when get Booking by User id. ", e);
+      throw e;
+    }
+  }
+
   public ResponseEntity<Object> addBooking(BookingDto request) {
     log.info("Executing add booking with request: {}", request);
     try{
