@@ -2,6 +2,7 @@ package com.altera.capstone.bookingvaccine.controller;
 
 import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
+import com.altera.capstone.bookingvaccine.domain.dto.UserDto;
 import com.altera.capstone.bookingvaccine.service.FamilyService;
 //import com.altera.capstone.bookingvaccine.service.RestConsumerService;
 import io.swagger.annotations.Api;
@@ -43,6 +44,16 @@ public class FamilyController {
   @GetMapping(value = "/user/{id}")
   public ResponseEntity<Object> getFamilyByUserId(@PathVariable(value = "id") Long id){
     return familyService.getFamilyByUserId(id);
+  }
+
+  // GET By ID
+  @ApiOperation(value = "GET Family by id",  response = FamilyDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get family by id"),
+  })
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<Object> getFamilyById(@PathVariable(value = "id") Long id){
+    return familyService.getFamilyById(id);
   }
 
   // POST Family
