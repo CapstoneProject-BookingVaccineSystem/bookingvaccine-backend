@@ -1,5 +1,6 @@
 package com.altera.capstone.bookingvaccine.domain.dao;
 
+import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +19,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "booking")
-//@SQLDelete(sql = "UPDATE booking SET is_deleted = true WHERE id_booking = ?")
-//@Where(clause = "is_deleted = false")
-public class BookingDao {
+@SQLDelete(sql = "UPDATE booking SET is_deleted = true WHERE id_booking = ?")
+@Where(clause = "is_deleted = false")
+public class BookingDao extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
