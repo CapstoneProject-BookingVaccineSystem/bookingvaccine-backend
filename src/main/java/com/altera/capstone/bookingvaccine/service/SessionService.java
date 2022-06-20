@@ -132,8 +132,8 @@ public class SessionService {
               .vaccineMapped(vaccineDaoOptional.get())
               .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
               .stock(request.getStock())
+              .startDate(request.getStartDate())
               .startTime(request.getStartTime())
-              .endTime(request.getEndTime())
 //              .lastStock(request.getLastStock())
               .build();
       sessionDao = sessionRepository.save(sessionDao);
@@ -146,10 +146,6 @@ public class SessionService {
       throw e;
     }
   }
-
-//  public ResponseEntity<Object> searchSessionByTitle() {}
-//  public ResponseEntity<Object> getSessionByTitle() {}
-//  public ResponseEntity<Object> getSessionByCategoryName() {}
 
   public ResponseEntity<Object> updateSession(Long id, SessionDto request) {
     log.info("Executing update session with request: {}", request);
@@ -172,8 +168,8 @@ public class SessionService {
       sessionDaoOptional.ifPresent(res -> {
         res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
         res.setAreaMapped(areaDaoOptional.get());
+        res.setStartDate(request.getStartDate());
         res.setStartTime(request.getStartTime());
-        res.setEndTime(request.getEndTime());
         res.setStock(request.getStock());
 //        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);
@@ -186,6 +182,7 @@ public class SessionService {
       throw e;
     }
   }
+
   public ResponseEntity<Object> deleteSession(Long id) {
     log.info("Executing delete session id: {}", id);
     try{
