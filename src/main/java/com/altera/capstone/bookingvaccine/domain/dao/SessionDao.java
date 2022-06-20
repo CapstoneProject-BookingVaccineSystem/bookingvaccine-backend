@@ -12,6 +12,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SessionDao extends BaseEntity {
   @Column(name = "start_date", nullable = false)
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   @JsonFormat(pattern = "dd-MM-yyyy")
-  private Date startDate;
+  private LocalDate startDate;
 
   @Column(name = "start_time", nullable = false)
   @DateTimeFormat(pattern = "HH:mm:ss")
