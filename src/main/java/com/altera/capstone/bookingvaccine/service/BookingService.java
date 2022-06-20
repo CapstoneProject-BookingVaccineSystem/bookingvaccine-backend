@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,21 +45,32 @@ public class BookingService {
   @Autowired
   private ModelMapper mapper;
 
-  public ResponseEntity<Object> getAllBooking() {
+  public ResponseEntity<Object> getAllBooking(int page, int size) {
     log.info("Executing get all booking.");
     try{
-//      Pageable paging = PageRequest.of(page, size);
-//      Page<BookingDao> pageResult = bookingRepository.findAll(paging);
-//      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult.toList(), HttpStatus.OK);
-      List<BookingDao> daoList = bookingRepository.findAll();
-      List<BookingDtoResponse> list = new ArrayList<>();
-      for(BookingDao dao : daoList){
-        list.add(mapper.map(dao, BookingDtoResponse.class));
-      }
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
+      Pageable paging = PageRequest.of(page, size, Sort.by("createdAt").descending());
+      Page<BookingDao> pageResult = bookingRepository.findAll(paging);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult, HttpStatus.OK);
+//      List<BookingDao> daoList = bookingRepository.findAll();
+//      List<BookingDtoResponse> list = new ArrayList<>();
+//      for(BookingDao dao : daoList){
+//        list.add(mapper.map(dao, BookingDtoResponse.class));
+//      }
     } catch (Exception e) {
       log.error("Happened error when get all booking. Error: {}", e.getMessage());
       log.trace("Get error when get all booking. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> getNameByLike(String search){
+    log.info("Executing get Name By LIKE");
+    try{
+      List<BookingDao> bookingDaoList = bookingRepository.findNameByLike(search, search, search);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, bookingDaoList, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get Name By LIKE. Error: {}", e.getMessage());
+      log.trace("Get error when get Name By LIKE ", e);
       throw e;
     }
   }
@@ -99,7 +111,7 @@ public class BookingService {
       }
 
       log.info("Get Session by id: {}", request.getIdSession());
-      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(request.getIdFamily());
+      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(request.getIdSession());
       if(sessionDaoOptional.isEmpty()){
         log.info("session [{}] not found", request.getIdSession());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
