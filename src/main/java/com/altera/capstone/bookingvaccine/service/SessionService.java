@@ -7,7 +7,7 @@ import com.altera.capstone.bookingvaccine.domain.dto.SessionDtoResponse;
 import com.altera.capstone.bookingvaccine.repository.*;
 import com.altera.capstone.bookingvaccine.util.FileUploadUtil;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class SessionService {
   @Autowired
   private ModelMapper mapper;
 
-//  @Value("${fgd-api.url}")
+  @Value("${booking-api.url}")
   private String apiUrl;
 
   public ResponseEntity<Object> getAllSession(int page, int size) {
@@ -205,7 +205,7 @@ public class SessionService {
               .startTime(start_time)
               .fileName(fileName)
               .size(size)
-              .image("images/" + filecode)
+              .image(apiUrl + "/images/" + filecode)
 //              .lastStock(request.getLastStock())
               .build();
       sessionDao = sessionRepository.save(sessionDao);
