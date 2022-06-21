@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
+import com.altera.capstone.bookingvaccine.domain.dao.SessionDao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,19 +36,19 @@ public class NewsVaccineService {
     @Autowired
     private ModelMapper mapper;
 
-    public ResponseEntity<Object> getAllNewsVaccine() {
-        log.info("Executing get all news vaccine");
+    // GET ALL DATA NEW BY DESC (for Mobile App)
+    public List<NewsVaccineDao> getAllNewByDesc(){
+        log.info("Executing get all news vaccine By Desc");
         try {
-            List<NewsVaccineDao> daoList = newsVaccineRepository.findAll();
-            return ResponseUtil.build(AppConstant.Message.SUCCESS, daoList, HttpStatus.OK);
+            return (List<NewsVaccineDao>) newsVaccineRepository.findAll(Sort.by(Sort.Order.desc("createdAt")));
         } catch (Exception e) {
             log.error("Happened error when get all news vaccine. Error: {}", e.getMessage());
             log.trace("Get error when get all news vaccine. ", e);
             throw e;
         }
-
     }
 
+    // GET ALL DATA ById
     public ResponseEntity<Object> getNewsVaccineById(Long id) {
         log.info("Executing get news vaccine by id: {} ", id);
         try {
@@ -57,6 +62,33 @@ public class NewsVaccineService {
         } catch (Exception e) {
             log.error("Happened error when get news vaccine by id. Error: {}", e.getMessage());
             log.trace("Get error when get news vaccine by id. ", e);
+            throw e;
+        }
+    }
+
+    // GET ALL DATA NEWS for ADMIN
+    public ResponseEntity<Object> getAllNewsVaccine(int page, int size) {
+        log.info("Executing get all news vaccine");
+        try {
+            Pageable paging = PageRequest.of(page, size);
+            Page<NewsVaccineDao> pageResult = newsVaccineRepository.findAll(paging);
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Happened error when get all news vaccine. Error: {}", e.getMessage());
+            log.trace("Get error when get all news vaccine. ", e);
+            throw e;
+        }
+
+    }
+
+    public ResponseEntity<Object> getNewsByLike(String search){
+        try {
+            log.info("Execute get data news");
+            List<NewsVaccineDao> newsVaccineDaoList = newsVaccineRepository.findTitleNewsByLike(search);
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, newsVaccineDaoList, HttpStatus.OK);
+        } catch (Exception e){
+            log.error("Happened error when get news by like. Error: {}", e.getMessage());
+            log.trace("Get error when get news by like. ", e);
             throw e;
         }
     }

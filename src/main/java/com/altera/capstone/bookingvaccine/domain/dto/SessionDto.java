@@ -11,7 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -27,15 +29,20 @@ public class SessionDto {
   @ApiModelProperty(notes = "input existing stock", example = "100")
   private Integer stock;
 
+  @ApiModelProperty(notes = "start on session Date", example = "01-01-2001")
+  @DateTimeFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate startDate;
+
   @ApiModelProperty(notes = "start on session", example = "08.00")
   @DateTimeFormat(pattern = "HH:mm:ss")
   @JsonFormat(pattern = "HH:mm:ss")
   private LocalTime startTime;
 
-  @ApiModelProperty(notes = "session ended", example = "10.00")
-  @DateTimeFormat(pattern = "HH:mm:ss")
-  @JsonFormat(pattern = "HH:mm:ss")
-  private LocalTime endTime;
+//  @ApiModelProperty(notes = "session ended", example = "10.00")
+//  @DateTimeFormat(pattern = "HH:mm:ss")
+//  @JsonFormat(pattern = "HH:mm:ss")
+//  private LocalTime endTime;
 
 //  @ApiModelProperty(notes = "remaining vaccine stock", example = "50")
 //  private Integer lastStock;

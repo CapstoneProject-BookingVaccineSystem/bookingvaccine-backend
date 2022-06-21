@@ -2,6 +2,8 @@ package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.FamilyDao;
+import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
+import com.altera.capstone.bookingvaccine.domain.dao.SessionDao;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
 import com.altera.capstone.bookingvaccine.domain.dto.FamilyDtoResponse;
@@ -32,6 +34,24 @@ public class FamilyService {
   @Autowired
   private ModelMapper mapper;
 
+  // for admin at feature manage member (family)
+  public ResponseEntity<Object> getFamilyByUserId(Long id) {
+    log.info("Executing get Family by user id: {} ", id);
+    try {
+      List<FamilyDao> familyDaoList = familyRepository.findFamilyByUserId(id);
+      if(familyDaoList.isEmpty()) {
+        log.info("Family id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Family not found, please check user_id", HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get Family by User id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, familyDaoList, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get Family by User id. Error: {}", e.getMessage());
+      log.trace("Get error when get Family by User id. ", e);
+      throw e;
+    }
+  }
+
   public ResponseEntity<Object> getAllFamily(){
     log.info("Executing get All Family");
     try {
@@ -54,6 +74,24 @@ public class FamilyService {
     }catch (Exception e){
       log.error("Happened error when get all book. Error: {}", e.getMessage());
       log.trace("Get error when get all book. ", e);
+      throw e;
+    }
+  }
+
+  // GET Family By Id
+  public ResponseEntity<Object> getFamilyById(Long id) {
+    log.info("Executing get family by id: {} ", id);
+    try {
+      Optional<FamilyDao> familyDao = familyRepository.findById(id);
+      if (familyDao.isEmpty()) {
+        log.info("family id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "ID FAMILY NOT FOUND !", HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get family by id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, familyDao, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get family by id. Error: {}", e.getMessage());
+      log.trace("Get error when get family by id. ", e);
       throw e;
     }
   }

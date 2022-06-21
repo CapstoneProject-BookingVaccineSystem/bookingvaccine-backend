@@ -22,15 +22,15 @@ public class BookingController {
   @Autowired
   private BookingService bookingService;
 
-  // GET All and pagination
+  // GET All base on pagination and orderBy desc
   @ApiOperation(value = "Get all booking",  response = BookingDto.class)
   @ApiResponses(value = {
           @ApiResponse(code = 200, message = "Success get list booking"),
 
   })
-  @GetMapping(value = "/{page}/{size}")
-  public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
-                                       @PathVariable(value = "size") int size) {
+  @GetMapping(value = "")
+  public ResponseEntity<Object> getAll(@RequestParam(value = "page") int page,
+                                       @RequestParam(value = "size")int size) {
     return bookingService.getAllBooking(page, size);
   }
 
@@ -43,6 +43,28 @@ public class BookingController {
   @GetMapping(value = "/{id}")
   public ResponseEntity<Object> getById(@PathVariable(value = "id") Long id){
     return bookingService.getBookingById(id);
+  }
+
+  // GET Booking By UserId
+  @ApiOperation(value = "Get booking by User id",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get booking by User id"),
+
+  })
+  @GetMapping(value = "/user/{id}")
+  public ResponseEntity<Object> getBookingByUserId(@PathVariable(value = "id") Long id){
+    return bookingService.getBookingByUserId(id);
+  }
+
+  // GET By Like
+  @ApiOperation(value = "Get By LIKE name at Booking",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success Get By LIKE name at Booking"),
+
+  })
+  @GetMapping("/search/{search}")
+  public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
+    return bookingService.getNameByLike(search);
   }
 
   // POST

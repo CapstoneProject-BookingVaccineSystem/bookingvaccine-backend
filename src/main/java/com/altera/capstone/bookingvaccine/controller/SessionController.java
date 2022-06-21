@@ -35,6 +35,13 @@ public class SessionController {
                                        @PathVariable(value = "size") int size) {
     return sessionService.getAllSession(page, size);
   }
+
+  // GET By Like
+  @ApiOperation(value = "Get By LIKE facility OR vaccine",  response = SessionDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get By LIKE facility OR vaccine"),
+
+  })
   @GetMapping("/search/{search}")
   public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
     return sessionService.getFacilityByLike(search);
