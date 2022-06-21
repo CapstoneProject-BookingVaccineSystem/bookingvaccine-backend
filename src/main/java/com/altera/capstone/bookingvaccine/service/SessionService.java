@@ -66,6 +66,18 @@ public class SessionService {
     }
   }
 
+  public ResponseEntity<Object> getAll() {
+    log.info("Executing get all session.");
+    try{
+      List<SessionDao> sessionDaoList = (List<SessionDao>) sessionRepository.findAll();
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, sessionDaoList, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get all session. Error: {}", e.getMessage());
+      log.trace("Get error when get all session. ", e);
+      throw e;
+    }
+  }
+
   // Filter for mobile app
   public ResponseEntity<Object> getSessionByAreaId(Long id) {
     log.info("Executing get session by area id: {} ", id);
