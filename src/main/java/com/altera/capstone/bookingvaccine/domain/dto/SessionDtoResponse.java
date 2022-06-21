@@ -34,13 +34,15 @@ public class SessionDtoResponse {
   private Integer stock;
 
   @ApiModelProperty(notes = "start on session Date", example = "01-01-2001")
-  @DateTimeFormat(pattern = "dd-MM-yyyy")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
   @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate startDate;
 
-  @DateTimeFormat(pattern = "HH:mm:ss")
+  @ApiModelProperty(notes = "start on session", example = "08:00:00")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss")
   @JsonFormat(pattern = "HH:mm:ss")
   private LocalTime startTime;
+
 
 //  @DateTimeFormat(pattern = "HH:mm:ss")
 //  @JsonFormat(pattern = "HH:mm:ss")

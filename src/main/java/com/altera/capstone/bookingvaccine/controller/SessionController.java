@@ -8,11 +8,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -76,12 +80,17 @@ public class SessionController {
 
   })
   @PostMapping(value = "")
-  public ResponseEntity<Object> addSession(@RequestBody SessionDto request) {
-    try{
-      return sessionService.addSession(request);
-    } catch (Exception e) {
-      throw e;
-    }
+  public ResponseEntity<Object> addSession(@RequestParam(value = "vaccine_id") Long vaccine_id,
+                                           @RequestParam(value = "area_id") Long area_id,
+                                           @RequestParam(value = "health_facilities_id") Long health_facilities_id,
+                                           @RequestParam(value = "stock") Integer stock,
+                                           @RequestParam(value = "start_date")
+                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")  LocalDate start_date,
+                                           @RequestParam(value = "start_time")
+                                             @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime start_time,
+                                           @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+
+    return sessionService.addSessionWithPhoto(vaccine_id, area_id, health_facilities_id, stock, start_date, start_time, multipartFile);
   }
 
   // PUT
