@@ -38,8 +38,8 @@ public class SessionDtoResponse {
   @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate startDate;
 
-  @DateTimeFormat(pattern = "HH:mm:ss")
-  @JsonFormat(pattern = "HH:mm:ss")
+  @DateTimeFormat(pattern = "HH:mm")
+  @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
 //  @DateTimeFormat(pattern = "HH:mm:ss")
