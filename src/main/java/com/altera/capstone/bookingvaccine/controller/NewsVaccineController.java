@@ -5,14 +5,7 @@ import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.altera.capstone.bookingvaccine.domain.dto.NewsVaccineDto;
 import com.altera.capstone.bookingvaccine.service.NewsVaccineService;
@@ -21,6 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/v1/news", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,6 +58,7 @@ public class NewsVaccineController {
         return newsVaccineService.getNewsByLike(search);
     }
 
+    // GET ById
     @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success get news vaccine by id"),
@@ -71,13 +68,27 @@ public class NewsVaccineController {
         return newsVaccineService.getNewsVaccineById(id);
     }
 
-    @ApiOperation(value = "Add new news vaccine", response = NewsVaccineDto.class)
+    // POST News
+//    @ApiOperation(value = "Add new news vaccine", response = NewsVaccineDto.class)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Success add new news vaccine"),
+//    })
+//    @PostMapping(value = "")
+//    public ResponseEntity<Object> addNews(@RequestBody NewsVaccineDto request) {
+//        return newsVaccineService.addNewsVaccine(request);
+//    }
+
+    // POST News With Photo
+    @ApiOperation(value = "Add new news vaccine with photo", response = NewsVaccineDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success add new news vaccine"),
     })
     @PostMapping(value = "")
-    public ResponseEntity<Object> addNews(@RequestBody NewsVaccineDto request) {
-        return newsVaccineService.addNewsVaccine(request);
+    public ResponseEntity<Object> addNewsWithPhoto(@RequestParam(value = "titleNewsVaccine") String titleNewsVaccine,
+                                                   @RequestParam(value = "authorNewsVaccine")String authorNewsVaccine,
+                                                   @RequestParam(value = "contentNewsVaccine")String contentNewsVaccine,
+                                                   @RequestParam(value = "file", required = false)MultipartFile multipartFile) throws IOException {
+        return newsVaccineService.addNewsWithPhoto(titleNewsVaccine, authorNewsVaccine, contentNewsVaccine, multipartFile );
     }
 
     // PUT
@@ -87,7 +98,8 @@ public class NewsVaccineController {
     })
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateNews(@PathVariable(value = "id") Long id,
-            @RequestBody NewsVaccineDto request) {
+                                             @RequestBody NewsVaccineDto request,
+                                             @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
         return newsVaccineService.updateNewsVaccine(id, request);
     }
 

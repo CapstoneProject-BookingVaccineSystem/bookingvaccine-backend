@@ -1,15 +1,20 @@
 package com.altera.capstone.bookingvaccine.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.SessionDao;
+import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
+import com.altera.capstone.bookingvaccine.util.FileUploadUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +30,8 @@ import com.altera.capstone.bookingvaccine.repository.NewsVaccineRepository;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -35,6 +42,9 @@ public class NewsVaccineService {
 
     @Autowired
     private ModelMapper mapper;
+
+    @Value("${booking-api.url}")
+    private String apiUrl;
 
     // GET ALL DATA NEW BY DESC (for Mobile App)
     public List<NewsVaccineDao> getAllNewByDesc(){
@@ -109,7 +119,46 @@ public class NewsVaccineService {
         }
     }
 
-    public ResponseEntity<Object> updateNewsVaccine(Long id, NewsVaccineDto request) {
+    public ResponseEntity<Object> addNewsWithPhoto(String titleNewsVaccine,
+                                                   String authorNewsVaccine,
+                                                   String contentNewsVaccine,
+                                                   MultipartFile multipartFile) throws IOException {
+        log.info("Executing add news & photo with request: {}");
+        try {
+            if(multipartFile == null){
+                NewsVaccineDao newsVaccineDao = NewsVaccineDao.builder()
+                        .titleNewsVaccine(titleNewsVaccine)
+                        .authorNewsVaccine(authorNewsVaccine)
+                        .contentNewsVaccine(contentNewsVaccine)
+                        .build();
+                newsVaccineDao = newsVaccineRepository.save(newsVaccineDao);
+                log.info("Executing add news without photo success");
+                return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
+            }
+
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            long size = multipartFile.getSize();
+            String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
+
+            NewsVaccineDao newsVaccineDao = NewsVaccineDao.builder()
+                    .titleNewsVaccine(titleNewsVaccine)
+                    .authorNewsVaccine(authorNewsVaccine)
+                    .contentNewsVaccine(contentNewsVaccine)
+                    .fileName(fileName)
+                    .size(size)
+                    .image(apiUrl + "/images/" + filecode)
+                    .build();
+            newsVaccineDao = newsVaccineRepository.save(newsVaccineDao);
+            log.info("Executing add news with photo success");
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
+        } catch (Exception e){
+            log.error("Happened error when add news with photo. Error: {}", e.getMessage());
+            log.trace("Get error when add news with photo. ", e);
+            throw e;
+        }
+    }
+
+    public ResponseEntity<Object> updateNewsVaccine(Long id, NewsVaccineDto request) throws IOException {
         log.info("Executing update news vaccine with request: {}", request);
         try {
             Optional<NewsVaccineDao> newsVaccineDao = newsVaccineRepository.findById(id);
@@ -117,14 +166,14 @@ public class NewsVaccineService {
                 log.info("news vaccine {} not found", id);
                 return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
             }
+
             newsVaccineDao.ifPresent(res -> {
                 res.setTitleNewsVaccine(request.getTitleNewsVaccine());
                 res.setAuthorNewsVaccine(request.getAuthorNewsVaccine());
                 res.setContentNewsVaccine(request.getContentNewsVaccine());
-                res.setImageNewsVaccine(request.getImageNewsVaccine());
-                // res.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
                 newsVaccineRepository.save(res);
             });
+
             log.info("Executing update news vaccine success");
             return ResponseUtil.build(AppConstant.Message.SUCCESS,
                     mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
