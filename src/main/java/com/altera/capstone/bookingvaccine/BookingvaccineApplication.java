@@ -19,6 +19,7 @@ public class BookingvaccineApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("**").allowedOrigins("**");
+				registry.addMapping("/v1/news/**").allowedOrigins("**");
 			}
 		};
 	}
