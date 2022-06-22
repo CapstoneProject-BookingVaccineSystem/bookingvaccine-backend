@@ -35,13 +35,13 @@ public class SessionDao extends BaseEntity {
   private Integer stock;
 
   @Column(name = "start_date", nullable = false)
-  @DateTimeFormat(pattern = "dd-MM-yyyy")
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate startDate;
 
   @Column(name = "start_time", nullable = false)
-  @DateTimeFormat(pattern = "HH:mm:ss")
-  @JsonFormat(pattern = "HH:mm:ss")
+  @DateTimeFormat(pattern = "HH:mm")
+  @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
 //  @Column(name = "end_time", nullable = false)
