@@ -17,7 +17,7 @@ public interface FamilyRepository extends JpaRepository<FamilyDao, Long> {
 //  @Query(value = "SELECT b FROM FamilyDao b WHERE upper(b.fullName) LIKE UPPER(CONCAT('%', :fullName, '%') ) ")
 //  List<FamilyDao> findAllByFullName(@Param("fullName") String fullName);
 
-  @Query(value = "SELECT * FROM family f WHERE f.user_id = :user_id", nativeQuery = true)
+  @Query(value = "SELECT * FROM family f WHERE f.user_id = :user_id AND is_deleted = false", nativeQuery = true)
   List<FamilyDao> findFamilyByUserId(@PathVariable("user_id")Long user_id);
 
 }

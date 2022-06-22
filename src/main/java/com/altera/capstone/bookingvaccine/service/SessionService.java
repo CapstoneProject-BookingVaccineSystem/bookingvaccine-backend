@@ -251,9 +251,14 @@ public class SessionService {
       }
       sessionDaoOptional.ifPresent(res -> {
         res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
+<<<<<<< HEAD
         res.setAreaMapped(areaDaoOptional.get());
 //        res.setStartDate(request.getStartDate());
 //        res.setStartTime(request.getStartTime());
+=======
+        res.setStartDate(request.getStartDate());
+        res.setStartTime(request.getStartTime());
+>>>>>>> 7ad1cac62cb6c737b4971cd469ff5cec2f416248
         res.setStock(request.getStock());
 //        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);

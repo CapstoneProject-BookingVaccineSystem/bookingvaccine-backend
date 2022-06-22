@@ -36,8 +36,8 @@ public class SessionDto {
   private LocalDate startDate;
 
   @ApiModelProperty(notes = "start on session", example = "08.00")
-  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss")
-  @JsonFormat(pattern = "HH:mm:ss")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")
+  @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
   @ApiModelProperty(notes = "response after success upload", example = "images/random string")

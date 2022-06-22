@@ -41,7 +41,7 @@ public class FamilyService {
       List<FamilyDao> familyDaoList = familyRepository.findFamilyByUserId(id);
       if(familyDaoList.isEmpty()) {
         log.info("Family id: {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Family not found, please check user_id", HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Family not found", HttpStatus.BAD_REQUEST);
       }
       log.info("Executing get Family by User id success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, familyDaoList, HttpStatus.OK);

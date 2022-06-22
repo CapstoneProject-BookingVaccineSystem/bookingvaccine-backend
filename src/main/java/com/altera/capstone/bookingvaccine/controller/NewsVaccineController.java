@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/v1/news", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "NewsVaccine", value = "NewsVaccine")
 public class NewsVaccineController {

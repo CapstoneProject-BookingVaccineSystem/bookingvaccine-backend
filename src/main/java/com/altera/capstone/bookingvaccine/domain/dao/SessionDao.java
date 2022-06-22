@@ -41,8 +41,8 @@ public class SessionDao extends BaseEntity {
   private LocalDate startDate;
 
   @Column(name = "start_time", nullable = false)
-  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss")
-  @JsonFormat(pattern = "HH:mm:ss")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm")
+  @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
   @Column(name = "image_url")
