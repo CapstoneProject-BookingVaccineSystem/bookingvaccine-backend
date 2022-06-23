@@ -200,11 +200,11 @@ public class SessionService {
       Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
       if(sessionDaoOptional.isEmpty()) {
         log.info("session {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Session not found !", HttpStatus.BAD_REQUEST);
       }
       sessionRepository.deleteById(id);
       log.info("Executing delete session success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, null, HttpStatus.OK);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, "Session deleted !", HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when delete session. Error: {}", e.getMessage());
       log.trace("Get error when delete session. ", e);
