@@ -11,15 +11,19 @@ import java.util.Optional;
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.SessionDao;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
+import com.altera.capstone.bookingvaccine.util.FileDownloadUtil;
 import com.altera.capstone.bookingvaccine.util.FileUploadUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -156,6 +160,27 @@ public class NewsVaccineService {
             log.trace("Get error when add news with photo. ", e);
             throw e;
         }
+    }
+
+    public ResponseEntity<Object> downloadPhotoNews(String fileCode){
+        FileDownloadUtil downloadUtil = new FileDownloadUtil();
+
+        Resource resource = null;
+        try {
+            resource = downloadUtil.getFileAsResource(fileCode);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+        if (resource == null) {
+            return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
+        }
+
+        String contentType = "application/octet-stream";
+        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                .body(resource);
     }
 
     public ResponseEntity<Object> updateNewsVaccine(Long id, NewsVaccineDto request) throws IOException {

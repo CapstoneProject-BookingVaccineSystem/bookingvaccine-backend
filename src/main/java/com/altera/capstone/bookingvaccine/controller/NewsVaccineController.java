@@ -114,4 +114,14 @@ public class NewsVaccineController {
         return newsVaccineService.deleteNewsVaccine(id);
     }
 
+    // Download
+    @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success get news vaccine by id"),
+    })
+    @GetMapping(value = "/downloadNewsImage/{filecode}")
+    public ResponseEntity<Object> getNewsImage(@PathVariable(value ="filecode") String filecode) {
+        return newsVaccineService.downloadPhotoNews(filecode);
+    }
+
 }
