@@ -5,14 +5,7 @@ import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.altera.capstone.bookingvaccine.domain.dto.NewsVaccineDto;
 import com.altera.capstone.bookingvaccine.service.NewsVaccineService;
@@ -23,6 +16,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/v1/news", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "NewsVaccine", value = "NewsVaccine")
 public class NewsVaccineController {

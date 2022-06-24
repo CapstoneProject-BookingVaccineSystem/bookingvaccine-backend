@@ -48,50 +48,6 @@ public class UserService {
   @Autowired
   private ModelMapper mapper;
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        UserDao user = userRepository.getDistinctTopByUsername(username);
-//        if(user == null)
-//            throw new UsernameNotFoundException("Username not found");
-//
-//        return user;
-//    }
-
-//  public UserDao register(UsernamePassword req){
-//    UserDao user = new UserDao();
-//    if(req.getRoles() == null){
-//      req.setRoles("USER");
-//    }
-//    user.setUsername(req.getUsername());
-////        user.setPassword(passwordEncoder.encode(req.getPassword()));
-//    user.setPassword((req.getPassword()));
-//    user.setFirstName(req.getFirstName());
-//    user.setLastName(req.getLastName());
-//    user.setBirthDate(req.getBirthDate());
-//    user.setGender(req.getGender());
-//    user.setEmail(req.getEmail());
-//    user.setNoHandphone(req.getNoHandphone());
-//    user.setRoles(req.getRoles());
-//    return userRepository.save(user);
-//  }
-
-//  public ResponseEntity<Object> getFamilyByUserId(Long id_user) {
-//    log.info("Executing get Family by user by id: {} ", id_user);
-//    try {
-//      List<FamilyDao>  familyDaoList = userRepository.findFamilyByUserId(id_user);
-//      if(familyDaoList.isEmpty()) {
-//        log.info("Family by user by id: {} not found", id_user);
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
-//      log.info("Executing get Family by user by id success");
-//      return ResponseUtil.build(AppConstant.Message.SUCCESS, familyDaoList, HttpStatus.OK);
-//    } catch (Exception e) {
-//      log.error("Happened error when get Family by user by id. Error: {}", e.getMessage());
-//      log.trace("Get error when get Family by user by id. ", e);
-//      throw e;
-//    }
-//  }
-
   public ResponseEntity<Object> addUserAdmin(UserDto request) {
     log.info("Executing add user admin with request: {}", request);
     try{
@@ -153,16 +109,6 @@ public class UserService {
       throw e;   }
   }
 
-//  public UserDao store(MultipartFile file)throws IOException{
-//    String imageData = StringUtils.cleanPath(file.getOriginalFilename());
-//    UserDao fileDB = new UserDao(imageData, file.getContentType(), file.getBytes());
-//    return userRepository.save(fileDB);
-//  }
-
-//  public UserDao getFileByIdUser(Long id){
-//    return userRepository.findById(id).get();
-//  }
-
   public ResponseEntity<Object> getUserById(Long id_user) {
     log.info("Executing get user by id: {} ", id_user);
     try {
@@ -176,6 +122,19 @@ public class UserService {
     } catch (Exception e) {
       log.error("Happened error when get user by id. Error: {}", e.getMessage());
       log.trace("Get error when get user by id. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> getUserByRoles(String roles){
+    log.info("Executing get user by roles admin: {} ", roles);
+    try {
+      List<UserDao> userDao = userRepository.findByRoles(roles);
+      log.info("Executing get user by roles admin success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, userDao, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get user by roles admin. Error: {}", e.getMessage());
+      log.trace("Get error when get user by roles admin. ", e);
       throw e;
     }
   }

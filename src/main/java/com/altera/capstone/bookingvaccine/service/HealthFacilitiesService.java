@@ -47,13 +47,31 @@ public class HealthFacilitiesService {
       List<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findFacilityByUserId(id);
       if(healthFacilitiesDao.isEmpty()) {
         log.info("Facility id: {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "facility not found, please check user_id", HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "facility not found", HttpStatus.BAD_REQUEST);
       }
       log.info("Executing get Facility by User id success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, healthFacilitiesDao, HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when get Facility by User id. Error: {}", e.getMessage());
       log.trace("Get error when get Facility by User id. ", e);
+      throw e;
+    }
+  }
+
+  // for admin get facility by category
+  public ResponseEntity<Object> getFacilityByCategoryId(Long id) {
+    log.info("Executing get Facility by category id: {} ", id);
+    try {
+      List<HealthFacilitiesDao> healthFacilitiesDao = healthFacilitesRepository.findFacilityByCategory(id);
+      if(healthFacilitiesDao.isEmpty()) {
+        log.info("Facility id: {} not found", id);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Facility not found", HttpStatus.BAD_REQUEST);
+      }
+      log.info("Executing get Facility by Category id success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, healthFacilitiesDao, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get Facility by Category id. Error: {}", e.getMessage());
+      log.trace("Get error when get Facility by Category id. ", e);
       throw e;
     }
   }

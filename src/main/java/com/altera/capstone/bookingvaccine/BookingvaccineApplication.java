@@ -13,14 +13,14 @@ public class BookingvaccineApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BookingvaccineApplication.class, args);
 	}
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurerAdapter() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("**").allowedOrigins("**");
-//			}
-//		};
-//	}
-
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/v1/**").allowedOrigins("**");
+//				registry.addMapping("/v1/news/**").allowedOrigins("**");
+			}
+		};
+	}
 }

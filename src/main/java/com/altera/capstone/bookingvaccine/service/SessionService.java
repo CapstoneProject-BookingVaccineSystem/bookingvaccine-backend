@@ -54,6 +54,18 @@ public class SessionService {
     }
   }
 
+  public ResponseEntity<Object> getAll() {
+    log.info("Executing get all session.");
+    try{
+      List<SessionDao> sessionDaoList = (List<SessionDao>) sessionRepository.findAll();
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, sessionDaoList, HttpStatus.OK);
+    } catch (Exception e) {
+      log.error("Happened error when get all session. Error: {}", e.getMessage());
+      log.trace("Get error when get all session. ", e);
+      throw e;
+    }
+  }
+
   // Filter for mobile app
   public ResponseEntity<Object> getSessionByAreaId(Long id) {
     log.info("Executing get session by area id: {} ", id);
@@ -167,7 +179,6 @@ public class SessionService {
       }
       sessionDaoOptional.ifPresent(res -> {
         res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
-        res.setAreaMapped(areaDaoOptional.get());
         res.setStartDate(request.getStartDate());
         res.setStartTime(request.getStartTime());
         res.setStock(request.getStock());
@@ -189,11 +200,11 @@ public class SessionService {
       Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
       if(sessionDaoOptional.isEmpty()) {
         log.info("session {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Session not found !", HttpStatus.BAD_REQUEST);
       }
       sessionRepository.deleteById(id);
       log.info("Executing delete session success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, null, HttpStatus.OK);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, "Session deleted !", HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when delete session. Error: {}", e.getMessage());
       log.trace("Get error when delete session. ", e);

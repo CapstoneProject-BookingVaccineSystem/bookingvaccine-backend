@@ -1,5 +1,6 @@
 package com.altera.capstone.bookingvaccine.controller;
 
+import com.altera.capstone.bookingvaccine.domain.dto.AreaDto;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import com.altera.capstone.bookingvaccine.service.SessionService;
 import io.swagger.annotations.Api;
@@ -34,6 +35,16 @@ public class SessionController {
   public ResponseEntity<Object> getAll(@PathVariable(value = "page") int page,
                                        @PathVariable(value = "size") int size) {
     return sessionService.getAllSession(page, size);
+  }
+
+  // GET ALL
+  @ApiOperation(value = "Get all Session",  response = AreaDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get list Session"),
+  })
+  @GetMapping(value = "")
+  public ResponseEntity<Object> getAll() {
+    return sessionService.getAll();
   }
 
   // GET By Like
