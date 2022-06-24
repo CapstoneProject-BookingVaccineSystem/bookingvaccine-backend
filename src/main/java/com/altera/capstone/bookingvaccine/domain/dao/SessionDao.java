@@ -44,17 +44,6 @@ public class SessionDao extends BaseEntity {
   @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
-//  @Column(name = "end_time", nullable = false)
-//  @JsonFormat(pattern = "HH:mm:ss")
-//  private LocalTime endTime;
-
-//  @Column(name = "last_stock", nullable = false)
-//  private Integer lastStock;
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "user_id")
-//  private UserDao userDaoMapped;
-
   @ManyToOne
   @JoinColumn(name = "area_id")
   private AreaDao areaMapped;
