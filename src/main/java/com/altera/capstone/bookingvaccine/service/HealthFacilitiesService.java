@@ -119,20 +119,20 @@ public class HealthFacilitiesService {
       Optional<AreaDao> areaDaoOptional = areaRepository.findById(request.getIdArea());
       if (areaDaoOptional.isEmpty()) {
         log.info("Area [{}] not found", request.getIdArea());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please, Make Sure Id Area", HttpStatus.BAD_REQUEST);
       }
       log.info("Get category facility by id: {}", request.getIdCategoryFacilities());
       Optional<CategoryFacilitiesDao> categoryFacilitiesDaoOptional = categoryFacilitiesRepository.findById(request.getIdCategoryFacilities());
       if (categoryFacilitiesDaoOptional.isEmpty()) {
         log.info("Category Facility [{}] not found", request.getIdCategoryFacilities());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please, Make Sure Id Category Facility", HttpStatus.BAD_REQUEST);
       }
 
       log.info("Get user by id: {}", request.getIdUser());
       Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
       if (userDaoOptional.isEmpty()) {
         log.info("User [{}] not found", request.getIdUser());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please, Make Sure Id User", HttpStatus.BAD_REQUEST);
       }
 
       HealthFacilitiesDao healthFacilitiesDao = mapper.map(request, HealthFacilitiesDao.class);

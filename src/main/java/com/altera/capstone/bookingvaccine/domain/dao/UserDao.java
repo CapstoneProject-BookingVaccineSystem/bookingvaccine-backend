@@ -38,10 +38,10 @@ public class UserDao extends BaseEntity{
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id_user;
 
-  @Column(name = "username", nullable = true, unique = true)
+  @Column(name = "username", nullable = false, unique = true)
   private String username;
 
-  @Column(name = "password", nullable = true)
+  @Column(name = "password", nullable = false)
   private String password;
 
   @Column(name = "first_name")
