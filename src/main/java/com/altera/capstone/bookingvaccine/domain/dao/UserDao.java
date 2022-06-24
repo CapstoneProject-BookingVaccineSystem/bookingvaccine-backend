@@ -66,62 +66,6 @@ public class UserDao extends BaseEntity{
   @Column(name = "roles")
   private String roles;
 
-//    @Column(nullable = true, length = 64)
-//    private String photos;
-
-//  @Column(name = "image_name")
-//  private String imageName;
-//  @Column(name = "image_type")
-//  private String imageType;
-  @Column(name = "image_profile", unique = false, nullable = true, length = 100000)
-  @Lob
-  private byte[] imageProfile;
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-//        list.add(new SimpleGrantedAuthority(roles));
-//        return list;
-//    }
-
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return this.active;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return this.active;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return this.active;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return this.active;
-//    }
-
-//  public UserDao(String imageName, String imageType, byte[] imageProfile) {
-//  }
-
-//  @OneToOne(mappedBy = "userMapped")
-//  private HealthFacilitiesDao healthFacilitiesDao;
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "id_health_facilities")
-//  private HealthFacilitiesDao healthFacilitiesMapped;
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "id_session")
-//  private SessionDao sessionDaoMapped;
-
-//  @ManyToOne
-//  @JoinColumn(name = "health_facilities_id")
-//  private HealthFacilitiesDao healthFacilitiesMapped;
-
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<FamilyDao> familyDaoList;

@@ -25,7 +25,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SessionDtoResponse {
 
@@ -41,12 +40,6 @@ public class SessionDtoResponse {
   @DateTimeFormat(pattern = "HH:mm")
   @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
-
-//  @DateTimeFormat(pattern = "HH:mm:ss")
-//  @JsonFormat(pattern = "HH:mm:ss")
-//  private LocalTime endTime;
-
-//  private Integer lastStock;
 
   private AreaDao areaDao;
 

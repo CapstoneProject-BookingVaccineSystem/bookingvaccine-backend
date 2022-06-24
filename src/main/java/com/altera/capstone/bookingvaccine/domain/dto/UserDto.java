@@ -22,7 +22,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 //implements Serializable
 public class UserDto implements Serializable{
@@ -57,14 +56,4 @@ public class UserDto implements Serializable{
 
   @ApiModelProperty(notes = "Role", example = "USER or Admin")
   private String roles;
-
-
-//  private String imageName;
-//  private String imageType;
-  private String imageProfile;
-
-//  @ApiModelProperty(notes = "familyId", example = "1")
-//  private Long id_family;
-
-//  private Long idHealthFacilities;
 }
