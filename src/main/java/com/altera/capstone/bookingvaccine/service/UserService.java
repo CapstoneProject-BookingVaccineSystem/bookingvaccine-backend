@@ -209,6 +209,7 @@ public class UserService {
         res.setPassword(request.getPassword());
         res.setFirstName(request.getFirstName());
         res.setLastName(request.getLastName());
+        res.setGender(request.getGender());
         res.setBirthDate(request.getBirthDate());
         res.setEmail(request.getEmail());
         res.setNoPhone(request.getNoPhone());
