@@ -80,13 +80,13 @@ public class HealthFacilitiesController {
   }
 
   // DELETE Family By Id
-  @ApiOperation(value = "Delete health facility",  response = HealthFaciltiesDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete health facility"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteFamily(@PathVariable(value = "id") Long id) {
-    return healthFacilitiesService.deleteHealthFacility(id);
-  }
+//  @ApiOperation(value = "Delete health facility",  response = HealthFaciltiesDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete health facility"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteFamily(@PathVariable(value = "id") Long id) {
+//    return healthFacilitiesService.deleteHealthFacility(id);
+//  }
 
 }

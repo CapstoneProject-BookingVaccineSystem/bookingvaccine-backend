@@ -122,13 +122,13 @@ public class UserController {
   }
 
   // DELETE User By Id
-  @ApiOperation(value = "Delete user",  response = UserDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete user"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
-    return userService.deleteUser(id);
-  }
+//  @ApiOperation(value = "Delete user",  response = UserDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete user"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
+//    return userService.deleteUser(id);
+//  }
 
 }

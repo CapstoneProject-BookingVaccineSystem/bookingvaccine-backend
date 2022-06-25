@@ -111,13 +111,13 @@ public class BookingController {
   }
 
   // DELETE
-  @ApiOperation(value = "Delete booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete booking"),
-
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteBooking(@PathVariable(value = "id") Long id) {
-    return bookingService.deleteBooking(id);
-  }
+//  @ApiOperation(value = "Delete booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete booking"),
+//
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteBooking(@PathVariable(value = "id") Long id) {
+//    return bookingService.deleteBooking(id);
+//  }
 }
