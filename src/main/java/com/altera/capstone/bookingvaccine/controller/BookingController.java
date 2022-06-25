@@ -82,6 +82,23 @@ public class BookingController {
     }
   }
 
+  // POST
+//  @ApiOperation(value = "Add Booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success add booking"),
+//
+//  })
+//  @PostMapping(value = "")
+//  public ResponseEntity<Object> addBookingRequestParam(@RequestParam(value = "idUser", required = false)Long idUser,
+//                                                       @RequestParam(value = "idFamily", required = false) Long idFamily,
+//                                                       @RequestParam(value = "idSession")Long idSession) {
+//    try{
+//      return bookingService.addBookingRequestParam(idUser, idFamily, idSession);
+//    } catch (Exception e) {
+//      throw e;
+//    }
+//  }
+
   // PUT
   @ApiOperation(value = "Update booking",  response = BookingDto.class)
   @ApiResponses(value = {
