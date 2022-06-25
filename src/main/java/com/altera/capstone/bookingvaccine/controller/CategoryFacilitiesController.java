@@ -50,12 +50,12 @@ public class CategoryFacilitiesController {
   }
 
   // DELETE
-  @ApiOperation(value = "Delete category facility",  response = CategoryFacilitiesDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete category facility"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id) {
-    return categoryFacilitiesService.deleteCategoryFacility(id);
-  }
+//  @ApiOperation(value = "Delete category facility",  response = CategoryFacilitiesDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete category facility"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id) {
+//    return categoryFacilitiesService.deleteCategoryFacility(id);
+//  }
 }

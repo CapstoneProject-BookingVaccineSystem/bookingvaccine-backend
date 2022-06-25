@@ -107,13 +107,13 @@ public class SessionController {
   }
 
   // DELETE
-  @ApiOperation(value = "Delete session",  response = SessionDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete session"),
-
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteSession(@PathVariable(value = "id") Long id) {
-    return sessionService.deleteSession(id);
-  }
+//  @ApiOperation(value = "Delete session",  response = SessionDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete session"),
+//
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteSession(@PathVariable(value = "id") Long id) {
+//    return sessionService.deleteSession(id);
+//  }
 }
