@@ -156,37 +156,17 @@ public class HealthFacilitiesService {
       Optional<HealthFacilitiesDao>healthFacilitiesDaoOptional= healthFacilitesRepository.findById(id);
       if(healthFacilitiesDaoOptional.isEmpty()) {
         log.info("health facility {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "id facility not found", HttpStatus.BAD_REQUEST);
       }
-      log.info("GET Area by id: {}", request);
-      Optional<AreaDao> areaDaoOptional = areaRepository.findById(id);
-      if(areaDaoOptional.isEmpty()) {
-        log.info("Area {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      log.info("GET Category Facility by id: {}", request);
-      Optional<CategoryFacilitiesDao> categoryFacilitiesDaoOptional = categoryFacilitiesRepository.findById(id);
-      if(categoryFacilitiesDaoOptional.isEmpty()) {
-        log.info("Category Facility {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      log.info("GET user by id: {}", request);
-      Optional<UserDao> userDaoOptional = userRepository.findById(id);
-      if(userDaoOptional.isEmpty()) {
-        log.info("User {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      if(userDaoOptional.get().getRoles() == "USER") {
-        log.info("user {} not assigned as ADMIN", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
+      //check id user in db -> bad ways because cost performance code,
+      //best practice for update id, refer to session service
+      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+
       healthFacilitiesDaoOptional.ifPresent(res -> {
         res.setHealthFacilitiesName(request.getHealthFacilitiesName());
         res.setAddressHealthFacilities(request.getAddressHealthFacilities());
         res.setPhoneFacilities(request.getPhoneFacilities());
         res.setLinkLocation(request.getLinkLocation());
-        res.setCategoryMapped(categoryFacilitiesDaoOptional.get());
-        res.setAreaMapped(areaDaoOptional.get());
         res.setUserMapped(userDaoOptional.get());
         healthFacilitesRepository.save(res);
       });
