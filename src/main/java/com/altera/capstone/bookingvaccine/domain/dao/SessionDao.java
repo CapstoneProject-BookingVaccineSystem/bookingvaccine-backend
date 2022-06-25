@@ -53,7 +53,7 @@ public class SessionDao extends BaseEntity {
   private List<BookingDao> bookingDaoList;
 
   @ManyToOne
-  @JoinColumn(name = "vaccine_id")
+  @JoinColumn(name = "vaccine_id",referencedColumnName = "id_vaccine")
   private VaccineDao vaccineMapped;
 
   @ManyToOne
