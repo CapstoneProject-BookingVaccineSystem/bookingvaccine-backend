@@ -100,15 +100,15 @@ public class BookingController {
 //  }
 
   // PUT
-  @ApiOperation(value = "Update booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success Update booking"),
-
-  })
-  @PutMapping(value = "/{id}")
-  public ResponseEntity<Object> updateBooking(@PathVariable(value = "id") Long id, @RequestBody BookingDto request) {
-    return bookingService.updateBooking(id, request);
-  }
+//  @ApiOperation(value = "Update booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success Update booking"),
+//
+//  })
+//  @PutMapping(value = "/{id}")
+//  public ResponseEntity<Object> updateBooking(@PathVariable(value = "id") Long id, @RequestBody BookingDto request) {
+//    return bookingService.updateBooking(id, request);
+//  }
 
   // DELETE
 //  @ApiOperation(value = "Delete booking",  response = BookingDto.class)
