@@ -239,18 +239,9 @@ public class SessionService {
         log.info("session {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-      Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(id);
-      if(vaccineDaoOptional.isEmpty()) {
-        log.info("vaccine {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      Optional<AreaDao> areaDaoOptional = areaRepository.findById(id);
-      if(areaDaoOptional.isEmpty()) {
-        log.info("area {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
+      String msg = "session {} not found";
       sessionDaoOptional.ifPresent(res -> {
-        res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
+        res.setVaccineMapped(new VaccineDao(request.getIdVaccine())); //updated vaccine //buat kondisi dengan tenary
         res.setStartDate(request.getStartDate());
         res.setStartTime(request.getStartTime());
         res.setStock(request.getStock());
@@ -272,11 +263,11 @@ public class SessionService {
       Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
       if(sessionDaoOptional.isEmpty()) {
         log.info("session {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Session not found !", HttpStatus.BAD_REQUEST);
       }
       sessionRepository.deleteById(id);
       log.info("Executing delete session success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, null, HttpStatus.OK);
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, "Session deleted !", HttpStatus.OK);
     } catch (Exception e) {
       log.error("Happened error when delete session. Error: {}", e.getMessage());
       log.trace("Get error when delete session. ", e);

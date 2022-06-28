@@ -44,6 +44,17 @@ public class HealthFacilitiesController {
     return healthFacilitiesService.getFacilityByUserId(id);
   }
 
+  // GET By CateogryId
+  @ApiOperation(value = "Get facility by category id",  response = SessionDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success get facility by Category id"),
+
+  })
+  @GetMapping(value = "/category/{id}")
+  public ResponseEntity<Object> getByCategoryId(@PathVariable(value = "id") Long id){
+    return healthFacilitiesService.getFacilityByCategoryId(id);
+  }
+
   // POST Family
   @ApiOperation(value = "Add new health facility",  response = HealthFaciltiesDto.class)
   @ApiResponses(value = {
@@ -69,13 +80,13 @@ public class HealthFacilitiesController {
   }
 
   // DELETE Family By Id
-  @ApiOperation(value = "Delete health facility",  response = HealthFaciltiesDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete health facility"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteFamily(@PathVariable(value = "id") Long id) {
-    return healthFacilitiesService.deleteHealthFacility(id);
-  }
+//  @ApiOperation(value = "Delete health facility",  response = HealthFaciltiesDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete health facility"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteFamily(@PathVariable(value = "id") Long id) {
+//    return healthFacilitiesService.deleteHealthFacility(id);
+//  }
 
 }

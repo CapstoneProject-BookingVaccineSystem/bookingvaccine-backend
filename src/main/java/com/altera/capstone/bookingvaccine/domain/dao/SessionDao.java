@@ -54,17 +54,6 @@ public class SessionDao extends BaseEntity {
   @Column(name = "size")
   private long size;
 
-//  @Column(name = "end_time", nullable = false)
-//  @JsonFormat(pattern = "HH:mm:ss")
-//  private LocalTime endTime;
-
-//  @Column(name = "last_stock", nullable = false)
-//  private Integer lastStock;
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "user_id")
-//  private UserDao userDaoMapped;
-
   @ManyToOne
   @JoinColumn(name = "area_id")
   private AreaDao areaMapped;
@@ -74,7 +63,7 @@ public class SessionDao extends BaseEntity {
   private List<BookingDao> bookingDaoList;
 
   @ManyToOne
-  @JoinColumn(name = "vaccine_id")
+  @JoinColumn(name = "vaccine_id",referencedColumnName = "id_vaccine")
   private VaccineDao vaccineMapped;
 
   @ManyToOne
