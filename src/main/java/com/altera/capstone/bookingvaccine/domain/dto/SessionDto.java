@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
@@ -37,6 +38,18 @@ public class SessionDto {
   @DateTimeFormat(pattern = "HH:mm")
   @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
+
+  @ApiModelProperty(notes = "response after success upload", example = "images/random string")
+  @Column(name = "image_url")
+  private String image;
+
+  @ApiModelProperty(notes = "response after success upload", example = "filename.png")
+  @Column(name = "file_name")
+  private String fileName;
+
+  @ApiModelProperty(notes = "response after success upload", example = "size image")
+  @Column(name = "size")
+  private long size;
 
 //  @ApiModelProperty(notes = "session ended", example = "10.00")
 //  @DateTimeFormat(pattern = "HH:mm:ss")

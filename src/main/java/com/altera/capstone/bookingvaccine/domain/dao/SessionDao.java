@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,15 @@ public class SessionDao extends BaseEntity {
   @DateTimeFormat(pattern = "HH:mm")
   @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
+
+  @Column(name = "image_url")
+  private String image;
+
+  @Column(name = "file_name")
+  private String fileName;
+
+  @Column(name = "size")
+  private long size;
 
   @ManyToOne
   @JoinColumn(name = "area_id")

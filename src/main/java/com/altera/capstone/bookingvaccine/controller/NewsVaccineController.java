@@ -14,6 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -56,6 +59,7 @@ public class NewsVaccineController {
         return newsVaccineService.getNewsByLike(search);
     }
 
+    // GET ById
     @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success get news vaccine by id"),
@@ -65,13 +69,27 @@ public class NewsVaccineController {
         return newsVaccineService.getNewsVaccineById(id);
     }
 
-    @ApiOperation(value = "Add new news vaccine", response = NewsVaccineDto.class)
+    // POST News
+//    @ApiOperation(value = "Add new news vaccine", response = NewsVaccineDto.class)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Success add new news vaccine"),
+//    })
+//    @PostMapping(value = "")
+//    public ResponseEntity<Object> addNews(@RequestBody NewsVaccineDto request) {
+//        return newsVaccineService.addNewsVaccine(request);
+//    }
+
+    // POST News With Photo
+    @ApiOperation(value = "Add new news vaccine with photo", response = NewsVaccineDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success add new news vaccine"),
     })
     @PostMapping(value = "")
-    public ResponseEntity<Object> addNews(@RequestBody NewsVaccineDto request) {
-        return newsVaccineService.addNewsVaccine(request);
+    public ResponseEntity<Object> addNewsWithPhoto(@RequestParam(value = "titleNewsVaccine") String titleNewsVaccine,
+                                                   @RequestParam(value = "authorNewsVaccine")String authorNewsVaccine,
+                                                   @RequestParam(value = "contentNewsVaccine")String contentNewsVaccine,
+                                                   @RequestParam(value = "file", required = false)MultipartFile multipartFile) throws IOException {
+        return newsVaccineService.addNewsWithPhoto(titleNewsVaccine, authorNewsVaccine, contentNewsVaccine, multipartFile );
     }
 
     // PUT
@@ -81,7 +99,8 @@ public class NewsVaccineController {
     })
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateNews(@PathVariable(value = "id") Long id,
-            @RequestBody NewsVaccineDto request) {
+                                             @RequestBody NewsVaccineDto request,
+                                             @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
         return newsVaccineService.updateNewsVaccine(id, request);
     }
 
@@ -93,6 +112,16 @@ public class NewsVaccineController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteNews(@PathVariable(value = "id") Long id) {
         return newsVaccineService.deleteNewsVaccine(id);
+    }
+
+    // Download
+    @ApiOperation(value = "Get news vaccine by id", response = NewsVaccineDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success get news vaccine by id"),
+    })
+    @GetMapping(value = "/downloadNewsImage/{filecode}")
+    public ResponseEntity<Object> getNewsImage(@PathVariable(value ="filecode") String filecode) {
+        return newsVaccineService.downloadPhotoNews(filecode);
     }
 
 }
