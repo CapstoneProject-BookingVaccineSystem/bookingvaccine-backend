@@ -82,25 +82,42 @@ public class BookingController {
     }
   }
 
-  // PUT
-  @ApiOperation(value = "Update booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success Update booking"),
+  // POST
+//  @ApiOperation(value = "Add Booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success add booking"),
+//
+//  })
+//  @PostMapping(value = "")
+//  public ResponseEntity<Object> addBookingRequestParam(@RequestParam(value = "idUser", required = false)Long idUser,
+//                                                       @RequestParam(value = "idFamily", required = false) Long idFamily,
+//                                                       @RequestParam(value = "idSession")Long idSession) {
+//    try{
+//      return bookingService.addBookingRequestParam(idUser, idFamily, idSession);
+//    } catch (Exception e) {
+//      throw e;
+//    }
+//  }
 
-  })
-  @PutMapping(value = "/{id}")
-  public ResponseEntity<Object> updateBooking(@PathVariable(value = "id") Long id, @RequestBody BookingDto request) {
-    return bookingService.updateBooking(id, request);
-  }
+  // PUT
+//  @ApiOperation(value = "Update booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success Update booking"),
+//
+//  })
+//  @PutMapping(value = "/{id}")
+//  public ResponseEntity<Object> updateBooking(@PathVariable(value = "id") Long id, @RequestBody BookingDto request) {
+//    return bookingService.updateBooking(id, request);
+//  }
 
   // DELETE
-  @ApiOperation(value = "Delete booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete booking"),
-
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteBooking(@PathVariable(value = "id") Long id) {
-    return bookingService.deleteBooking(id);
-  }
+//  @ApiOperation(value = "Delete booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete booking"),
+//
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteBooking(@PathVariable(value = "id") Long id) {
+//    return bookingService.deleteBooking(id);
+//  }
 }

@@ -4,6 +4,7 @@ import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.common.ResponseMessage;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
+import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import com.altera.capstone.bookingvaccine.domain.dto.UserDto;
 import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
@@ -88,6 +89,28 @@ public class UserController {
     return userService.getUserById(id_user);
   }
 
+  // GET By User role admin
+  @ApiOperation(value = "Get By User role admin",  response = SessionDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success By User role admin"),
+
+  })
+  @GetMapping("/roles/{role}")
+  public ResponseEntity<Object> getUserRoleAdmin(@PathVariable("role") String roles){
+    return userService.getUserByRoles(roles);
+  }
+
+//  // GET By User role user
+//  @ApiOperation(value = "Get By User role user",  response = SessionDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success By User role user"),
+//
+//  })
+//  @GetMapping("/role/{user}")
+//  public ResponseEntity<Object> getUserRoleUser(@PathVariable("user") String roles){
+//    return userService.getUserByRoles(roles);
+//  }
+
   // PUT User By Id
   @ApiOperation(value = "Update user",  response = UserDto.class)
   @ApiResponses(value = {
@@ -99,13 +122,13 @@ public class UserController {
   }
 
   // DELETE User By Id
-  @ApiOperation(value = "Delete user",  response = UserDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete user"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
-    return userService.deleteUser(id);
-  }
+//  @ApiOperation(value = "Delete user",  response = UserDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete user"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long id) {
+//    return userService.deleteUser(id);
+//  }
 
 }

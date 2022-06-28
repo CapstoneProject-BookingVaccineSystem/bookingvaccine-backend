@@ -1,7 +1,7 @@
 # API Spec
 ### {{URL_LOCAL}} : localhost:8080/api
-### {{URL_SERVER}} : http://34.142.219.145/api
-### Swagger Link http://34.142.219.145/api/swagger-ui/index.html
+### {{URL_SERVER}} : http://35.247.142.238/api
+### Swagger Link http://35.247.142.238/api/swagger-ui/index.html
 ### Workspace Collaboration Postman -> https://app.getpostman.com/join-team?invite_code=5e272200f6b1e7386f7828854fc84fe4&target_code=0b856c673d866291c61b04afac316d0a
 ## 1. Login dan Dashboard 
 Request

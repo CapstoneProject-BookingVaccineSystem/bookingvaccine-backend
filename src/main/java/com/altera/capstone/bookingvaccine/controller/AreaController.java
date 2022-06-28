@@ -51,12 +51,12 @@ public class AreaController {
   }
 
   // DELETE
-  @ApiOperation(value = "Delete area",  response = AreaDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete area"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteArea(@PathVariable(value = "id") Long id) {
-    return areaService.deleteArea(id);
-  }
+//  @ApiOperation(value = "Delete area",  response = AreaDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete area"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteArea(@PathVariable(value = "id") Long id) {
+//    return areaService.deleteArea(id);
+//  }
 }
