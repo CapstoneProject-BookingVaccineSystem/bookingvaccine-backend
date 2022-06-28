@@ -42,7 +42,7 @@ public class NewsVaccineDao extends BaseEntity {
     @Column(name = "author", nullable = false)
     private String authorNewsVaccine;
 
-    @Column(name = "body_content", nullable = false)
+    @Column(name = "body_content", nullable = false, columnDefinition = "TEXT")
     private String contentNewsVaccine;
 
     @Column(name = "image_url")

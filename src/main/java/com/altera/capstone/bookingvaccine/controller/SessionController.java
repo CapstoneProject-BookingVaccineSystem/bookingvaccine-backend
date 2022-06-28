@@ -96,9 +96,9 @@ public class SessionController {
                                            @RequestParam(value = "health_facilities_id") Long health_facilities_id,
                                            @RequestParam(value = "stock") Integer stock,
                                            @RequestParam(value = "start_date")
-                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")  LocalDate start_date,
+                                             @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate start_date,
                                            @RequestParam(value = "start_time")
-                                             @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm:ss") LocalTime start_time,
+                                             @DateTimeFormat(pattern = "HH:mm") LocalTime start_time,
                                            @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
 
     return sessionService.addSessionWithPhoto(vaccine_id, area_id, health_facilities_id, stock, start_date, start_time, multipartFile);
