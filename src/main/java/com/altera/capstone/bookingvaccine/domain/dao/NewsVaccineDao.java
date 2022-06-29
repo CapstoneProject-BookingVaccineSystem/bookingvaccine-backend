@@ -11,21 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * NewsVaccine
  */
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -45,12 +41,21 @@ public class NewsVaccineDao extends BaseEntity {
 
     @Column(name = "author", nullable = false)
     private String authorNewsVaccine;
-
-    @Column(name = "image", nullable = true)
-    private String imageNewsVaccine;
+//
+//    @Column(name = "image", nullable = true)
+//    private String imageNewsVaccine;
 
     @Column(name = "body_content", nullable = false)
     private String contentNewsVaccine;
+
+    @Column(name = "image_url")
+    private String image;
+
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "size")
+    private long size;
 
     // @Column(name = "create_at")
     // private Timestamp createdAt;

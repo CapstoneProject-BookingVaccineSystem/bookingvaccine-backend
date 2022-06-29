@@ -24,9 +24,18 @@ public class NewsVaccineDto {
     @ApiModelProperty(notes = "Author berita", example = "Admin")
     private String authorNewsVaccine;
 
-    @ApiModelProperty(notes = "Image berita", example = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
-    private String imageNewsVaccine;
+//    @ApiModelProperty(notes = "Image berita", example = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
+//    private String imageNewsVaccine;
 
     @ApiModelProperty(notes = "Isi berita", example = "Pemberitahuan tentang kesehatan")
     private String contentNewsVaccine;
+
+    @ApiModelProperty(notes = "response after success upload", example = "images/random string")
+    private String image;
+
+    @ApiModelProperty(notes = "response after success upload", example = "filename.png")
+    private String fileName;
+
+    @ApiModelProperty(notes = "response after success upload", example = "size image")
+    private long size;
 }

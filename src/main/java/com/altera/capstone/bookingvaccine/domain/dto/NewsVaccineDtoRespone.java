@@ -26,4 +26,10 @@ public class NewsVaccineDtoRespone {
     private String imageNewsVaccine;
 
     private String contentNewsVaccine;
+
+    private String image;
+
+    private String fileName;
+
+    private long size;
 }
