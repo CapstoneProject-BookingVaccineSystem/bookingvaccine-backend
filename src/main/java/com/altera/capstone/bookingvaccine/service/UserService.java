@@ -1,40 +1,28 @@
 package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
-import com.altera.capstone.bookingvaccine.domain.dao.CategoryFacilitiesDao;
-import com.altera.capstone.bookingvaccine.domain.dao.FamilyDao;
-import com.altera.capstone.bookingvaccine.domain.dao.HealthFacilitiesDao;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.altera.capstone.bookingvaccine.domain.dto.*;
-import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.FamilyRepository;
 import com.altera.capstone.bookingvaccine.repository.HealthFacilitesRepository;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Log4j2
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
@@ -201,4 +189,12 @@ public class UserService {
     }
   }
 
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    UserDao user = userRepository.getDistinctTopByUsername(username);
+    if(user == null)
+      throw new UsernameNotFoundException("Username not found");
+
+    return user;
+  }
 }
