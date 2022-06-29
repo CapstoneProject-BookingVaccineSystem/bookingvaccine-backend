@@ -56,10 +56,4 @@ public class NewsVaccineDao extends BaseEntity {
 
     @Column(name = "size")
     private long size;
-
-    // @Column(name = "create_at")
-    // private Timestamp createdAt;
-
-    // @Column(name = "update_at")
-    // private Timestamp updatedAt;
 }

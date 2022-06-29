@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 // @SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class BaseEntity implements Serializable {
 

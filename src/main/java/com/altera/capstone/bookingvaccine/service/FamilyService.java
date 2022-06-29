@@ -67,6 +67,11 @@ public class FamilyService {
                         .username(dao.getUserMapped().getUsername())
                         .firstName(dao.getUserMapped().getFirstName())
                         .lastName(dao.getUserMapped().getLastName())
+                        .birthDate(dao.getUserMapped().getBirthDate())
+                        .gender(dao.getUserMapped().getGender())
+                        .email(dao.getUserMapped().getEmail())
+                        .noPhone(dao.getUserMapped().getNoPhone())
+                        .roles(dao.getUserMapped().getRoles())
                         .build())
                 .build());
       }

@@ -19,6 +19,6 @@ public interface BookingRepository extends PagingAndSortingRepository<BookingDao
           "b.familyMapped.fullName LIKE %?3%")
   List<BookingDao> findNameByLike(String firstName, String lastName, String fullName);
 
-  @Query(value = "SELECT * FROM booking b WHERE b.id_user = :id_user", nativeQuery = true)
+  @Query(value = "SELECT * FROM booking b WHERE b.id_user = :id_user AND is_deleted = false ", nativeQuery = true)
   List<BookingDao> findBookingByUserId(@PathVariable("id_user")Long id_user);
 }

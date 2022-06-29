@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -44,16 +45,14 @@ public class SessionDao extends BaseEntity {
   @JsonFormat(pattern = "HH:mm")
   private LocalTime startTime;
 
-//  @Column(name = "end_time", nullable = false)
-//  @JsonFormat(pattern = "HH:mm:ss")
-//  private LocalTime endTime;
+  @Column(name = "image_url")
+  private String image;
 
-//  @Column(name = "last_stock", nullable = false)
-//  private Integer lastStock;
+  @Column(name = "file_name")
+  private String fileName;
 
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "user_id")
-//  private UserDao userDaoMapped;
+  @Column(name = "size")
+  private long size;
 
   @ManyToOne
   @JoinColumn(name = "area_id")
@@ -64,7 +63,7 @@ public class SessionDao extends BaseEntity {
   private List<BookingDao> bookingDaoList;
 
   @ManyToOne
-  @JoinColumn(name = "vaccine_id")
+  @JoinColumn(name = "vaccine_id",referencedColumnName = "id_vaccine")
   private VaccineDao vaccineMapped;
 
   @ManyToOne

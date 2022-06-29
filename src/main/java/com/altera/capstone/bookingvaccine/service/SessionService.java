@@ -5,7 +5,9 @@ import com.altera.capstone.bookingvaccine.domain.dao.*;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDtoResponse;
 import com.altera.capstone.bookingvaccine.repository.*;
+import com.altera.capstone.bookingvaccine.util.FileUploadUtil;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -40,6 +49,9 @@ public class SessionService {
 
   @Autowired
   private ModelMapper mapper;
+
+  @Value("${booking-api.url}")
+  private String apiUrl;
 
   public ResponseEntity<Object> getAllSession(int page, int size) {
     log.info("Executing get all session.");
@@ -114,38 +126,98 @@ public class SessionService {
     }
   }
 
-  public ResponseEntity<Object> addSession(SessionDto request) {
-    log.info("Executing add session with request: {}", request);
+//  public ResponseEntity<Object> addSession(SessionDto request) {
+//    log.info("Executing add session with request: {}", request);
+//    try{
+//
+//      log.info("Get area by id: {}", request.getIdArea());
+//      Optional<AreaDao> areaDaoOptional = areaRepository.findById(request.getIdArea());
+//      if (areaDaoOptional.isEmpty()) {
+//        log.info("area [{}] not found", request.getIdArea());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//
+//      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
+//      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+//      if (healthFacilitiesDaoOptional.isEmpty()) {
+//        log.info("health facility [{}] not found", request.getIdHealthFacilities());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//
+//      log.info("Get vaccine by id: {}", request.getIdVaccine());
+//      Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(request.getIdVaccine());
+//      if (vaccineDaoOptional.isEmpty()) {
+//        log.info("vaccine [{}] not found", request.getIdVaccine());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//
+//      SessionDao sessionDao = SessionDao.builder()
+//              .areaMapped(areaDaoOptional.get())
+//              .vaccineMapped(vaccineDaoOptional.get())
+//              .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
+//              .stock(request.getStock())
+//              .startDate(request.getStartDate())
+//              .startTime(request.getStartTime())
+////              .lastStock(request.getLastStock())
+//              .build();
+//      sessionDao = sessionRepository.save(sessionDao);
+//      log.info("Executing add session success");
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(sessionDao, SessionDto.class), HttpStatus.OK);
+//
+//    } catch (Exception e) {
+//      log.error("Happened error when add session. Error: {}", e.getMessage());
+//      log.trace("Get error when add session. ", e);
+//      throw e;
+//    }
+//  }
+
+  public ResponseEntity<Object> addSessionWithPhoto(Long vaccine_id, Long area_id, Long health_facilities_id,
+                                                    Integer stock, LocalDate start_date, LocalTime start_time,
+                                                    MultipartFile multipartFile) throws IOException {
+    log.info("Executing add session with request: {}");
     try{
-
-      log.info("Get area by id: {}", request.getIdArea());
-      Optional<AreaDao> areaDaoOptional = areaRepository.findById(request.getIdArea());
+      Optional<AreaDao> areaDaoOptional = areaRepository.findById(area_id);
       if (areaDaoOptional.isEmpty()) {
-        log.info("area [{}] not found", request.getIdArea());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "area_id NOT FOUND", HttpStatus.BAD_REQUEST);
       }
-
-      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
-      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
+      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(health_facilities_id);
       if (healthFacilitiesDaoOptional.isEmpty()) {
-        log.info("health facility [{}] not found", request.getIdHealthFacilities());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "health_facility_id NOT FOUND", HttpStatus.BAD_REQUEST);
+      }
+      Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(vaccine_id);
+      if (vaccineDaoOptional.isEmpty()) {
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "vaccine_id NOT FOUND", HttpStatus.BAD_REQUEST);
       }
 
-      log.info("Get vaccine by id: {}", request.getIdVaccine());
-      Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(request.getIdVaccine());
-      if (vaccineDaoOptional.isEmpty()) {
-        log.info("vaccine [{}] not found", request.getIdVaccine());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+      if(multipartFile == null) {
+        SessionDao sessionDao = SessionDao.builder()
+                .areaMapped(areaDaoOptional.get())
+                .vaccineMapped(vaccineDaoOptional.get())
+                .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
+                .stock(stock)
+                .startDate(start_date)
+                .startTime(start_time)
+//              .lastStock(request.getLastStock())
+                .build();
+        sessionDao = sessionRepository.save(sessionDao);
+        log.info("Executing add session without photo success");
+        return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(sessionDao, SessionDto.class), HttpStatus.OK);
       }
+
+      String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+      long size = multipartFile.getSize();
+      String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
 
       SessionDao sessionDao = SessionDao.builder()
               .areaMapped(areaDaoOptional.get())
               .vaccineMapped(vaccineDaoOptional.get())
               .healthFacilitiesDaoMapped(healthFacilitiesDaoOptional.get())
-              .stock(request.getStock())
-              .startDate(request.getStartDate())
-              .startTime(request.getStartTime())
+              .stock(stock)
+              .startDate(start_date)
+              .startTime(start_time)
+              .fileName(fileName)
+              .size(size)
+              .image(apiUrl + "/images/" + filecode)
 //              .lastStock(request.getLastStock())
               .build();
       sessionDao = sessionRepository.save(sessionDao);
@@ -167,18 +239,9 @@ public class SessionService {
         log.info("session {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-      Optional<VaccineDao> vaccineDaoOptional = vaccineRepository.findById(id);
-      if(vaccineDaoOptional.isEmpty()) {
-        log.info("vaccine {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      Optional<AreaDao> areaDaoOptional = areaRepository.findById(id);
-      if(areaDaoOptional.isEmpty()) {
-        log.info("area {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
+      String msg = "session {} not found";
       sessionDaoOptional.ifPresent(res -> {
-        res.setVaccineMapped(vaccineDaoOptional.get()); //updated vaccine
+        res.setVaccineMapped(new VaccineDao(request.getIdVaccine())); //updated vaccine //buat kondisi dengan tenary
         res.setStartDate(request.getStartDate());
         res.setStartTime(request.getStartTime());
         res.setStock(request.getStock());

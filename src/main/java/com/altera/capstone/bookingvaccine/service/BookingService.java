@@ -118,14 +118,7 @@ public class BookingService {
       Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
       if (userDaoOptional.isEmpty()) {
         log.info("User [{}] not found", request.getIdUser());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-
-      log.info("Get family by id: {}", request.getIdFamily());
-      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
-      if (familyDaoOptional.isEmpty()) {
-        log.info("vaccine [{}] not found", request.getIdFamily());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please input User", HttpStatus.BAD_REQUEST);
       }
 
       log.info("Get Session by id: {}", request.getIdSession());
@@ -135,9 +128,45 @@ public class BookingService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
 
+      log.info("Get family by id: {}", request.getIdFamily());
+      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
+      if (familyDaoOptional.isEmpty()) {
+        log.info("vaccine [{}] not found", request.getIdFamily());
+        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please Input Family", HttpStatus.BAD_REQUEST);
+      }
+
       BookingDao bookingDao = BookingDao.builder()
               .userMapped(userDaoOptional.get())
               .familyMapped(familyDaoOptional.get())
+              .sessionMapped(sessionDaoOptional.get())
+              .build();
+      bookingDao = bookingRepository.save(bookingDao);
+      log.info("Executing add booking success");
+      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);
+
+    } catch (Exception e) {
+      log.error("Happened error when add booking. Error: {}", e.getMessage());
+      log.trace("Get error when add booking. ", e);
+      throw e;
+    }
+  }
+
+  public ResponseEntity<Object> addBookingRequestParam(Long idUser, Long idFamily, Long idSession) {
+    log.info("Executing add booking with request: {}");
+    try{
+
+      log.info("Get user by id: {}", idUser);
+      Optional<UserDao> userDaoOptional = userRepository.findById(idUser);
+
+//      log.info("Get family by id: {}", idFamily);
+      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(idFamily);
+
+      log.info("Get Session by id: {}", idSession);
+      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(idSession);
+
+      BookingDao bookingDao = BookingDao.builder()
+              .userMapped(userDaoOptional.get())
+              .familyMapped(new FamilyDao(idFamily))
               .sessionMapped(sessionDaoOptional.get())
               .build();
       bookingDao = bookingRepository.save(bookingDao);
