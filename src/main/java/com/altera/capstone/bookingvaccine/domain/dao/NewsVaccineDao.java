@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -27,6 +29,7 @@ import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 @Data
 @Getter
 @Setter
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Table(name = "news_vaccine")
 @SQLDelete(sql = "UPDATE news_vaccine SET is_deleted = true WHERE id_news_vaccine = ?")
 @Where(clause = "is_deleted = false")

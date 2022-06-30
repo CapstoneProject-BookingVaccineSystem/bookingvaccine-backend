@@ -79,7 +79,7 @@ public class NewsVaccineService {
     public ResponseEntity<Object> getAllNewsVaccine(int page, int size) {
         log.info("Executing get all news vaccine");
         try {
-            Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Order.desc("id_news_vaccine")));
+            Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
             Page<NewsVaccineDao> pageResult = newsVaccineRepository.findAll(paging);
             return ResponseUtil.build(AppConstant.Message.SUCCESS, pageResult, HttpStatus.OK);
         } catch (Exception e) {
