@@ -56,14 +56,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.security</groupId>
 			<scope>test</scope>
 			<artifactId>spring-security-test</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api  -->
 		<dependency>
-					<groupId>io.jsonwebtoken</groupId>
+			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 			<version>0.11.2</version>
 		</dependency>
