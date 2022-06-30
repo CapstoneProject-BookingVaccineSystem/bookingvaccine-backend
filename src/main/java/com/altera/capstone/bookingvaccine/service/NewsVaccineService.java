@@ -157,31 +157,66 @@ public class NewsVaccineService {
         }
     }
 
-    public ResponseEntity<Object> updateNewsVaccine(Long id, NewsVaccineDto request) {
-        log.info("Executing update news vaccine with request: {}", request);
+    public ResponseEntity<Object> updateNewsVaccinewsithPhoto(Long id,
+                                                             String titleNewsVaccine,
+                                                             String authorNewsVaccine,
+                                                             String contentNewsVaccine,
+                                                             MultipartFile multipartFile) throws IOException {
+        log.info("Executing update news vaccine with request: {}", id);
         try {
             Optional<NewsVaccineDao> newsVaccineDao = newsVaccineRepository.findById(id);
             if (newsVaccineDao.isEmpty()) {
                 log.info("news vaccine {} not found", id);
                 return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
             }
+
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            long size = multipartFile.getSize();
+            String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
+
             newsVaccineDao.ifPresent(res -> {
-                res.setTitleNewsVaccine(request.getTitleNewsVaccine());
-                res.setAuthorNewsVaccine(request.getAuthorNewsVaccine());
-                res.setContentNewsVaccine(request.getContentNewsVaccine());
-//                res.setImageNewsVaccine(request.getImageNewsVaccine());
-                // res.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                res.setTitleNewsVaccine(titleNewsVaccine);
+                res.setAuthorNewsVaccine(authorNewsVaccine);
+                res.setContentNewsVaccine(contentNewsVaccine);
+                res.setFileName(fileName);
+                res.setSize(size);
+                res.setImage(apiUrl + "/images/" + filecode);
                 newsVaccineRepository.save(res);
             });
             log.info("Executing update news vaccine success");
-            return ResponseUtil.build(AppConstant.Message.SUCCESS,
-                    mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
         } catch (Exception e) {
             log.error("Happened error when update news vaccine. Error: {}", e.getMessage());
             log.trace("Get error when update news vaccine. ", e);
             throw e;
         }
     }
+
+//    public ResponseEntity<Object> updateNewsVaccine(Long id, NewsVaccineDto request) {
+//        log.info("Executing update news vaccine with request: {}", request);
+//        try {
+//            Optional<NewsVaccineDao> newsVaccineDao = newsVaccineRepository.findById(id);
+//            if (newsVaccineDao.isEmpty()) {
+//                log.info("news vaccine {} not found", id);
+//                return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//            }
+//            newsVaccineDao.ifPresent(res -> {
+//                res.setTitleNewsVaccine(request.getTitleNewsVaccine());
+//                res.setAuthorNewsVaccine(request.getAuthorNewsVaccine());
+//                res.setContentNewsVaccine(request.getContentNewsVaccine());
+////                res.setImageNewsVaccine(request.getImageNewsVaccine());
+//                // res.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+//                newsVaccineRepository.save(res);
+//            });
+//            log.info("Executing update news vaccine success");
+//            return ResponseUtil.build(AppConstant.Message.SUCCESS,
+//                    mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
+//        } catch (Exception e) {
+//            log.error("Happened error when update news vaccine. Error: {}", e.getMessage());
+//            log.trace("Get error when update news vaccine. ", e);
+//            throw e;
+//        }
+//    }
 
     public ResponseEntity<Object> deleteNewsVaccine(Long id) {
         log.info("Executing delete news vaccine id: {}", id);

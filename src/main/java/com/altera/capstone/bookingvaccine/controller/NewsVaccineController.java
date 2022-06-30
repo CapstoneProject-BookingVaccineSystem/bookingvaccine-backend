@@ -91,14 +91,28 @@ public class NewsVaccineController {
     }
 
     // PUT
-    @ApiOperation(value = "Update news vaccine", response = NewsVaccineDto.class)
+//    @ApiOperation(value = "Update news vaccine", response = NewsVaccineDto.class)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Success update news vaccine"),
+//    })
+//    @PutMapping(value = "/{id}")
+//    public ResponseEntity<Object> updateNews(@PathVariable(value = "id") Long id,
+//            @RequestBody NewsVaccineDto request) {
+//        return newsVaccineService.updateNewsVaccinewithPhoto(id, request);
+//    }
+
+    // PUT wit photo
+    @ApiOperation(value = "Update news vaccine with photo", response = NewsVaccineDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success update news vaccine"),
+            @ApiResponse(code = 200, message = "Success update news vaccine with photo"),
     })
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateNews(@PathVariable(value = "id") Long id,
-            @RequestBody NewsVaccineDto request) {
-        return newsVaccineService.updateNewsVaccine(id, request);
+                                             @RequestParam(value = "titleNewsVaccine") String titleNewsVaccine,
+                                             @RequestParam(value = "authorNewsVaccine")String authorNewsVaccine,
+                                             @RequestParam(value = "contentNewsVaccine")String contentNewsVaccine,
+                                             @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+        return newsVaccineService.updateNewsVaccinewsithPhoto(id, titleNewsVaccine, authorNewsVaccine, contentNewsVaccine, multipartFile );
     }
 
     // DELETE
