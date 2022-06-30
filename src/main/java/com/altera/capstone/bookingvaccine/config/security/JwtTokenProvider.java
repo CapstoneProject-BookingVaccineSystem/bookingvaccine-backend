@@ -1,6 +1,8 @@
 package com.altera.capstone.bookingvaccine.config.security;
 
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
+import com.altera.capstone.bookingvaccine.domain.dto.UserDtoResponse;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -61,6 +63,6 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 
-        return claims.get("username").toString();
+        return claims.get("username", UserDao.class).toString();
     }
 }

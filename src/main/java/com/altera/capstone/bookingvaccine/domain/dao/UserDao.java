@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -20,6 +20,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -78,34 +79,34 @@ public class UserDao extends BaseEntity implements UserDetails {
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<BookingDao> bookingDaoList;
 
+  @Column(columnDefinition = "boolean default true")
+  private boolean active = true;
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    // TODO Auto-generated method stub
-    return null;
+    List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+    list.add(new SimpleGrantedAuthority(roles));
+    return list;
   }
 
   @Override
   public boolean isAccountNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
+    return this.active;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    // TODO Auto-generated method stub
-    return false;
+    return this.active;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    // TODO Auto-generated method stub
-    return false;
+    return this.active;
   }
 
   @Override
   public boolean isEnabled() {
-    // TODO Auto-generated method stub
-    return false;
+    return this.active;
   }
 
 }

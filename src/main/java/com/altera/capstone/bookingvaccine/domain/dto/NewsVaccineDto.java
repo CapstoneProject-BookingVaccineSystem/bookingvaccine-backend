@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,9 +26,18 @@ public class NewsVaccineDto {
     @ApiModelProperty(notes = "Author berita", example = "Admin")
     private String authorNewsVaccine;
 
-    @ApiModelProperty(notes = "Image berita", example = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
-    private String imageNewsVaccine;
-
     @ApiModelProperty(notes = "Isi berita", example = "Pemberitahuan tentang kesehatan")
     private String contentNewsVaccine;
+
+    @ApiModelProperty(notes = "response after success upload", example = "images/random string")
+    @Column(name = "image_url")
+    private String image;
+
+    @ApiModelProperty(notes = "response after success upload", example = "filename.png")
+    @Column(name = "file_name")
+    private String fileName;
+
+    @ApiModelProperty(notes = "response after success upload", example = "size image")
+    @Column(name = "size")
+    private long size;
 }

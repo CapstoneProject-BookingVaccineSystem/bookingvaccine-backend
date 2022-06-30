@@ -31,11 +31,6 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UsernamePassword req) {
-        // validasi length nik
-        // authService.validateUsernameAsNIK(req);
-        // validasi role
-        // authService.validateInputRole(req);
-        // save
         authService.register(req);
         return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
     }
@@ -48,17 +43,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> token(@RequestBody UsernamePassword req) {
         TokenResponse token = authService.generateToken(req);
-        // String result = token & req;
         return ResponseUtil.build(AppConstant.Message.SUCCESS, token, HttpStatus.OK);
-        // return token + req;
-
-        /* jika ingin print message not found */
-        // try {
-        // TokenResponse token = authService.generateToken(req);
-        // return ResponseUtil.build(AppConstant.Message.SUCCESS, token, HttpStatus.OK);
-        // } catch (Exception e){
-        // return ResponseUtil.build(AppConstant.Message.NOT_FOUND,
-        // req.getUsername(),HttpStatus.NOT_FOUND);
-        // }
     }
 }

@@ -41,14 +41,14 @@ public class VaccineController {
   }
 
   // DELETE
-  @ApiOperation(value = "Delete vaccine",  response = VaccineDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success delete vaccine"),
-  })
-  @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Object> deleteVaccine(@PathVariable(value = "id") Long id) {
-    return vaccineService.deleteVaccine(id);
-  }
+//  @ApiOperation(value = "Delete vaccine",  response = VaccineDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success delete vaccine"),
+//  })
+//  @DeleteMapping(value = "/{id}")
+//  public ResponseEntity<Object> deleteVaccine(@PathVariable(value = "id") Long id) {
+//    return vaccineService.deleteVaccine(id);
+//  }
 
   // PUT
   @ApiOperation(value = "Update vaccine",  response = VaccineDto.class)

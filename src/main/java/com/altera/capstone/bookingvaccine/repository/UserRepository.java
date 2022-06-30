@@ -14,4 +14,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserDao, Long> {
   List<UserDao> findByRoles(String roles);
+
+  UserDao getDistinctTopByUsername(String username);
 }

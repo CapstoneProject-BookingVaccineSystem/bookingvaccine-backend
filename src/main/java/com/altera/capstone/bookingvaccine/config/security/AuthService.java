@@ -12,6 +12,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,11 +30,11 @@ public class AuthService {
 
     public void validateUsernameAsNIK(@RequestBody UserDao req) throws BadRequestException {
         // validasi input username as NIK harus 13 digit
-        if (req.getUsername().length() != 13)
-            throw new BadRequestException("NIK kamu salah, mohon periksa kembali");
+        // if (req.getUsername().length() != 13)
+        // throw new BadRequestException("NIK kamu salah, mohon periksa kembali");
         // validasi register harus angka
-        if (!req.getUsername().matches("[0-9]*"))
-            throw new BadRequestException("NIK harus berupa angka");
+        // if (!req.getUsername().matches("[0-9]*"))
+        // throw new BadRequestException("NIK harus berupa angka");
     }
 
     public UserDao register(UsernamePassword req) {
@@ -46,7 +49,7 @@ public class AuthService {
         user.setBirthDate(req.getBirthDate());
         user.setGender(req.getGender());
         user.setEmail(req.getEmail());
-        user.setNoPhone(req.getNoHandphone());
+        user.setNoPhone(req.getNoPhone());
         user.setRoles(req.getRoles());
         return userRepository.save(user);
     }
