@@ -27,14 +27,14 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 3595678817094961783L;
 
     @Column(name = "created_at", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
     @Column(name = "updated_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted")
