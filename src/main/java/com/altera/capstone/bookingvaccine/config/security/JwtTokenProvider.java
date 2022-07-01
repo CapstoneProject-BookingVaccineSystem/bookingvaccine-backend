@@ -31,7 +31,9 @@ public class JwtTokenProvider {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", user.getUsername());
-
+        claims.put("roles", user.getRoles());
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
         return Jwts.builder()
                 .setId(user.getId_user().toString())
                 .setSubject(user.getUsername())
@@ -63,6 +65,6 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 
-        return claims.get("username", UserDao.class).toString();
+        return claims.get("username").toString();
     }
 }
