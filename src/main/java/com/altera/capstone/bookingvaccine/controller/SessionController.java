@@ -111,8 +111,15 @@ public class SessionController {
 
   })
   @PutMapping(value = "/{id}")
-  public ResponseEntity<Object> updateSession(@PathVariable(value = "id") Long id, @RequestBody SessionDto request) {
-    return sessionService.updateSession(id, request);
+  public ResponseEntity<Object> updateSession(@PathVariable(value = "id") Long id,
+                                              @RequestParam(value = "vaccine_id") Long vaccine_id,
+                                              @RequestParam(value = "stock") Integer stock,
+                                              @RequestParam(value = "start_date")
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd")  LocalDate start_date,
+                                              @RequestParam(value = "start_time")
+                                                @DateTimeFormat(pattern = "HH:mm") LocalTime start_time,
+                                              @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+    return sessionService.updateSession(id, vaccine_id, stock, start_date, start_time, multipartFile);
   }
 
   // DELETE

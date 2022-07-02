@@ -231,20 +231,30 @@ public class SessionService {
     }
   }
 
-  public ResponseEntity<Object> updateSession(Long id, SessionDto request) {
-    log.info("Executing update session with request: {}", request);
+  public ResponseEntity<Object> updateSession(Long id, Long vaccine_id, Integer stock,
+                                              LocalDate start_date, LocalTime start_time,
+                                              MultipartFile multipartFile) throws IOException{
+    log.info("Executing update session with request: {}");
     try {
       Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
       if(sessionDaoOptional.isEmpty()) {
         log.info("session {} not found", id);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-      String msg = "session {} not found";
+//      String msg = "session {} not found";
+
+      String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+      long size = multipartFile.getSize();
+      String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
+
       sessionDaoOptional.ifPresent(res -> {
-        res.setVaccineMapped(new VaccineDao(request.getIdVaccine())); //updated vaccine //buat kondisi dengan tenary
-        res.setStartDate(request.getStartDate());
-        res.setStartTime(request.getStartTime());
-        res.setStock(request.getStock());
+        res.setVaccineMapped(new VaccineDao(vaccine_id)); //updated vaccine //buat kondisi dengan tenary
+        res.setStartDate(start_date);
+        res.setStartTime(start_time);
+        res.setStock(stock);
+        res.setFileName(fileName);
+        res.setSize(size);
+        res.setImage(apiUrl + "/images/" + filecode);
 //        res.setLastStock(request.getLastStock());
         sessionRepository.save(res);
       });
