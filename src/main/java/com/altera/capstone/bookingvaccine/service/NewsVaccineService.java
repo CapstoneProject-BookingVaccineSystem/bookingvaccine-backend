@@ -175,13 +175,20 @@ public class NewsVaccineService {
             String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
 
             newsVaccineDao.ifPresent(res -> {
-                res.setTitleNewsVaccine(titleNewsVaccine);
-                res.setAuthorNewsVaccine(authorNewsVaccine);
-                res.setContentNewsVaccine(contentNewsVaccine);
-                res.setFileName(fileName);
-                res.setSize(size);
-                res.setImage(apiUrl + "/images/" + filecode);
-                newsVaccineRepository.save(res);
+                if (multipartFile.isEmpty()) {
+                    res.setTitleNewsVaccine(titleNewsVaccine);
+                    res.setAuthorNewsVaccine(authorNewsVaccine);
+                    res.setContentNewsVaccine(contentNewsVaccine);
+                    newsVaccineRepository.save(res);
+                } else {
+                    res.setTitleNewsVaccine(titleNewsVaccine);
+                    res.setAuthorNewsVaccine(authorNewsVaccine);
+                    res.setContentNewsVaccine(contentNewsVaccine);
+                    res.setFileName(fileName);
+                    res.setSize(size);
+                    res.setImage(apiUrl + "/images/" + filecode);
+                    newsVaccineRepository.save(res);
+                }
             });
             log.info("Executing update news vaccine success");
             return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(newsVaccineDao, NewsVaccineDto.class), HttpStatus.OK);
