@@ -99,8 +99,13 @@ public class HealthFacilitiesService {
                         .build())
                 .user(UserDao.builder()
                         .id_user(dao.getUserMapped().getId_user())
+                        .username(dao.getUserMapped().getUsername())
                         .firstName(dao.getUserMapped().getFirstName())
                         .lastName(dao.getUserMapped().getLastName())
+                        .birthDate(dao.getUserMapped().getBirthDate())
+                        .gender(dao.getUserMapped().getGender())
+                        .email(dao.getUserMapped().getEmail())
+                        .noPhone(dao.getUserMapped().getNoPhone())
                         .build())
                 .build());
       }
