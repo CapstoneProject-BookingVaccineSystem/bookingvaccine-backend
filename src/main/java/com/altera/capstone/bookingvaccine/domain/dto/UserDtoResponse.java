@@ -46,6 +46,8 @@ public class UserDtoResponse implements Serializable {
 
   private String noPhone;
 
+  private String address;
+
   private String roles;
 
 //  private String imageName;

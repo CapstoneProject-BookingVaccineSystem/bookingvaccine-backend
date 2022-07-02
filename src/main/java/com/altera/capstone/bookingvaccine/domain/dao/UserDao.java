@@ -63,6 +63,9 @@ public class UserDao extends BaseEntity{
   @Column(name = "noPhone")
   private String noPhone;
 
+  @Column(name = "address")
+  private String address;
+
   @Column(name = "roles")
   private String roles;
 

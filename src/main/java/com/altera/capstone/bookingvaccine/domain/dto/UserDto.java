@@ -54,6 +54,9 @@ public class UserDto implements Serializable{
   @ApiModelProperty(notes = "Phone", example = "08124445554444")
   private String noPhone;
 
+  @ApiModelProperty(notes = "Just Address Admin", example = "Dragon street")
+  private String address;
+
   @ApiModelProperty(notes = "Role", example = "USER or Admin")
   private String roles;
 }

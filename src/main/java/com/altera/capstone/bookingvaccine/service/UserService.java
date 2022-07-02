@@ -66,6 +66,7 @@ public class UserService {
               .birthDate(request.getBirthDate())
               .email(request.getEmail())
               .noPhone(request.getNoPhone())
+              .address(request.getAddress())
               .roles(request.getRoles())
 //              .healthFacilitiesMapped(healthFacilitiesDaoOptional.get())
               .build();
