@@ -31,12 +31,15 @@ public class BookingDao extends BaseEntity {
   @JoinColumn(name = "id_user")
   private UserDao userMapped;
 
-  @ManyToOne
-  @JoinColumn(name = "family_id")
-  private FamilyDao familyMapped ;
+//  @ManyToOne
+//  @JoinColumn(name = "family_id")
+//  private FamilyDao familyMapped ;
 
 //  @ManyToMany
 //  private Set<FamilyDao> familyDaoSet;
+
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<FamilyDao> familyMapped ;
 
   @ManyToOne
   @JoinColumn(name = "session_id")

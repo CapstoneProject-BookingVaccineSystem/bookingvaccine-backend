@@ -14,10 +14,10 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends PagingAndSortingRepository<BookingDao, Long> {
   // searching with LIKE
-  @Query("SELECT b FROM BookingDao b WHERE b.userMapped.firstName LIKE %?1% OR " +
-          "b.userMapped.lastName LIKE %?2% OR " +
-          "b.familyMapped.fullName LIKE %?3%")
-  List<BookingDao> findNameByLike(String firstName, String lastName, String fullName);
+//  @Query("SELECT b FROM BookingDao b WHERE b.userMapped.firstName LIKE %?1% OR " +
+//          "b.userMapped.lastName LIKE %?2% OR " +
+//          "b.familyMapped.fullName LIKE %?3%")
+//  List<BookingDao> findNameByLike(String firstName, String lastName, String fullName);
 
   @Query(value = "SELECT * FROM booking b WHERE b.id_user = :id_user AND is_deleted = false ", nativeQuery = true)
   List<BookingDao> findBookingByUserId(@PathVariable("id_user")Long id_user);

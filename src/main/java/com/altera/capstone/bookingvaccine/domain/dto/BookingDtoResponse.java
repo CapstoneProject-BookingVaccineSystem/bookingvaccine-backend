@@ -24,6 +24,6 @@ import java.util.List;
 public class BookingDtoResponse {
   private Long id_booking;
   private UserDao user;
-  private FamilyDao family;
+  private List<FamilyDao> familyDto;
   private SessionDao session;
 }

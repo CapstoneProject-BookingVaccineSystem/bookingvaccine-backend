@@ -46,9 +46,9 @@ public class FamilyDao extends BaseEntity {
   @JoinColumn(name = "user_id")
   private UserDao userMapped;
 
-  @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "familyMapped")
-  private List<BookingDao> bookingDaoList;
+//  @JsonIgnore
+//  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "familyMapped")
+//  private List<BookingDao> bookingDaoList;
 
 //  @ManyToMany
 //  private Set<BookingDao> bookingDaoSet;

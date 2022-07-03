@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -57,15 +59,15 @@ public class BookingController {
   }
 
   // GET By Like
-  @ApiOperation(value = "Get By LIKE name at Booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success Get By LIKE name at Booking"),
-
-  })
-  @GetMapping("/search/{search}")
-  public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
-    return bookingService.getNameByLike(search);
-  }
+//  @ApiOperation(value = "Get By LIKE name at Booking",  response = BookingDto.class)
+//  @ApiResponses(value = {
+//          @ApiResponse(code = 200, message = "Success Get By LIKE name at Booking"),
+//
+//  })
+//  @GetMapping("/search/{search}")
+//  public ResponseEntity<Object> getSearch(@PathVariable(value = "search") String search){
+//    return bookingService.getNameByLike(search);
+//  }
 
   // POST
   @ApiOperation(value = "Add Booking",  response = BookingDto.class)
@@ -74,7 +76,7 @@ public class BookingController {
 
   })
   @PostMapping(value = "")
-  public ResponseEntity<Object> addBooking(@RequestBody BookingDto request) {
+  public ResponseEntity<Object> addBooking(@RequestBody BookingDto request) throws IOException {
     try{
       return bookingService.addBooking(request);
     } catch (Exception e) {

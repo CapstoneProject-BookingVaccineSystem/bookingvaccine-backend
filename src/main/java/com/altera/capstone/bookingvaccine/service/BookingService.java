@@ -11,6 +11,7 @@ import com.altera.capstone.bookingvaccine.repository.FamilyRepository;
 import com.altera.capstone.bookingvaccine.repository.SessionRepository;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.util.ResponseUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,17 +66,17 @@ public class BookingService {
     }
   }
 
-  public ResponseEntity<Object> getNameByLike(String search){
-    log.info("Executing get Name By LIKE");
-    try{
-      List<BookingDao> bookingDaoList = bookingRepository.findNameByLike(search, search, search);
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, bookingDaoList, HttpStatus.OK);
-    } catch (Exception e) {
-      log.error("Happened error when get Name By LIKE. Error: {}", e.getMessage());
-      log.trace("Get error when get Name By LIKE ", e);
-      throw e;
-    }
-  }
+//  public ResponseEntity<Object> getNameByLike(String search){
+//    log.info("Executing get Name By LIKE");
+//    try{
+//      List<BookingDao> bookingDaoList = bookingRepository.findNameByLike(search, search, search);
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, bookingDaoList, HttpStatus.OK);
+//    } catch (Exception e) {
+//      log.error("Happened error when get Name By LIKE. Error: {}", e.getMessage());
+//      log.trace("Get error when get Name By LIKE ", e);
+//      throw e;
+//    }
+//  }
 
   public ResponseEntity<Object> getBookingById(Long id) {
     log.info("Executing get booking by id: {} ", id);
@@ -110,7 +113,7 @@ public class BookingService {
     }
   }
 
-  public ResponseEntity<Object> addBooking(BookingDto request) {
+  public ResponseEntity<Object> addBooking(BookingDto request) throws IOException {
     log.info("Executing add booking with request: {}", request);
     try{
 
@@ -127,19 +130,21 @@ public class BookingService {
         log.info("session [{}] not found", request.getIdSession());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
+//
+//      log.info("Get family by id: {}", request.getIdFamily());
+//      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
+//      if (familyDaoOptional.isEmpty()) {
+//        log.info("vaccine [{}] not found", request.getIdFamily());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please Input Family", HttpStatus.BAD_REQUEST);
+//      }
 
-      log.info("Get family by id: {}", request.getIdFamily());
-      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
-      if (familyDaoOptional.isEmpty()) {
-        log.info("vaccine [{}] not found", request.getIdFamily());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please Input Family", HttpStatus.BAD_REQUEST);
-      }
-
-      BookingDao bookingDao = BookingDao.builder()
-              .userMapped(userDaoOptional.get())
-              .familyMapped(familyDaoOptional.get())
-              .sessionMapped(sessionDaoOptional.get())
-              .build();
+//      BookingDao bookingDao = BookingDao.builder()
+//              .userMapped(userDaoOptional.get())
+//              .familyMapped(familyDaoOptional.get())
+//              .sessionMapped(sessionDaoOptional.get())
+//              .build();
+      ObjectMapper mapBooking = new ObjectMapper();
+      BookingDao bookingDao = mapBooking.readValue((DataInput) request, BookingDao.class);
       bookingDao = bookingRepository.save(bookingDao);
       log.info("Executing add booking success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);
@@ -151,66 +156,37 @@ public class BookingService {
     }
   }
 
-  public ResponseEntity<Object> addBookingRequestParam(Long idUser, Long idFamily, Long idSession) {
-    log.info("Executing add booking with request: {}");
-    try{
-
-      log.info("Get user by id: {}", idUser);
-      Optional<UserDao> userDaoOptional = userRepository.findById(idUser);
-
-//      log.info("Get family by id: {}", idFamily);
-      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(idFamily);
-
-      log.info("Get Session by id: {}", idSession);
-      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(idSession);
-
-      BookingDao bookingDao = BookingDao.builder()
-              .userMapped(userDaoOptional.get())
-              .familyMapped(new FamilyDao(idFamily))
-              .sessionMapped(sessionDaoOptional.get())
-              .build();
-      bookingDao = bookingRepository.save(bookingDao);
-      log.info("Executing add booking success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);
-
-    } catch (Exception e) {
-      log.error("Happened error when add booking. Error: {}", e.getMessage());
-      log.trace("Get error when add booking. ", e);
-      throw e;
-    }
-  }
-
-  public ResponseEntity<Object> updateBooking(Long id, BookingDto request) {
-    log.info("Executing update booking with request: {}", request);
-    try {
-      Optional<BookingDao> bookingDaoOptional = bookingRepository.findById(id);
-      if(bookingDaoOptional.isEmpty()) {
-        log.info("booking {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
-      if(sessionDaoOptional.isEmpty()) {
-        log.info("session {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(id);
-      if(familyDaoOptional.isEmpty()){
-        log.info("family {} not found", id);
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-      }
-      bookingDaoOptional.ifPresent(res -> {
-        res.setSessionMapped(sessionDaoOptional.get());
-        res.setFamilyMapped(familyDaoOptional.get());
-        bookingRepository.save(res);
-      });
-      log.info("Executing update booking success");
-      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDaoOptional, BookingDto.class), HttpStatus.OK);
-    } catch (Exception e) {
-      log.error("Happened error when update booking. Error: {}", e.getMessage());
-      log.trace("Get error when update booking. ", e);
-      throw e;
-    }
-  }
+//  public ResponseEntity<Object> updateBooking(Long id, BookingDto request) {
+//    log.info("Executing update booking with request: {}", request);
+//    try {
+//      Optional<BookingDao> bookingDaoOptional = bookingRepository.findById(id);
+//      if(bookingDaoOptional.isEmpty()) {
+//        log.info("booking {} not found", id);
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//      Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(id);
+//      if(sessionDaoOptional.isEmpty()) {
+//        log.info("session {} not found", id);
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(id);
+//      if(familyDaoOptional.isEmpty()){
+//        log.info("family {} not found", id);
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
+//      }
+//      bookingDaoOptional.ifPresent(res -> {
+//        res.setSessionMapped(sessionDaoOptional.get());
+//        res.setFamilyMapped(familyDaoOptional.get());
+//        bookingRepository.save(res);
+//      });
+//      log.info("Executing update booking success");
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDaoOptional, BookingDto.class), HttpStatus.OK);
+//    } catch (Exception e) {
+//      log.error("Happened error when update booking. Error: {}", e.getMessage());
+//      log.trace("Get error when update booking. ", e);
+//      throw e;
+//    }
+//  }
 
   public ResponseEntity<Object> deleteBooking(Long id) {
     log.info("Executing delete booking id: {}", id);
