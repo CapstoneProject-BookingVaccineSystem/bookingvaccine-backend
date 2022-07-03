@@ -28,7 +28,7 @@ import java.io.IOException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(value = "/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/users")
 @Api(tags = "User", value = "User" )
 public class UserController {
 
