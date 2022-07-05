@@ -114,12 +114,12 @@ public class BookingService {
     log.info("Executing add booking with request: {}", request);
     try{
 
-      log.info("Get user by id: {}", request.getIdUser());
-      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
-      if (userDaoOptional.isEmpty()) {
-        log.info("User [{}] not found", request.getIdUser());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please input User", HttpStatus.BAD_REQUEST);
-      }
+//      log.info("Get user by id: {}", request.getIdUser());
+//      Optional<UserDao> userDaoOptional = userRepository.findById(request.getIdUser());
+//      if (userDaoOptional.isEmpty()) {
+//        log.info("User [{}] not found", request.getIdUser());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please input User", HttpStatus.BAD_REQUEST);
+//      }
 
       log.info("Get Session by id: {}", request.getIdSession());
       Optional<SessionDao> sessionDaoOptional = sessionRepository.findById(request.getIdSession());
@@ -128,21 +128,37 @@ public class BookingService {
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
 
-      log.info("Get family by id: {}", request.getIdFamily());
-      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
-      if (familyDaoOptional.isEmpty()) {
-        log.info("vaccine [{}] not found", request.getIdFamily());
-        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please Input Family", HttpStatus.BAD_REQUEST);
-      }
+//      log.info("Get family by id: {}", request.getIdFamily());
+//      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
+//      if (familyDaoOptional.isEmpty()) {
+//        log.info("vaccine [{}] not found", request.getIdFamily());
+//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, "Please Input Family", HttpStatus.BAD_REQUEST);
+//      }
 
-      BookingDao bookingDao = BookingDao.builder()
-              .userMapped(userDaoOptional.get())
-              .familyMapped(familyDaoOptional.get())
-              .sessionMapped(sessionDaoOptional.get())
-              .build();
+      BookingDao bookingDao;
+      if (request.getIdFamily() == null){
+        bookingDao = BookingDao.builder()
+                .userMapped(new UserDao(request.getIdUser()))
+                .sessionMapped(sessionDaoOptional.get())
+                .build();
+      } else {
+        bookingDao = BookingDao.builder()
+                .userMapped(new UserDao(request.getIdUser()))
+                .sessionMapped(sessionDaoOptional.get())
+                .familyMapped(new FamilyDao(request.getIdFamily()))
+                .build();
+      }
       bookingDao = bookingRepository.save(bookingDao);
       log.info("Executing add booking success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);
+
+//      BookingDao bookingDao = BookingDao.builder()
+//              .userMapped(new UserDao(request.getIdUser()))
+//              .sessionMapped(sessionDaoOptional.get())
+//              .build();
+//      bookingDao = bookingRepository.save(bookingDao);
+//      log.info("Executing add booking success");
+//      return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);
 
     } catch (Exception e) {
       log.error("Happened error when add booking. Error: {}", e.getMessage());

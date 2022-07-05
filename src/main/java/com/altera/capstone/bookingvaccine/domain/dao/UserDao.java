@@ -69,6 +69,10 @@ public class UserDao extends BaseEntity{
   @Column(name = "roles")
   private String roles;
 
+  public UserDao(Long id_user) {
+    this.id_user = id_user;
+  }
+
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userMapped")
   private List<FamilyDao> familyDaoList;
