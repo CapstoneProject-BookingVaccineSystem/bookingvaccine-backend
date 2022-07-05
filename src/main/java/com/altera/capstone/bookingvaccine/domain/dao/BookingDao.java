@@ -2,6 +2,7 @@ package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "booking")
 @SQLDelete(sql = "UPDATE booking SET is_deleted = true WHERE id_booking = ?")

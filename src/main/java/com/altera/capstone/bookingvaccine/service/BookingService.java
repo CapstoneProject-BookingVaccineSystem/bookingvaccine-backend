@@ -2,10 +2,7 @@ package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.*;
-import com.altera.capstone.bookingvaccine.domain.dto.BookingDto;
-import com.altera.capstone.bookingvaccine.domain.dto.BookingDtoResponse;
-import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
-import com.altera.capstone.bookingvaccine.domain.dto.SessionDtoResponse;
+import com.altera.capstone.bookingvaccine.domain.dto.*;
 import com.altera.capstone.bookingvaccine.repository.BookingRepository;
 import com.altera.capstone.bookingvaccine.repository.FamilyRepository;
 import com.altera.capstone.bookingvaccine.repository.SessionRepository;
@@ -130,7 +127,7 @@ public class BookingService {
         log.info("session [{}] not found", request.getIdSession());
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-//
+
 //      log.info("Get family by id: {}", request.getIdFamily());
 //      Optional<FamilyDao> familyDaoOptional = familyRepository.findById(request.getIdFamily());
 //      if (familyDaoOptional.isEmpty()) {
@@ -144,7 +141,10 @@ public class BookingService {
 //              .sessionMapped(sessionDaoOptional.get())
 //              .build();
       ObjectMapper mapBooking = new ObjectMapper();
-      BookingDao bookingDao = mapBooking.readValue((DataInput) request, BookingDao.class);
+      String json = "{\"id_user\": " +request.getIdUser()+ "," +
+              "\"id_session\": "+request.getIdSession()+ "," +
+              "\"family_dto\": "+request.getFamilyDto()+"}";
+      BookingDao bookingDao = mapBooking.readValue(json, BookingDao.class);
       bookingDao = bookingRepository.save(bookingDao);
       log.info("Executing add booking success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(bookingDao, BookingDto.class), HttpStatus.OK);

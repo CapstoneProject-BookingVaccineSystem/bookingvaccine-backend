@@ -38,13 +38,13 @@ public class FamilyDao extends BaseEntity {
   @Column(name = "fullName", nullable = false, unique = true)
   private String fullName;
 
-  public FamilyDao(Long id_family) {
-    this.id_family = id_family;
-  }
-
   @ManyToOne
   @JoinColumn(name = "user_id")
   private UserDao userMapped;
+
+  public FamilyDao(Long id_family) {
+    this.id_family = id_family;
+  }
 
 //  @JsonIgnore
 //  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "familyMapped")

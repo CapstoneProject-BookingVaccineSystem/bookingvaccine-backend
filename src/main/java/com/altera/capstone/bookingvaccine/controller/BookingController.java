@@ -1,6 +1,7 @@
 package com.altera.capstone.bookingvaccine.controller;
 
 import com.altera.capstone.bookingvaccine.domain.dto.BookingDto;
+import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
 import com.altera.capstone.bookingvaccine.domain.dto.SessionDto;
 import com.altera.capstone.bookingvaccine.service.BookingService;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
