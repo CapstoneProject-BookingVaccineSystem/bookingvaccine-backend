@@ -88,7 +88,7 @@ public class BookingController {
           @ApiResponse(code = 200, message = "Success add booking When Only User"),
 
   })
-  @PostMapping(value = "")
+  @PostMapping(value = "/user")
   public ResponseEntity<Object> addBookingUser(@RequestBody BookingDto request) {
     try{
       return bookingService.addBookingUser(request);
@@ -103,7 +103,7 @@ public class BookingController {
           @ApiResponse(code = 200, message = "Success add booking User With Family"),
 
   })
-  @PostMapping(value = "")
+  @PostMapping(value = "/family")
   public ResponseEntity<Object> addBookingUserWithFamily(@RequestBody BookingDto request) {
     try{
       return bookingService.addBookingUserWithFamily(request);
