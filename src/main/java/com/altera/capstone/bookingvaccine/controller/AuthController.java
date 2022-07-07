@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/v1/auth")
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthService authService;
 
+    // Register
     @ApiOperation(value = "Register user", response = UsernamePassword.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success register user"),
@@ -35,6 +37,7 @@ public class AuthController {
         return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
     }
 
+    // Login
     @ApiOperation(value = "Login user", response = Login.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success login user"),

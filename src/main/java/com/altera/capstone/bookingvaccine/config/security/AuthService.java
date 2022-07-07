@@ -46,9 +46,10 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setFirstName(req.getFirstName());
         user.setLastName(req.getLastName());
-        user.setBirthDate(req.getBirthDate());
         user.setGender(req.getGender());
+        user.setBirthDate(req.getBirthDate());
         user.setEmail(req.getEmail());
+        user.setAddress(req.getAddress());
         user.setNoPhone(req.getNoPhone());
         user.setRoles(req.getRoles());
         return userRepository.save(user);

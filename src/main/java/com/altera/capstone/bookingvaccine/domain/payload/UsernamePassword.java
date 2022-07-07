@@ -16,6 +16,7 @@ public class UsernamePassword {
     private String password;
     private String firstName;
     private String lastName;
+    private String address;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private String gender;
