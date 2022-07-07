@@ -19,6 +19,7 @@ public class BookingvaccineApplication {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/v1/auth/**").allowedOrigins("**");
 				registry.addMapping("/v1/**").allowedOrigins("**");
 			}
 		};
