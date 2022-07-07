@@ -40,11 +40,11 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody UsernamePassword req) {
         LocalDate today = LocalDate.now();
         Period diffYear = Period.between(req.getBirthDate(), today);
-        authService.register(req);
         if (diffYear.getYears() >= 18) {
+            authService.register(req);
             return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
         } else {
-            return ResponseUtil.build(AppConstant.Message.AGE_IS_NOT_ENough, req,
+            return ResponseUtil.build(AppConstant.Message.AGE_IS_NOT_ENough, "Age, must more than 18 years old",
                     HttpStatus.BAD_REQUEST);
         }
 
