@@ -21,6 +21,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +37,7 @@ import java.util.stream.Stream;
 
 @Log4j2
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
@@ -50,13 +53,15 @@ public class UserService {
 
   public ResponseEntity<Object> addUserAdmin(UserDto request) {
     log.info("Executing add user admin with request: {}", request);
-    try{
-//      log.info("Get health facility by id: {}", request.getIdHealthFacilities());
-//      Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional = healthFacilitesRepository.findById(request.getIdHealthFacilities());
-//      if (healthFacilitiesDaoOptional.isEmpty()) {
-//        log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
-//        return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
-//      }
+    try {
+      // log.info("Get health facility by id: {}", request.getIdHealthFacilities());
+      // Optional<HealthFacilitiesDao> healthFacilitiesDaoOptional =
+      // healthFacilitesRepository.findById(request.getIdHealthFacilities());
+      // if (healthFacilitiesDaoOptional.isEmpty()) {
+      // log.info("Health Facility [{}] not found", request.getIdHealthFacilities());
+      // return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null,
+      // HttpStatus.BAD_REQUEST);
+      // }
       UserDao userDao = UserDao.builder()
               .username(request.getUsername())
               .password(request.getPassword())
@@ -71,11 +76,11 @@ public class UserService {
 //              .healthFacilitiesMapped(healthFacilitiesDaoOptional.get())
               .build();
       // USER not assigned as ADMIN facility !
-//      if (request.getRoles()== "ADMIN"){
-//        userDao = userRepository.save(userDao);
-//      } else{
-//        log.info("Executing add user failed !, because role must ADMIN");
-//      }
+      // if (request.getRoles()== "ADMIN"){
+      // userDao = userRepository.save(userDao);
+      // } else{
+      // log.info("Executing add user failed !, because role must ADMIN");
+      // }
       userDao = userRepository.save(userDao);
       log.info("Executing add user admin success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDao, UserDto.class), HttpStatus.OK);
@@ -83,23 +88,24 @@ public class UserService {
     } catch (Exception e) {
       log.error("Happened error when add user admin. Error: {}", e.getMessage());
       log.trace("Get error when add user. ", e);
-      throw e;   }
+      throw e;
+    }
   }
 
   public ResponseEntity<Object> addUser(UserDto request) {
     log.info("Executing add user with request: {}", request);
-    try{
+    try {
       UserDao userDao = UserDao.builder()
-              .username(request.getUsername())
-              .password(request.getPassword())
-              .firstName(request.getFirstName())
-              .lastName(request.getLastName())
-              .gender(request.getGender())
-              .birthDate(request.getBirthDate())
-              .email(request.getEmail())
-              .noPhone(request.getNoPhone())
-              .roles(request.getRoles())
-              .build();
+          .username(request.getUsername())
+          .password(request.getPassword())
+          .firstName(request.getFirstName())
+          .lastName(request.getLastName())
+          .gender(request.getGender())
+          .birthDate(request.getBirthDate())
+          .email(request.getEmail())
+          .noPhone(request.getNoPhone())
+          .roles(request.getRoles())
+          .build();
       userDao = userRepository.save(userDao);
       log.info("Executing add user admin success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDao, UserDto.class), HttpStatus.OK);
@@ -107,14 +113,15 @@ public class UserService {
     } catch (Exception e) {
       log.error("Happened error when add user admin. Error: {}", e.getMessage());
       log.trace("Get error when add user. ", e);
-      throw e;   }
+      throw e;
+    }
   }
 
   public ResponseEntity<Object> getUserById(Long id_user) {
     log.info("Executing get user by id: {} ", id_user);
     try {
       Optional<UserDao> userDao = userRepository.findById(id_user);
-      if(userDao.isEmpty()) {
+      if (userDao.isEmpty()) {
         log.info("user id: {} not found", id_user);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
@@ -127,7 +134,7 @@ public class UserService {
     }
   }
 
-  public ResponseEntity<Object> getUserByRoles(String roles){
+  public ResponseEntity<Object> getUserByRoles(String roles) {
     log.info("Executing get user by roles admin: {} ", roles);
     try {
       List<UserDao> userDao = userRepository.findByRoles(roles);
@@ -142,10 +149,10 @@ public class UserService {
 
   public ResponseEntity<Object> getAllUser() {
     log.info("Executing get all user.");
-    try{
+    try {
       List<UserDao> daoList = userRepository.findAll();
       List<UserDtoResponse> list = new ArrayList<>();
-      for(UserDao dao : daoList){
+      for (UserDao dao : daoList) {
         list.add(mapper.map(dao, UserDtoResponse.class));
       }
       return ResponseUtil.build(AppConstant.Message.SUCCESS, list, HttpStatus.OK);
@@ -156,11 +163,11 @@ public class UserService {
     }
   }
 
-  public ResponseEntity<Object> updateUser(Long id_user, UserDto request){
+  public ResponseEntity<Object> updateUser(Long id_user, UserDto request) {
     log.info("Executing update user with request: {}", request);
     try {
-      Optional<UserDao>userDaoOptional= userRepository.findById(id_user);
-      if(userDaoOptional.isEmpty()) {
+      Optional<UserDao> userDaoOptional = userRepository.findById(id_user);
+      if (userDaoOptional.isEmpty()) {
         log.info("User {} not found", id_user);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
@@ -186,9 +193,9 @@ public class UserService {
 
   public ResponseEntity<Object> deleteUser(Long id_user) {
     log.info("Executing delete user id: {}", id_user);
-    try{
-      Optional<UserDao> userDaoOptional =userRepository.findById(id_user);
-      if(userDaoOptional.isEmpty()) {
+    try {
+      Optional<UserDao> userDaoOptional = userRepository.findById(id_user);
+      if (userDaoOptional.isEmpty()) {
         log.info("User {} not found", id_user);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
@@ -200,6 +207,15 @@ public class UserService {
       log.trace("Get error when delete user. ", e);
       throw e;
     }
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    UserDao user = userRepository.getDistinctTopByUsername(username);
+    if (user == null)
+      throw new UsernameNotFoundException("Username not found");
+
+    return user;
   }
 
 }

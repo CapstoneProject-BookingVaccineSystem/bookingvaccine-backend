@@ -1,12 +1,16 @@
 package com.altera.capstone.bookingvaccine.domain.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UsernamePassword {
     private String username;
     private String password;
@@ -16,6 +20,6 @@ public class UsernamePassword {
     private LocalDate birthDate;
     private String gender;
     private String email;
-    private String noHandphone;
+    private String noPhone;
     private String roles;
 }
