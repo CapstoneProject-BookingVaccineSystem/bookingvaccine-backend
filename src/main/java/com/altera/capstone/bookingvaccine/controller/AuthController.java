@@ -12,6 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.Period;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +31,21 @@ public class AuthController {
     @ApiOperation(value = "Register user", response = UsernamePassword.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success register user"),
+            @ApiResponse(code = 400, message = "Too Young for register")
 
     })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UsernamePassword req) {
+        LocalDate today = LocalDate.now();
+        Period diffYear = Period.between(req.getBirthDate(), today);
         authService.register(req);
-        return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
+        if (diffYear.getYears() >= 18) {
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
+        } else {
+            return ResponseUtil.build(AppConstant.Message.AGE_IS_NOT_ENough, req,
+                    HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @ApiOperation(value = "Login user", response = Login.class)

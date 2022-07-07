@@ -1,12 +1,23 @@
 package com.altera.capstone.bookingvaccine.config.security;
 
+import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.UserDao;
 import com.altera.capstone.bookingvaccine.domain.payload.TokenResponse;
 import com.altera.capstone.bookingvaccine.domain.payload.UsernamePassword;
 import com.altera.capstone.bookingvaccine.repository.UserRepository;
 import com.altera.capstone.bookingvaccine.util.BadRequestException;
+import com.altera.capstone.bookingvaccine.util.ResponseUtil;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,9 +50,11 @@ public class AuthService {
 
     public UserDao register(UsernamePassword req) {
         UserDao user = new UserDao();
+
         if (req.getRoles() == null) {
             req.setRoles("USER");
         }
+
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setFirstName(req.getFirstName());
@@ -51,7 +64,37 @@ public class AuthService {
         user.setEmail(req.getEmail());
         user.setNoPhone(req.getNoPhone());
         user.setRoles(req.getRoles());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
+
+    }
+
+    public ResponseEntity<Object> registerNew(UsernamePassword req) {
+        UserDao user = new UserDao();
+        LocalDate today = LocalDate.now();
+        Period diffYear = Period.between(req.getBirthDate(), today);
+
+        if (req.getRoles() == null) {
+            req.setRoles("USER");
+        }
+
+        if (diffYear.getYears() < 18) {
+            return ResponseUtil.build(AppConstant.Message.AGE_IS_NOT_ENough, req, HttpStatus.BAD_REQUEST);
+        } else {
+            user.setUsername(req.getUsername());
+            user.setPassword(passwordEncoder.encode(req.getPassword()));
+            user.setFirstName(req.getFirstName());
+            user.setLastName(req.getLastName());
+            user.setBirthDate(req.getBirthDate());
+            user.setGender(req.getGender());
+            user.setEmail(req.getEmail());
+            user.setNoPhone(req.getNoPhone());
+            user.setRoles(req.getRoles());
+            userRepository.save(user);
+            return ResponseUtil.build(AppConstant.Message.SUCCESS, req, HttpStatus.OK);
+
+        }
+
     }
 
     public TokenResponse generateToken(UsernamePassword req) {
