@@ -68,36 +68,49 @@ public class BookingController {
   }
 
   // POST
-  @ApiOperation(value = "Add Booking",  response = BookingDto.class)
-  @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "Success add booking"),
-
-  })
-  @PostMapping(value = "")
-  public ResponseEntity<Object> addBooking(@RequestBody BookingDto request) {
-    try{
-      return bookingService.addBooking(request);
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
-  // POST
 //  @ApiOperation(value = "Add Booking",  response = BookingDto.class)
 //  @ApiResponses(value = {
 //          @ApiResponse(code = 200, message = "Success add booking"),
 //
 //  })
 //  @PostMapping(value = "")
-//  public ResponseEntity<Object> addBookingRequestParam(@RequestParam(value = "idUser", required = false)Long idUser,
-//                                                       @RequestParam(value = "idFamily", required = false) Long idFamily,
-//                                                       @RequestParam(value = "idSession")Long idSession) {
+//  public ResponseEntity<Object> addBooking(@RequestBody BookingDto request) {
 //    try{
-//      return bookingService.addBookingRequestParam(idUser, idFamily, idSession);
+//      return bookingService.addBooking(request);
 //    } catch (Exception e) {
 //      throw e;
 //    }
 //  }
+
+  // POST
+  @ApiOperation(value = "Add Booking Only User",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success add booking When Only User"),
+
+  })
+  @PostMapping(value = "")
+  public ResponseEntity<Object> addBookingUser(@RequestBody BookingDto request) {
+    try{
+      return bookingService.addBookingUser(request);
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  // POST
+  @ApiOperation(value = "Add Booking User Wit Family",  response = BookingDto.class)
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Success add booking User With Family"),
+
+  })
+  @PostMapping(value = "")
+  public ResponseEntity<Object> addBookingUserWithFamily(@RequestBody BookingDto request) {
+    try{
+      return bookingService.addBookingUserWithFamily(request);
+    } catch (Exception e) {
+      throw e;
+    }
+  }
 
   // PUT
 //  @ApiOperation(value = "Update booking",  response = BookingDto.class)
