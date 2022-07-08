@@ -2,10 +2,7 @@ package com.altera.capstone.bookingvaccine.service;
 
 import com.altera.capstone.bookingvaccine.constant.AppConstant;
 import com.altera.capstone.bookingvaccine.domain.dao.*;
-import com.altera.capstone.bookingvaccine.domain.dto.FamilyDto;
-import com.altera.capstone.bookingvaccine.domain.dto.FamilyDtoResponse;
-import com.altera.capstone.bookingvaccine.domain.dto.HealthFacilitiesDtoResponse;
-import com.altera.capstone.bookingvaccine.domain.dto.HealthFaciltiesDto;
+import com.altera.capstone.bookingvaccine.domain.dto.*;
 import com.altera.capstone.bookingvaccine.repository.AreaRepository;
 import com.altera.capstone.bookingvaccine.repository.CategoryFacilitiesRepository;
 import com.altera.capstone.bookingvaccine.repository.HealthFacilitesRepository;
@@ -89,16 +86,15 @@ public class HealthFacilitiesService {
                 .linkLocation(dao.getLinkLocation())
                 .phoneFacilities(dao.getPhoneFacilities())
                 // from HealthFacilityDtoResponse
-                .area(AreaDao.builder()
+                .area(AreaDto.builder()
                         .id_area(dao.getAreaMapped().getId_area())
                         .areaName(dao.getAreaMapped().getAreaName())
                         .build())
-                .categoryFacilities(CategoryFacilitiesDao.builder()
+                .categoryFacilities(CategoryFacilitiesDto.builder()
                         .id_category_facilities(dao.getCategoryMapped().getId_category_facilities())
                         .categoryFacilitiesName(dao.getCategoryMapped().getCategoryFacilitiesName())
                         .build())
-                .user(UserDao.builder()
-                        .id_user(dao.getUserMapped().getId_user())
+                .user(UserDto.builder()
                         .username(dao.getUserMapped().getUsername())
                         .firstName(dao.getUserMapped().getFirstName())
                         .lastName(dao.getUserMapped().getLastName())

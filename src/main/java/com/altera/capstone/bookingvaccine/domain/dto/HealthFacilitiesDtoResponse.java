@@ -30,9 +30,9 @@ public class HealthFacilitiesDtoResponse {
 
   private String phoneFacilities;
 
-  private UserDao user;
+  private UserDto user;
 
-  private AreaDao area;
+  private AreaDto area;
 
-  private CategoryFacilitiesDao categoryFacilities;
+  private CategoryFacilitiesDto categoryFacilities;
 }

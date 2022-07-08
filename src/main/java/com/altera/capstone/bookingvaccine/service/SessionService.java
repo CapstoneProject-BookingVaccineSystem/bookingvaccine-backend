@@ -248,6 +248,13 @@ public class SessionService {
       String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
 
       sessionDaoOptional.ifPresent(res -> {
+        if (multipartFile == null){
+          res.setVaccineMapped(new VaccineDao(vaccine_id)); //updated vaccine //buat kondisi dengan tenary
+          res.setStartDate(start_date);
+          res.setStartTime(start_time);
+          res.setStock(stock);
+          sessionRepository.save(res);
+        }
         res.setVaccineMapped(new VaccineDao(vaccine_id)); //updated vaccine //buat kondisi dengan tenary
         res.setStartDate(start_date);
         res.setStartTime(start_time);
