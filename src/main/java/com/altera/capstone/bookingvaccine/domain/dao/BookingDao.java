@@ -2,10 +2,7 @@ package com.altera.capstone.bookingvaccine.domain.dao;
 
 import com.altera.capstone.bookingvaccine.domain.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -41,5 +38,7 @@ public class BookingDao extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "session_id")
   private SessionDao sessionMapped;
+
+
 
 }
