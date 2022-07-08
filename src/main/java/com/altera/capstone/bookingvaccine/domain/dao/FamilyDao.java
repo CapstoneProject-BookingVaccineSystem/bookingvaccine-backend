@@ -35,7 +35,7 @@ public class FamilyDao extends BaseEntity {
   @Column(name = "nik", nullable = false, unique = true)
   private String nik;
 
-  @Column(name = "fullName", nullable = false, unique = true)
+  @Column(name = "fullName", nullable = false)
   private String fullName;
 
   public FamilyDao(Long id_family) {
