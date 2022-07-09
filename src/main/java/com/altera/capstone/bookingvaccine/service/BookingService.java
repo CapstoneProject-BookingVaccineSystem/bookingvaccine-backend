@@ -202,6 +202,7 @@ public class BookingService {
       }
       BookingDao bookingDao;
       bookingDao = BookingDao.builder()
+              .userMapped(new UserDao(request.getIdUser()))
               .familyMapped(new FamilyDao(request.getIdFamily()))
               .sessionMapped(sessionDaoOptional.get())
               .build();
