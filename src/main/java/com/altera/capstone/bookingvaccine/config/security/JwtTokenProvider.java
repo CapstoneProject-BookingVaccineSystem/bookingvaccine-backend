@@ -40,7 +40,7 @@ public class JwtTokenProvider {
                 .setSubject(user.getUsername())
                 .setClaims(claims)
                 .setIssuedAt(now)
-//                .setExpiration(expiryDate)
+                .setExpiration(expiryDate)
                 .signWith(key)
                 .compact();
     }
@@ -53,11 +53,9 @@ public class JwtTokenProvider {
             log.error("Invalid jwt signature: {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
             log.error("Invalid jwt token: {}", ex.getMessage());
-        }
-//        catch (ExpiredJwtException ex) {
-//            log.error("Expired jwt token: {}", ex.getMessage());
-//        }
-        catch (UnsupportedJwtException ex) {
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired jwt token: {}", ex.getMessage());
+        } catch (UnsupportedJwtException ex) {
             log.error("Unsupported jwt token: {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
             log.error("Jwt claim string is empty: {}", ex.getMessage());
