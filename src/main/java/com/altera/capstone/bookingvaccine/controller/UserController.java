@@ -68,18 +68,6 @@ public class UserController {
     return userService.getUserByRoles(roles);
   }
 
-  // // GET By User role user
-  // @ApiOperation(value = "Get By User role user", response = SessionDto.class)
-  // @ApiResponses(value = {
-  // @ApiResponse(code = 200, message = "Success By User role user"),
-  //
-  // })
-  // @GetMapping("/role/{user}")
-  // public ResponseEntity<Object> getUserRoleUser(@PathVariable("user") String
-  // roles){
-  // return userService.getUserByRoles(roles);
-  // }
-
   // PUT User By Id
   @ApiOperation(value = "Update user", response = UserDto.class)
   @ApiResponses(value = {
