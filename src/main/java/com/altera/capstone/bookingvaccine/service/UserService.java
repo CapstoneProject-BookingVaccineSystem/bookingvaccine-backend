@@ -24,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +53,8 @@ public class UserService implements UserDetailsService {
   @Autowired
   private ModelMapper mapper;
 
+  private PasswordEncoder passwordEncoder;
+
   public ResponseEntity<Object> addUserAdmin(UserDto request) {
     log.info("Executing add user admin with request: {}", request);
     try {
@@ -63,18 +67,18 @@ public class UserService implements UserDetailsService {
       // HttpStatus.BAD_REQUEST);
       // }
       UserDao userDao = UserDao.builder()
-              .username(request.getUsername())
-              .password(request.getPassword())
-              .firstName(request.getFirstName())
-              .lastName(request.getLastName())
-              .gender(request.getGender())
-              .birthDate(request.getBirthDate())
-              .email(request.getEmail())
-              .noPhone(request.getNoPhone())
-              .address(request.getAddress())
-              .roles(request.getRoles())
-//              .healthFacilitiesMapped(healthFacilitiesDaoOptional.get())
-              .build();
+          .username(request.getUsername())
+          .password(request.getPassword())
+          .firstName(request.getFirstName())
+          .lastName(request.getLastName())
+          .gender(request.getGender())
+          .birthDate(request.getBirthDate())
+          .email(request.getEmail())
+          .noPhone(request.getNoPhone())
+          .address(request.getAddress())
+          .roles(request.getRoles())
+          // .healthFacilitiesMapped(healthFacilitiesDaoOptional.get())
+          .build();
       // USER not assigned as ADMIN facility !
       // if (request.getRoles()== "ADMIN"){
       // userDao = userRepository.save(userDao);
@@ -171,9 +175,12 @@ public class UserService implements UserDetailsService {
         log.info("User {} not found", id_user);
         return ResponseUtil.build(AppConstant.Message.NOT_FOUND, null, HttpStatus.BAD_REQUEST);
       }
-      userDaoOptional.ifPresent(res -> {
+
+      PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+      UserDao res = userDaoOptional.get();
+
+      if (request.getPassword() == null) {
         res.setUsername(request.getUsername());
-        res.setPassword(request.getPassword());
         res.setFirstName(request.getFirstName());
         res.setLastName(request.getLastName());
         res.setGender(request.getGender());
@@ -181,7 +188,18 @@ public class UserService implements UserDetailsService {
         res.setEmail(request.getEmail());
         res.setNoPhone(request.getNoPhone());
         userRepository.save(res);
-      });
+      } else {
+        res.setUsername(request.getUsername());
+        res.setPassword(passwordEncoder.encode(request.getPassword()));
+        res.setFirstName(request.getFirstName());
+        res.setLastName(request.getLastName());
+        res.setGender(request.getGender());
+        res.setBirthDate(request.getBirthDate());
+        res.setEmail(request.getEmail());
+        res.setNoPhone(request.getNoPhone());
+        userRepository.save(res);
+      }
+
       log.info("Executing update user success");
       return ResponseUtil.build(AppConstant.Message.SUCCESS, mapper.map(userDaoOptional, UserDto.class), HttpStatus.OK);
     } catch (Exception e) {
