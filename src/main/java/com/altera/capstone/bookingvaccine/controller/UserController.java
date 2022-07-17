@@ -89,4 +89,18 @@ public class UserController {
   // return userService.deleteUser(id);
   // }
 
+
+  @ApiOperation(value = "Pagination User", response = UserDto.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Success pagination user")
+  })
+  @GetMapping("/pagination/{roles}")
+  public ResponseEntity<Object> getUserByRolesPageable(
+      @PathVariable String roles,
+      @RequestParam(value = "page") int page,
+      @RequestParam(value = "size") int size) {
+    return userService.getUserByRolesPageable(roles, page, size);
+  }
+
+
 }
